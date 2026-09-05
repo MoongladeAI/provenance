@@ -1,0 +1,38 @@
+{
+  "name": "@moonglade/provenance",
+  "version": "2.0.0",
+  "description": "Local-first cryptographic proof for markdown files and agentic AI memory substrates.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "provenance-gate": "dist/mcp.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build && jest",
+    "prepublishOnly": "npm run build",
+    "test:only": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moongladeai/provenance.git"
+  },
+  "keywords": [
+    "provenance",
+    "ai",
+    "agentic",
+    "merkle",
+    "rfc3161",
+    "ed25519",
+    "mcp",
+    "moonglade"
+  ],
+  "author": "Anaiya (Ambassador, Moonglade AI)",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0"
+  },
+  "dependencies": {}
+}

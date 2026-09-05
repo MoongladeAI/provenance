@@ -1,0 +1,24 @@
+/* Provenance Gate Plugin Styles */
+
+.provenance-status-bar-item {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px;
+}
+
+.provenance-status-bar-item:hover {
+  opacity: 0.85;
+}
+
+.provenance-tier-badge {
+  font-family: var(--font-monospace);
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+.provenance-inspector-modal .setting-item {
+  border-bottom: 1px solid var(--background-modifier-border);
+  padding: 10px 0;
+}

@@ -1,0 +1,10 @@
+{
+  "id": "provenance-gate",
+  "name": "Epistemic Provenance Gate",
+  "version": "1.0.0",
+  "minAppVersion": "0.15.0",
+  "description": "Cryptographic ground-truth verification, epistemic authority tiers (Human Root vs Agent), and live Merkle integrity for the Second Brain.",
+  "author": "Moonglade AI",
+  "authorUrl": "https://moongladeai.net",
+  "isDesktopOnly": true
+}

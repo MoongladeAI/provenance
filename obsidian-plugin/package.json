@@ -1,0 +1,20 @@
+{
+  "name": "obsidian-provenance-gate",
+  "version": "1.0.0",
+  "description": "Native Obsidian plugin for Moonglade Epistemic Provenance and Second Brain governance",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "node esbuild.config.mjs production"
+  },
+  "author": "Moonglade AI",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "builtin-modules": "^4.0.0",
+    "esbuild": "^0.25.0",
+    "obsidian": "latest",
+    "tslib": "^2.8.0",
+    "typescript": "^5.7.0"
+  }
+}
