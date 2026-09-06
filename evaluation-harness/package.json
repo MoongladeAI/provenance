@@ -1,0 +1,1 @@
+{"name":"provenance-evaluation-harness","version":"0.1.0","private":true,"type":"module","scripts":{"test":"node --test test/*.test.mjs","smoke":"node src/cli.mjs smoke","report":"node src/cli.mjs report"},"engines":{"node":">=22"}}

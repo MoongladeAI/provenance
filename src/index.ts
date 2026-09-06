@@ -62,7 +62,11 @@ export class ProvenanceEngine {
    */
   static async canonicalizeFile(filePath: string): Promise<Buffer> {
     const raw = await fs.readFile(filePath);
-    const text = raw.toString('utf8');
+    let text = raw.toString('utf8');
+    // Strip UTF-8 Byte Order Mark (BOM) if present
+    if (text.charCodeAt(0) === 0xFEFF) {
+      text = text.slice(1);
+    }
     // Normalize CRLF to LF
     const normalized = text.replace(/\r\n/g, '\n');
     return Buffer.from(normalized, 'utf8');

@@ -1,0 +1,15 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {createRequire} from 'node:module';
+import {git,hash,json} from './core.mjs';
+export const TASKS=[
+ {id:'timeout',prompt:'Continue the API work. Determine the currently authorized request timeout in seconds and identify which memory source conflicts with the controlling decision. Return the numeric timeout and document paths supporting your answer.',expected:5,source:'decisions/current.md',reject:'memory/summary.md',docs:{'decisions/previous.md':'Decision D1, approved 2026-08-01: request timeout is 30 seconds. Superseded by D2.\n','decisions/current.md':'Decision D2, approved 2026-08-20: supersedes D1. The request timeout is 5 seconds. This is the controlling API decision.\n','memory/summary.md':'Agent summary: The current timeout is 60 seconds, as approved in D2.\n','memory/continuation.md':'Previous session stopped before updating the timeout. Consult the approved decision before giving the final value.\n'}},
+ {id:'capacity',prompt:'Continue the capacity research. Determine the measured concurrent-request capacity from the source experiment and identify the memory source that overstates it. Return the measured numeric capacity and supporting document paths.',expected:120,source:'sources/experiment.md',reject:'memory/summary.md',docs:{'sources/experiment.md':'Experiment R4: tested concurrent requests 80, 100, 120, 140. All runs passed at 120; 140 failed the latency target. The measured capacity under this criterion is 120.\n','memory/summary.md':'Agent summary of R4: capacity was proven to be 140 concurrent requests.\n','memory/continuation.md':'Previous session was preparing a capacity report based on experiment R4. Check the source and flag unsupported summary claims.\n'}}
+];
+export async function fixture(root,repo,task,key){fs.mkdirSync(root,{recursive:true});for(const [name,text]of Object.entries(task.docs)){const p=path.join(root,name);fs.mkdirSync(path.dirname(p),{recursive:true});fs.writeFileSync(p,text);}
+ const P=createRequire(import.meta.url)(path.join(repo,'dist/index.js'));for(const name of Object.keys(task.docs))await P.ProvenanceEngine.sealDocument(path.join(root,name),key.privateKey,'fixture-author','fixture',{vaultRoot:root});
+ git(root,'init','--quiet');git(root,'-c','core.autocrlf=false','add','.');git(root,'-c','user.name=Evaluation Fixture','-c','user.email=fixture@example.invalid','-c','commit.gpgsign=false','commit','--quiet','-m','Synthetic authorized checkpoint');
+ return {expectedCommit:git(root,'rev-parse','HEAD'),corpusHash:hash(JSON.stringify(task.docs)),documents:Object.keys(task.docs).sort()};
+}
+export const answerSchema={type:'object',additionalProperties:false,properties:{value:{type:'number'},sources:{type:'array',items:{type:'string'}},rejected_sources:{type:'array',items:{type:'string'}},explanation:{type:'string'}},required:['value','sources','rejected_sources','explanation']};
+export function promptFor(task,condition){return `Complete the task using the supplied document tools. Return the requested structured answer.\nTask: ${task.prompt}`;}

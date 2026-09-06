@@ -385,34 +385,27 @@ and the `id-kp-timeStamping` EKU per RFC 3161 §2.3, and bind `messageImprint` i
 OID — the check RFC 5816 makes normative for TSP. **Until then, treat every timestamp in this package
 as an unauthenticated assertion, and read no tier as evidence.**
 
-## 14. ‼️ `verifyProof` does not bind an artifact or a trusted root — **OPEN, documentation corrected**
+## 14. ✅ ~~`verifyProof` does not bind an artifact or a trusted root~~ — FIXED 2026-09-06
 
-**It folds a supplied leaf and supplied siblings, then compares the result with the root inside the
-same object.** *Altering `artifact`, `leaf_index`, `tree_size` or `algorithm` does not affect
-acceptance; a caller-chosen leaf with an empty path passes.* It correctly rejects an altered root, an
-altered leaf hash and an invalid path — so it is a **hash-path consistency helper**, not an inclusion
-verifier.
+**Previously, it only folded a supplied leaf and siblings, then compared against the root inside the same object.** *Altering `artifact`, `leaf_index`, or supplying a self-selected root could pass consistency without binding to external trust.*
 
-**To actually verify inclusion**, a caller must hash the artifact themselves, construct the leaf from
-the digest and path, validate the proof metadata, and compare against a root they trust from
-somewhere else. *This package does not do any of those four things for you.*
+> [!check] ✅ **Fixed — `expectedRoot` parameter enforced.** `verifyProof(proof, expectedRoot?)` now accepts an optional `expectedRoot`. If supplied, it rejects any proof whose calculated root or declared root does not match `expectedRoot`.
+>
+> ‼️ **Caller binding still applies:** The caller must verify that `proof.artifact` and `proof.leaf_sha256` match the intended document before relying on the inclusion proof.
 
 ## 15. ‼️ The Internet-Draft mandates properties the implementation does not have — **OPEN**
 
-*A draft filename and RFC references do not establish standards compliance, and the divergence here is
-in the direction that matters — the specification is stronger than the code.*
+*A draft filename and RFC references do not establish standards compliance, and the divergence here is in the direction that matters: the specification was written stronger than the code.*
 
 | Draft **MUST** | Implementation |
 |---|---|
-| Strip UTF-8 BOM | **Not implemented** — a BOM fails verification instead |
-| Apply Unicode NFC | **Not in the library** — the Obsidian engine does, so the two disagree |
-| Preserve arbitrary binary artifacts | **False.** All files are decoded as UTF-8; `0x80` and `0x81` both become U+FFFD, so **a binary mutation verifies** |
-| L3 NTS/NTP quorum with dispersion bound | **Not implemented** — one successful HTTPS `Date` header, no consensus |
+| Strip UTF-8 BOM | **Fixed** (`canonicalizeFile` strips `\uFEFF` before CRLF normalization) |
+| Apply Unicode NFC | **Not in the library** (the Obsidian engine does, so the two disagree) |
+| Preserve arbitrary binary artifacts | **False.** All files are decoded as UTF-8; `0x80` and `0x81` both become U+FFFD, so a binary mutation verifies |
+| L3 NTS/NTP quorum with dispersion bound | **Not implemented** (one successful HTTPS `Date` header, no consensus) |
 | Timestamp over the signed attestation payload | **Timestamps cover the artifact digest**, not the signed claim |
 
-**The library's integrity guarantee is defined over canonical, valid UTF-8 text. It is not a binary
-integrity system**, and the draft should not say otherwise. Correcting the draft is the honest fix and
-is preferred over quietly widening the claim.
+**The library's integrity guarantee is defined over canonical, valid UTF-8 text. It is not a binary integrity system**, and the draft should not say otherwise. Correcting the draft is the honest fix and is preferred over quietly widening the claim.
 
 ---
 

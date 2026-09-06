@@ -116,6 +116,18 @@ describe('inclusion proofs', () => {
   test('the proof declares its algorithm', () => {
     expect(inclusionProof(mk(4), 'f000.md').algorithm).toBe(MERKLE_ALGORITHM);
   });
+
+  test('verifyProof enforces expectedRoot when supplied', () => {
+    const artifacts = mk(8);
+    const root = merkleRoot(artifacts);
+    const proof = inclusionProof(artifacts, 'f003.md');
+    expect(verifyProof(proof, root)).toBe(true);
+    expect(verifyProof(proof, '00'.repeat(32))).toBe(false);
+
+    // If proof.merkle_root is tampered to match expectedRoot, the computed path fails
+    const forgedProof = { ...proof, merkle_root: '11'.repeat(32) };
+    expect(verifyProof(forgedProof, '11'.repeat(32))).toBe(false);
+  });
 });
 
 describe('root sensitivity', () => {

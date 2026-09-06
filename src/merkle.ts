@@ -124,8 +124,14 @@ export function inclusionProof(artifacts: ArtifactMap, target: string): Inclusio
   };
 }
 
-/** Recompute the root from a leaf plus its audit path. Needs no other artifact. */
-export function verifyProof(proof: InclusionProof): boolean {
+/**
+ * Recompute the root from a leaf plus its audit path.
+ * If expectedRoot is provided, validates that the proof resolves to it.
+ */
+export function verifyProof(proof: InclusionProof, expectedRoot?: string): boolean {
+  if (expectedRoot && proof.merkle_root !== expectedRoot) {
+    return false;
+  }
   // Annotated: Buffer.from(hex) infers a narrower Buffer than the crypto
   // digest returns, so the reassignment below will not type-check without it.
   let h: ReturnType<typeof leafHash> = Buffer.from(proof.leaf_sha256, 'hex');
@@ -133,5 +139,12 @@ export function verifyProof(proof: InclusionProof): boolean {
     const sib = Buffer.from(step.hash, 'hex');
     h = step.side === 'left' ? nodeHash(sib, h) : nodeHash(h, sib);
   }
-  return h.toString('hex') === proof.merkle_root;
+  const computedRoot = h.toString('hex');
+  if (computedRoot !== proof.merkle_root) {
+    return false;
+  }
+  if (expectedRoot && computedRoot !== expectedRoot) {
+    return false;
+  }
+  return true;
 }

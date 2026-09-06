@@ -4,7 +4,7 @@
 
 Sign a document, and prove later that it has not changed — and that the claim about *who* sealed it and *at what scope* has not changed either.
 
-> **Status: v2.0.0, open source reference implementation.** *125 tests pass. See [SPEC.md](./SPEC.md) for the developer specification, [draft-ottley-agentic-epistemic-provenance-00.md](./draft-ottley-agentic-epistemic-provenance-00.md) for the formal IETF Internet-Draft, and [FINDINGS.md](./FINDINGS.md) for technical audits.*
+> **Status: v2.0.0, open source reference implementation.** *127 tests pass. See [SPEC.md](./SPEC.md) for the developer specification, [draft-ottley-agentic-epistemic-provenance-00.md](./draft-ottley-agentic-epistemic-provenance-00.md) for the formal IETF Internet-Draft, [FINDINGS.md](./FINDINGS.md) for technical audits, [EVALUATION-2026-09-06.md](./EVALUATION-2026-09-06.md) for the independent adversarial audit, and [evaluation-harness/](./evaluation-harness/) for the standalone diagnostic evaluation rig.*
 
 ---
 
@@ -258,9 +258,9 @@ signatures; see **[TIMESTAMP.md](./TIMESTAMP.md)** for features and limitations 
 >
 > **All four are fixed and carry regression tests. Three further findings remain open and are
 > documented by name** in [`FINDINGS.md`](./FINDINGS.md) §13–15: RFC 3161 tokens are still validated by
-> byte-matching rather than CMS parsing; `verifyProof` is a hash-path helper, not an inclusion
-> verifier; and the Internet-Draft mandates BOM stripping, NFC, binary preservation and an NTS quorum
-> that this implementation does not provide.
+> byte-matching rather than CMS parsing; and the Internet-Draft references Unicode NFC, binary preservation
+> and an NTS quorum that this implementation does not provide. `verifyProof` now supports `expectedRoot` binding
+> and `canonicalizeFile` now strips UTF-8 BOM.
 >
 > ⭐ **What the evaluation confirmed:** the core verifier rejects content changes, wrong keys, modified
 > signed fields and forged sibling signatures; the Merkle construction matched an independent

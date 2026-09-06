@@ -62,6 +62,15 @@ describe('canonicalizeFile', () => {
     const out = await ProvenanceEngine.canonicalizeFile(p);
     expect(out.toString('utf8')).toBe('a\rb');
   });
+
+  test('strips UTF-8 byte order mark (BOM)', async () => {
+    const pWithBom = write('bom.md', '\ufeffalpha\r\nbeta\r\n');
+    const pWithoutBom = write('nobom.md', 'alpha\nbeta\n');
+    const outBom = await ProvenanceEngine.canonicalizeFile(pWithBom);
+    const outNoBom = await ProvenanceEngine.canonicalizeFile(pWithoutBom);
+    expect(outBom.toString('utf8')).toBe('alpha\nbeta\n');
+    expect(outBom.equals(outNoBom)).toBe(true);
+  });
 });
 
 // ---------------------------------------------------------------------------
