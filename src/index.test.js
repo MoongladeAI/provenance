@@ -71,6 +71,14 @@ describe('canonicalizeFile', () => {
     expect(outBom.toString('utf8')).toBe('alpha\nbeta\n');
     expect(outBom.equals(outNoBom)).toBe(true);
   });
+
+  test('normalizes Unicode to NFC', async () => {
+    const pComposed = write('composed.md', 'caf\u00e9\n');
+    const pDecomposed = write('decomposed.md', 'cafe\u0301\n');
+    const outComposed = await ProvenanceEngine.canonicalizeFile(pComposed);
+    const outDecomposed = await ProvenanceEngine.canonicalizeFile(pDecomposed);
+    expect(outComposed.equals(outDecomposed)).toBe(true);
+  });
 });
 
 // ---------------------------------------------------------------------------

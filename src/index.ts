@@ -67,8 +67,8 @@ export class ProvenanceEngine {
     if (text.charCodeAt(0) === 0xFEFF) {
       text = text.slice(1);
     }
-    // Normalize CRLF to LF
-    const normalized = text.replace(/\r\n/g, '\n');
+    // Normalize CRLF to LF and apply Unicode NFC
+    const normalized = text.replace(/\r\n/g, '\n').normalize('NFC');
     return Buffer.from(normalized, 'utf8');
   }
 

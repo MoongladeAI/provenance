@@ -243,6 +243,23 @@ export class ProvenanceEngine {
       const sidecar: ProvenanceSidecar = JSON.parse(sidecarRaw);
 
       const attestations = Array.isArray(sidecar.attestations) ? sidecar.attestations : [];
+      if (attestations.length === 0) {
+        return {
+          tier: EpistemicTier.TIER_BREACH,
+          verified: false,
+          statusLabel: 'Empty Attestations',
+          statusEmoji: '⚠️',
+          statusColor: '#ef4444',
+          filePath: fullFilePath,
+          currentHash,
+          sealedHash: sidecar.sha256_at_last_write,
+          signers: [],
+          roles: [],
+          highestTimeVector: undefined,
+          allTimeVectors: [],
+          error: 'Sidecar exists but contains no attestations.'
+        };
+      }
       const signersRegistry = this.getSignerRegistry(settings.canonicalTrustRegistry);
 
       let hasHumanRoot = false;
@@ -262,14 +279,8 @@ export class ProvenanceEngine {
           }
 
           const sLower = att.signer.toLowerCase();
-          const isHuman = (
-            sLower === 'moongladeai@gmail.com' ||
-            sLower.startsWith('signer@') ||
-            sLower.includes('architect') ||
-            sLower.includes('marc') ||
-            sLower.includes('zen') ||
-            att.tier === 'HUMAN_SOVEREIGN_ROOT' ||
-            (signersRegistry[att.signer] && signersRegistry[att.signer].role === 'architect')
+          const isHuman = Boolean(
+            signersRegistry[att.signer] && signersRegistry[att.signer].role === 'architect'
           );
 
           if (isHuman) {
@@ -621,11 +632,11 @@ export class ProvenanceEngine {
         };
       } else {
         return {
-          tier: EpistemicTier.TIER_2_AGENT_ATTESTED,
-          verified: true,
-          statusLabel: 'Sealed Artifact',
-          statusEmoji: '🔒',
-          statusColor: '#10b981',
+          tier: EpistemicTier.TIER_3_WORKING_DRAFT,
+          verified: false,
+          statusLabel: 'Unregistered Signer',
+          statusEmoji: '❓',
+          statusColor: '#888888',
           filePath: fullFilePath,
           currentHash,
           sealedHash: sidecar.sha256_at_last_write,
@@ -633,7 +644,8 @@ export class ProvenanceEngine {
           roles: detectedRoles,
           highestTimeVector: bestVector,
           allTimeVectors: allVectors,
-          ...detail
+          ...detail,
+          error: 'Signer is not recognized as a registered architect or agent in the trust registry.'
         };
       }
     } catch (e: any) {
