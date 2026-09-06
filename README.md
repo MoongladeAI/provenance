@@ -4,7 +4,7 @@
 
 Sign a document, and prove later that it has not changed — and that the claim about *who* sealed it and *at what scope* has not changed either.
 
-> **Status: v2.0.0, open source reference implementation.** *118 tests pass. See [SPEC.md](./SPEC.md) for the developer specification, [draft-ottley-agentic-epistemic-provenance-00.md](./draft-ottley-agentic-epistemic-provenance-00.md) for the formal IETF Internet-Draft, and [FINDINGS.md](./FINDINGS.md) for technical audits.*
+> **Status: v2.0.0, open source reference implementation.** *125 tests pass. See [SPEC.md](./SPEC.md) for the developer specification, [draft-ottley-agentic-epistemic-provenance-00.md](./draft-ottley-agentic-epistemic-provenance-00.md) for the formal IETF Internet-Draft, and [FINDINGS.md](./FINDINGS.md) for technical audits.*
 
 ---
 
@@ -224,7 +224,7 @@ npm install
 npm test
 ```
 
-118 tests cover CRLF normalization, structured payload framing, scope isolation, multi-attestation verification, RFC 3161 DER serialization, DTA fallback cascading, RFC 9162 Merkle tree construction with odd-node promotion, and stdio MCP server tool calls.
+125 tests cover CRLF normalization, structured payload framing, scope isolation, multi-attestation verification, RFC 3161 DER serialization, DTA fallback cascading, RFC 9162 Merkle tree construction with odd-node promotion, stdio MCP server tool calls, and seven regression tests for the independent findings of 2026-09-06.
 
 *Tests run against `dist/`, which is what `main` ships. `noEmitOnError` is set, so a type error cannot
 produce output that looks like a successful build.*
@@ -240,6 +240,36 @@ MIT.
 signatures; see **[TIMESTAMP.md](./TIMESTAMP.md)** for features and limitations before relying on it.
 
 ---
+
+---
+
+> [!warning] ‼️ **Independent evaluation, 2026-09-06 — read this before deploying the agent-facing layer**
+> An external evaluator audited this package by building fixtures and attacking it, rather than reading
+> it. **It found four real security defects in the MCP and plugin layers that we had not found**, and
+> the full report is published here unedited: **[`EVALUATION-2026-09-06.md`](./EVALUATION-2026-09-06.md)**.
+>
+> **The most serious: the "cryptographic gate" cleared on an unsigned sidecar.** A hash comparison
+> against an editable JSON file was reported as *"cryptographically sealed and verified."* Anyone able
+> to write a memory file could write the sidecar beside it and pass the gate with no key. **A gate that
+> passes without a signature is worse than no gate, because it manufactures confidence.** It now fails
+> closed. Identity is no longer inferred from unsigned strings, absent timestamps are no longer
+> rendered as `L1_CRYPTO_PRIMARY`, `required_scope` is enforced, and the Merkle audit no longer reports
+> `PRISTINE` without comparing anything.
+>
+> **All four are fixed and carry regression tests. Three further findings remain open and are
+> documented by name** in [`FINDINGS.md`](./FINDINGS.md) §13–15: RFC 3161 tokens are still validated by
+> byte-matching rather than CMS parsing; `verifyProof` is a hash-path helper, not an inclusion
+> verifier; and the Internet-Draft mandates BOM stripping, NFC, binary preservation and an NTS quorum
+> that this implementation does not provide.
+>
+> ⭐ **What the evaluation confirmed:** the core verifier rejects content changes, wrong keys, modified
+> signed fields and forged sibling signatures; the Merkle construction matched an independent
+> implementation across 66 tree sizes and 2,145 proofs; and OpenSSL verified the published epoch-67
+> timestamp against a separate CA bundle, with a wrong-subject control correctly failing.
+>
+> *We published a defect list before anyone asked. Someone looked harder and found more. Publishing
+> theirs unedited, with the fixes and the ones still open, is the only response consistent with the
+> argument this project makes.*
 
 ## An open invitation to evaluate this
 

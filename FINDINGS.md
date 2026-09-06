@@ -1,7 +1,7 @@
 # Findings — 2026-08-30
 
-**Written while adding the first test suite.** *118 tests pass. They cover what the code does; this
-file states what it claims and does not do.*
+**Written while adding the first test suite.** *125 tests pass — seven of them regression tests for the independent findings below. They cover
+what the code does; this file states what it claims and does not do.*
 
 > **Every item below is something a security professional checks in the first ten minutes.** *This
 > list was written from the inside, before anyone asked for it.*
@@ -283,6 +283,138 @@ implemented here.*
 **Observed while scoping:** the DigiCert tokens carry `Accuracy: unspecified`, so `genTime` arrives
 with no declared error bound. *That is reported as-is rather than assumed to be zero — the
 verification outcome vocabulary in section 7 of the draft covers the distinction.*
+
+---
+
+# Independent evaluation, 2026-09-06
+
+> **These findings are not ours.** An independent evaluator audited snapshot
+> [`bb744c4`](https://github.com/MoongladeAI/provenance/tree/bb744c45e1141161a22f99ecfab9a0cece3a6e2c)
+> by building fixtures and attacking the package rather than reading it — 49 independent cases,
+> including 2,145 generated inclusion-proof checks. **It found seven defects we had not found.** The
+> full report is published unedited alongside this file as [`EVALUATION-2026-09-06.md`](./EVALUATION-2026-09-06.md).
+>
+> Every finding below is reproduced here with what it broke and what we changed. **Findings 9–12 were
+> real security defects in the agent-facing layer, and all four are fixed.** Findings 13–15 are
+> disclosed and partly unfixed.
+>
+> ⭐ *It also confirmed what holds: the core verifier rejects content changes, wrong keys, modified
+> signed fields and forged sibling signatures; the Merkle construction matched an independent
+> recursive implementation across 66 tree sizes; and OpenSSL verified the published epoch-67 timestamp
+> against a separate CA bundle, with a wrong-subject control correctly failing.*
+
+## 9. ✅ ~~An unsigned sidecar cleared the cryptographic gate~~ — FIXED 2026-09-06
+
+**`assert_gate_status` compared a hash against the sidecar and returned *"cryptographically sealed and
+verified."*** *A sidecar containing nothing but `sha256_at_last_write` passed — no version, no
+signature, no signer, no key. **An attacker who can write the memory file can write the JSON beside
+it, and needs no secret at all.***
+
+‼️ **This is the most serious defect found in this package to date.** A gate that passes without a
+signature is not weaker enforcement than intended — it is *anti-enforcement*, because it manufactures
+confidence that nothing was checked for. A deployment trusting it was worse off than one with no gate.
+
+> [!check] ✅ **Fixed — the gate fails closed.** `public_key_pem` is now **required**, and the gate runs
+> real signature verification. Without a key it returns `[BLOCKED]` and says why: *"A hash comparison
+> against an editable sidecar is not cryptographic enforcement."*
+>
+> ‼️ **Still true and still your responsibility:** the MCP server reports status; it does not mediate
+> the agent's other tools. **An agent that never calls the gate is never gated.** Mandatory mediation
+> is a deployment property, not something this package can supply.
+
+## 10. ✅ ~~An unsigned string produced a human-verified verdict~~ — FIXED 2026-09-06
+
+**Verification derived identity from an unverified JSON field:**
+
+```js
+const tier = pgpAtt?.signer?.includes('moongladeai@gmail.com') ? '[HUMAN_VERIFIED (Zen)]' : '[AGENT_SYNTHESIZED]';
+```
+
+*A substring match. **Anyone able to write the sidecar could be labelled human-verified as the
+founder**, with no signature anywhere in the file.*
+
+**Compounding it, absent evidence was rendered as maximum assurance.** With no timestamp attestation
+present at all, the output still printed `Tier: L1_CRYPTO_PRIMARY` and `TSA: DigiCert/Sectigo` — these
+were `||` fallback defaults in a template string.
+
+> [!check] ✅ **Fixed.** The no-key path now returns **`[UNVERIFIED - HASH ONLY]`**, states in the body
+> that no signature was checked and that the result does not resist a filesystem writer, labels the
+> signer field *"unverified, attacker-controllable"*, and reports missing attestations as
+> `none recorded`. **Identity is never inferred from a string, and no field defaults to a tier.**
+
+## 11. ✅ ~~`required_scope` was advertised and ignored~~ — FIXED 2026-09-06
+
+**The MCP schema accepted `required_scope` and never used it.** *Worse, `verifyDocument` did not return
+the scope at all — so no caller could have enforced it even by hand.* Finding 6 bound scope into the
+signature; nothing then compared that string to anything.
+
+> [!check] ✅ **Fixed.** `VerificationResult` now returns `scope`, and both `verify_artifact_provenance`
+> and the gate fail on mismatch when `required_scope` is supplied.
+>
+> ‼️ **The underlying limit stands, and §5 of `SPEC.md` already stated it:** the signature binds the
+> scope *string*; nothing binds that string to where the file actually sits. **A copied artifact and
+> sidecar still verify at their original scope.** Callers must supply the scope they expect.
+
+## 12. ✅ ~~The Merkle audit reported PRISTINE unconditionally~~ — FIXED 2026-09-06
+
+**`Status: PRISTINE` was a hardcoded string.** *A deleted file produced a different root and still
+reported pristine, because nothing was ever compared.* A snapshot cannot detect drift.
+
+> [!check] ✅ **Fixed.** The tool is now `[MERKLE SNAPSHOT]`, takes an optional `expected_root`, and
+> reports `MATCHES`, `DIFFERS … content added, changed, or DELETED`, or — with no expected root —
+> **`NOT COMPARED - drift, deletion and rollback are undetectable here`**. Coverage exclusions (hidden
+> directories, `node_modules`) are stated in the output rather than left implicit.
+
+## 13. ‼️ RFC 3161 validation matches byte patterns instead of parsing CMS — **OPEN**
+
+**Extends finding 8.** The evaluator constructed an ASN.1 sequence containing a status, the correct
+digest, the correct nonce and a `GeneralizedTime` of **2099** — *with no CMS `SignedData`, no signer,
+no certificate and no signature at all* — and the validator returned `valid: true`. Wrong-digest and
+wrong-nonce controls correctly failed, which isolates the defect precisely: **the byte matching works;
+it is simply not validation.**
+
+Separately, because timestamp metadata sits **outside the signed payload**, injecting
+`tsa_time: 2099-01-01`, an `L1` tier and a junk token into a genuinely signed file leaves
+`verifyDocument` reporting `verified` while returning the attacker's time.
+
+‼️ **And the default primary TSA endpoints are HTTP**, so the fallback argument that TLS protects the
+exchange does not hold for them. *Nonce freshness does not authenticate a response.*
+
+**What is required:** parse the token as CMS, verify the TSA signature, validate the certificate chain
+and the `id-kp-timeStamping` EKU per RFC 3161 §2.3, and bind `messageImprint` including its algorithm
+OID — the check RFC 5816 makes normative for TSP. **Until then, treat every timestamp in this package
+as an unauthenticated assertion, and read no tier as evidence.**
+
+## 14. ‼️ `verifyProof` does not bind an artifact or a trusted root — **OPEN, documentation corrected**
+
+**It folds a supplied leaf and supplied siblings, then compares the result with the root inside the
+same object.** *Altering `artifact`, `leaf_index`, `tree_size` or `algorithm` does not affect
+acceptance; a caller-chosen leaf with an empty path passes.* It correctly rejects an altered root, an
+altered leaf hash and an invalid path — so it is a **hash-path consistency helper**, not an inclusion
+verifier.
+
+**To actually verify inclusion**, a caller must hash the artifact themselves, construct the leaf from
+the digest and path, validate the proof metadata, and compare against a root they trust from
+somewhere else. *This package does not do any of those four things for you.*
+
+## 15. ‼️ The Internet-Draft mandates properties the implementation does not have — **OPEN**
+
+*A draft filename and RFC references do not establish standards compliance, and the divergence here is
+in the direction that matters — the specification is stronger than the code.*
+
+| Draft **MUST** | Implementation |
+|---|---|
+| Strip UTF-8 BOM | **Not implemented** — a BOM fails verification instead |
+| Apply Unicode NFC | **Not in the library** — the Obsidian engine does, so the two disagree |
+| Preserve arbitrary binary artifacts | **False.** All files are decoded as UTF-8; `0x80` and `0x81` both become U+FFFD, so **a binary mutation verifies** |
+| L3 NTS/NTP quorum with dispersion bound | **Not implemented** — one successful HTTPS `Date` header, no consensus |
+| Timestamp over the signed attestation payload | **Timestamps cover the artifact digest**, not the signed claim |
+
+**The library's integrity guarantee is defined over canonical, valid UTF-8 text. It is not a binary
+integrity system**, and the draft should not say otherwise. Correcting the draft is the honest fix and
+is preferred over quietly widening the claim.
+
+---
 
 ## What the tests do cover
 

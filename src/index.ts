@@ -40,6 +40,13 @@ export interface VerificationResult {
   attestationsChecked?: number;
   /** Methods present that this version cannot verify. Reported, never ignored. */
   unknownMethods?: string[];
+  /**
+   * The scope covered by the verified signature. Returned so a caller can compare it
+   * with the location or namespace it expected: the signature binds the scope string,
+   * but nothing in this library binds that string to where the file actually is.
+   * A caller that does not compare it has not enforced scope.
+   */
+  scope?: string;
 }
 
 export class ProvenanceEngine {
@@ -323,6 +330,7 @@ export class ProvenanceEngine {
       return {
         verified: true,
         signer: signatures[0].signer,
+        scope: signatures[0].scope,
         timestamp: rfcAtt?.tsa_time || signatures[0].created,
         timestampTier: rfcAtt?.tier,
         attestationsChecked: signatures.length,
