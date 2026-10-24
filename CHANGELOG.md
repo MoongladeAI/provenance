@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.6.1, 2026-10-24
+
+Housekeeping release. No behaviour changes to verification, canonicalization, signing or timestamps.
+
+- **Self-test export**: `@moonglade/provenance/self-test` is now a declared package export (types, require, default), so `runSelfTests` and `printSelfTestReport` resolve by package name instead of failing with `ERR_PACKAGE_PATH_NOT_EXPORTED`.
+- **Self-test CLI**: `provenance test` with no file argument runs the self-test suite and exits non-zero on any failure (`--json` for a machine-readable report). `test <file>` behaviour is unchanged. This path already worked in 2.6.0; it is now covered by tests.
+- **B1 regression test**: sealed binary artifacts (PNG-like, ONNX-like, unknown extension with NUL bytes) fail verification after a one-byte mutation or a CRLF-to-LF rewrite. It passed against unchanged 2.6.0 behaviour.
+- **WASM core export**: `@moonglade/provenance/wasm` (the `wasm/` directory, included in the package `files`). The files shipped in the 2.6.0 npm tarball but were never committed to this repository; they are committed now.
+- **Hook installer**: `provenance install-hooks` (alias `hooks`) interactively installs a git pre-commit verification gate and writes `.provenance-hooks.json` plus an MCP configuration snippet. First published in 2.6.1; it was not in the 2.6.0 tarball.
+- **Docs**: README installation instructions for the published package.
+
 ## 2.6.0 candidate, 2026-10-22
 
 - **Draft -03 Alignment**: Enforce strict IEEE 754 safe integer value normalization on claims JSON (`draft-ottley-agentic-epistemic-provenance-03` §3.3). Preserve exact raw byte fidelity for known binary formats including `.onnx`.

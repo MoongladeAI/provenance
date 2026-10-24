@@ -1,4 +1,4 @@
-# Moonglade Provenance 2.6.0
+# Moonglade Provenance 2.6.1
 
 [![npm version](https://img.shields.io/npm/v/@moonglade/provenance.svg)](https://www.npmjs.com/package/@moonglade/provenance)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -10,7 +10,7 @@ Available now on npm:
 npm install @moonglade/provenance
 ```
 
-This repository is the official open-source distribution of `@moonglade/provenance` v2.6.0.
+This repository is the official open-source distribution of `@moonglade/provenance` v2.6.1.
 
 ## Installation & Quick Start
 

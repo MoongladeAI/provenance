@@ -1,4 +1,4 @@
-# @moonglade/provenance 2.6.0
+# @moonglade/provenance 2.6.1
 
 Ed25519 signatures, canonical file hashes, RFC 3161 timestamp checks and Merkle inclusion proofs for Node 22 and 24.
 
@@ -17,6 +17,13 @@ npm install -g @moonglade/provenance
 ## Build from source
 
 Run these commands from the repository root:
+
+```sh
+npm ci
+npm test
+```
+
+Run the built-in self-test with `provenance test` (no file argument; add `--json` for a machine-readable report). It exits non-zero on any failure. Programmatic access: `require("@moonglade/provenance/self-test")` exposes `runSelfTests` and `printSelfTestReport`. The WASM core is available as `require("@moonglade/provenance/wasm")`. `provenance install-hooks` interactively installs a git pre-commit gate and writes an MCP configuration snippet.
 
 ## Sign and verify
 
