@@ -13,7 +13,8 @@
     "Explicit binary extension mapping including ONNX raw byte fidelity.",
     "Migrated test suite to native Node.js 22/24 test runner (node:test + node:assert/strict), eliminating Jest, Babel, Istanbul, and 314 transitive dev dependencies.",
     "2.6.1 adds the ./self-test export, the B1 binary-mutation regression test and the self-test CLI test; verification behaviour is unchanged from 2.6.0.",
-    "2.6.1 includes the WASM core export (wasm/, ./wasm) and the hook installer (provenance install-hooks). The wasm/ files and the ./wasm export shipped in the 2.6.0 npm tarball but were not committed to this repository until public commit 0778caf; the hook installer was not in the 2.6.0 tarball and is first published in 2.6.1."
+    "2.6.1 includes the WASM core export (wasm/, ./wasm) and the hook installer (provenance install-hooks). The wasm/ files and the ./wasm export shipped in the 2.6.0 npm tarball but were not committed to this repository until public commit 0778caf; the hook installer was not in the 2.6.0 tarball and is first published in 2.6.1.",
+    "2.6.1 hardens the hook installer first committed in 0778caf: it refuses to overwrite a foreign hook (--force backs it up), enables only the options the user chooses (flags or per-option prompts), removes the empty pre-push option, and resolves the hooks directory with git rev-parse --git-path hooks. hookInstaller.ts and artifact-cli.ts therefore differ from 0778caf; see hookInstaller.test.js."
   ],
   "copied_files": [
     {
@@ -42,7 +43,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "5561417d129865172873ea9438aad972a0f1dcbbe7a9d08a2d9dd1046502ff7d"
+      "sha256": "4ca4de6c1b892c9bc8cd61327dc22a68a34facdc64cf82fc705e7f8d2cebd3da"
     },
     {
       "path": "CITATION.cff",
@@ -98,7 +99,7 @@
     },
     {
       "path": "packages/provenance-ts/README.md",
-      "sha256": "033485cb3d8a3c30ab2c8023a729b91a742aab928c3885f0246737b8d33caf31"
+      "sha256": "7f97c7ee453d0602942b8c0f8a1dbd80155f0d3635a6e7664bf20cbaf0f3e51f"
     },
     {
       "path": "packages/provenance-ts/SPEC.md",
@@ -106,7 +107,7 @@
     },
     {
       "path": "packages/provenance-ts/src/artifact-cli.ts",
-      "sha256": "3642aedee637f498fcf3591de1988d646bd3c3f3a2ab76a37712fb6b3b4fa027"
+      "sha256": "fdc6b821ec756a093fdb2ee82641a62414f714807d63d441735f6d40db5699c9"
     },
     {
       "path": "packages/provenance-ts/src/artifactEnvelope.test.js",
@@ -157,8 +158,12 @@
       "sha256": "007b45aea3de49e88350007989ac1c354998a75ebd7a593f69ecb815b72fba00"
     },
     {
+      "path": "packages/provenance-ts/src/hookInstaller.test.js",
+      "sha256": "acb862c02a613d0d58c60555e0cd00f2bc24aae6a742a917b12a6199aa6d4695"
+    },
+    {
       "path": "packages/provenance-ts/src/hookInstaller.ts",
-      "sha256": "675759af2d7d0e500adca2af5c9b9b6cc6fcebb55674f2d86c53234ff0e9580b"
+      "sha256": "7fef6495eb3379694b643f6fe11404a9a65765e2d0afe251835877ad95b8d402"
     },
     {
       "path": "packages/provenance-ts/src/index.test.js",
@@ -266,11 +271,11 @@
     },
     {
       "path": "SECURITY.md",
-      "sha256": "01d64a53ebbd2530e64d3165ec44ab3f592084b2753ae120fef0d00a75473731"
+      "sha256": "699d56c04b7b01faf610dbce85b3f253ea4ae0172548ef64f64a02fba7a74541"
     },
     {
       "path": "TESTING.md",
-      "sha256": "13accd742b3abf501bd29a25c30a66abf355591f50d3bb623d576585c4b2877f"
+      "sha256": "bbffebb94d1de2377c32912f0cbac4a532794dd1a0e98343ad24dec55afb01e9"
     },
     {
       "path": "vectors/canon-legacy/generate_fixtures.py",
@@ -307,7 +312,7 @@
   "hash_basis": "sha256 of the committed (LF) bytes of each file as checked out with eol=lf. The 2.6.0 manifest mixed LF and CRLF-converted hashes (31 of 53 entries matched only CRLF bytes) and several entries were already stale at 2.6.0; every entry is recomputed here.",
   "public_origin_files": {
     "commit": "0778caf",
-    "note": "These files were authored directly in this public repository (Agy) and have no source in the private monorepo main. packages/provenance-ts/package.json and the two READMEs are public-curated variants.",
+    "note": "These files were authored directly in this public repository (Agy, 0778caf) and have no source in the private monorepo main. hookInstaller.ts and artifact-cli.ts were then modified in 2.6.1 (installer hardening, approved by Marc 2026-10-24); the wasm/ files are byte-identical to 0778caf. packages/provenance-ts/package.json and the two READMEs are public-curated variants.",
     "paths": [
       "packages/provenance-ts/src/hookInstaller.ts",
       "packages/provenance-ts/src/artifact-cli.ts",
@@ -316,5 +321,40 @@
       "packages/provenance-ts/wasm/mgc_wasm_bg.wasm",
       "packages/provenance-ts/wasm/mgc_wasm_bg.wasm.d.ts"
     ]
+  },
+  "wasm_provenance": {
+    "summary": "wasm/mgc_wasm_bg.wasm and both .d.ts files were reproduced byte for byte on 2026-10-24 from a clean git archive export of the private monorepo. mgc_wasm.js was reproduced except for a two-line manual patch.",
+    "source_repo": "moonglade-provenance (private monorepo; crates/mgc-wasm and crates/mgc-core)",
+    "source_commit": "84ff58c679c64c723f91b101012e7ba884e93020",
+    "source_commit_note": "Last commit that touched crates/, Cargo.lock and rust-toolchain.toml. Private main fca58c81e59d6f106da5552aaa7e24dee5d949e1 has identical trees for all three (crates d14e94c9..., Cargo.lock 67adb47b..., rust-toolchain.toml 68c0ea29...). The private working tree had no uncommitted changes under crates/ at verification time; build-time state was inferred from file mtimes (sources 2026-10-22, build output 2026-10-23 20:58) and the byte-identical rebuild.",
+    "toolchain": "rustc 1.98.1 (48a229cea 2026-09-01), pinned by rust-toolchain.toml; target wasm32-unknown-unknown",
+    "wasm_bindgen_version": "0.2.129 (wasm-bindgen CLI 0.2.129, equal to the Cargo.lock crate version)",
+    "wasm_opt": "not applied: the bytes reproduce without it",
+    "wasm_pack": "Agy reports building with wasm-pack build --target nodejs --release. wasm-pack was not installed or run here; the equivalent cargo + wasm-bindgen steps below reproduce the shipped bytes.",
+    "build_commands": [
+      "git archive 84ff58c | tar -x   (into an empty temp directory)",
+      "cargo build --locked --release --target wasm32-unknown-unknown -p mgc-wasm",
+      "wasm-bindgen --target nodejs --out-dir <out> target/wasm32-unknown-unknown/release/mgc_wasm.wasm"
+    ],
+    "files": {
+      "mgc_wasm_bg.wasm": {
+        "sha256": "c7f0f294a3de9913c9e71e2a35926d60eb79fa6c45856aa08cf7f2f552f3d1d0",
+        "reproduced": "byte-identical"
+      },
+      "mgc_wasm.d.ts": {
+        "sha256": "3495bf174b623b4e0257aaf290b0190cac238a9b16951e85a5d42626a76bfdca",
+        "reproduced": "byte-identical"
+      },
+      "mgc_wasm_bg.wasm.d.ts": {
+        "sha256": "eb407ee7fd93dd27f5e543261ca65cdd184357b41f6adf59f5e4fbc8e287e6d8",
+        "reproduced": "byte-identical"
+      },
+      "mgc_wasm.js": {
+        "sha256": "3cfc4c527baa77c3964e43a66c9d7eda11a25c7278b57137c9bfdf66b6eec147",
+        "reproduced": "identical except a manual two-line patch",
+        "wasm_bindgen_output_sha256": "63d38046e9e00418043a6291937b03b817df75b333c9b00ee3f2899b5a3c93e2",
+        "patch": "const wasmPath = `${__dirname}/mgc_wasm_bg.wasm`;  ->  const path = require('path'); const wasmPath = path.join(__dirname, 'mgc_wasm_bg.wasm');"
+      }
+    }
   }
 }

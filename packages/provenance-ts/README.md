@@ -25,6 +25,10 @@ npm test
 
 Run the built-in self-test with `provenance test` (no file argument; add `--json` for a machine-readable report). It exits non-zero on any failure. Programmatic access: `require("@moonglade/provenance/self-test")` exposes `runSelfTests` and `printSelfTestReport`. The WASM core is available as `require("@moonglade/provenance/wasm")`. `provenance install-hooks [--pre-commit] [--mcp-verify-read] [--mcp-auto-seal] [--force]` installs only what you select (it asks per option in a terminal, and does nothing without flags otherwise). An existing pre-commit hook that this tool did not install is never overwritten: the command refuses, and with `--force` first copies it to `<hook>.bak-<UTC timestamp>`. A hook this tool installed is updated in place. The hooks directory is resolved by `git rev-parse --git-path hooks`, so linked worktrees and `core.hooksPath` work.
 
+## WASM core provenance
+
+`wasm/` is built from the Rust crate `mgc-wasm` (with `mgc-core`) in the private Moonglade monorepo, commit `84ff58c679c64c723f91b101012e7ba884e93020`, with rustc 1.98.1, wasm-bindgen 0.2.129 and `wasm-bindgen --target nodejs`; no wasm-opt pass. Rebuilt from a clean export of that commit, `mgc_wasm_bg.wasm` (sha256 `c7f0f294a3de9913c9e71e2a35926d60eb79fa6c45856aa08cf7f2f552f3d1d0`), `mgc_wasm.d.ts` and `mgc_wasm_bg.wasm.d.ts` are byte-identical to the shipped files. `mgc_wasm.js` matches the generated output except a two-line patch that builds the `.wasm` path with `path.join`. The private source is not published here; hashes and the build commands are in `PUBLIC_SOURCE_IMPORT.json` under `wasm_provenance`.
+
 ## Sign and verify
 
 ```js
