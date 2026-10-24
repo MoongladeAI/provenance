@@ -1,17 +1,19 @@
 {
   "format": "moonglade-source-import-v1",
   "status": "remediated-release-candidate",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "canonical_rule": "LF_NORMALIZED_UTF8_NFC_TEXT_EXACT_BINARY_SAFE_INT_CLAIMS",
   "source_commit": "98e1b39893d5a5607db79c29415441da092d6e67",
   "repository": "https://github.com/MoongladeAI/moonglade-provenance-public",
   "publication_adjustments": [
-    "Curated single-package distribution containing @moonglade/provenance 2.6.0.",
+    "Curated single-package distribution containing @moonglade/provenance 2.6.1.",
     "Aligned with draft-ottley-agentic-epistemic-provenance-03 standard.",
     "Hardened L3 DTA Byzantine median quorum with minimum 3-probe fanout and 3000 ms drift window.",
     "Strict IEEE 754 safe integer enforcement on claims JSON with value-based normalization.",
     "Explicit binary extension mapping including ONNX raw byte fidelity.",
-    "Migrated test suite to native Node.js 22/24 test runner (node:test + node:assert/strict), eliminating Jest, Babel, Istanbul, and 314 transitive dev dependencies."
+    "Migrated test suite to native Node.js 22/24 test runner (node:test + node:assert/strict), eliminating Jest, Babel, Istanbul, and 314 transitive dev dependencies.",
+    "2.6.1 adds the ./self-test export, the B1 binary-mutation regression test and the self-test CLI test; verification behaviour is unchanged from 2.6.0.",
+    "2.6.1 includes the WASM core export (wasm/, ./wasm) and the hook installer (provenance install-hooks). The wasm/ files and the ./wasm export shipped in the 2.6.0 npm tarball but were not committed to this repository until public commit 0778caf; the hook installer was not in the 2.6.0 tarball and is first published in 2.6.1."
   ],
   "copied_files": [
     {
@@ -40,11 +42,11 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "b9cdf7cd439cfe651b12b3ea2ab79c9d0478a3914db6d362b1da2681b54f6f27"
+      "sha256": "5561417d129865172873ea9438aad972a0f1dcbbe7a9d08a2d9dd1046502ff7d"
     },
     {
       "path": "CITATION.cff",
-      "sha256": "9d9d1babc2e23522b8403be8857718f3b62b2e39b0eb3434e7bcef069521fa83"
+      "sha256": "67b1666a26c84c682f2b598bea941594a011ea46a4b28a278e54f05edbe08c4b"
     },
     {
       "path": "CONTRIBUTING.md",
@@ -52,11 +54,11 @@
     },
     {
       "path": "dependency-audit.json",
-      "sha256": "aa6d548ee5f13c8bc4f9e10e877d5c8a9329693af8a3a3ec20f4d31cc08cd764"
+      "sha256": "60360b07594b1de7f4cb24998d395f59869d3e265829dd89820f3f0727aee9ec"
     },
     {
       "path": "docs/draft-ottley-agentic-epistemic-provenance-03.md",
-      "sha256": "06df0e9da26975af1500db6fe4ee09a377f25b8d3ffa11aceb9ac69719ab0e7e"
+      "sha256": "42662b859d33b0a3632ba25f4308a37f2f23876f410a40ddf35eb00beb3212ae"
     },
     {
       "path": "docs/STEWARDSHIP_EVALUATION.md",
@@ -64,27 +66,27 @@
     },
     {
       "path": "LICENSE",
-      "sha256": "d883d11a9f20fd62e055335689b869aaf411d1d6a4c801ebccde549589431af6"
+      "sha256": "1b29e9b72389df4b99735d249f016a6122dbec414e5bd021ed539994aca9c5b9"
     },
     {
       "path": "package-lock.json",
-      "sha256": "a1e97899d064a5068d19dc9bdb30a4ec75252553c8ebdcf478002d420fa0ff03"
+      "sha256": "4f4f55b9128ea4b02b3cd480f441a0848a920a9b9695f56230432f1fd993109e"
     },
     {
       "path": "package.json",
-      "sha256": "51e0fe88a55f577ea78f53956678ec62834db56402afd436ca50ee185bd3c72d"
+      "sha256": "91aabadd9cde2691de537d431585a52e433cf4da08b5d8a37b2548b0fc5e2236"
     },
     {
       "path": "packages/provenance-ts/clean-build.cjs",
-      "sha256": "1db3fbbdbb59379779ede438b263040a04743d0d2b179aec77df90b652b31157"
+      "sha256": "16edd7fa311ee05f38bb5d606cb192b50bce33b7ce8fc410b3826f657ba525bc"
     },
     {
       "path": "packages/provenance-ts/jest.config.js",
-      "sha256": "e0f00395cc017a0867aec4419f4595d5e6d729f623ff0fceddef539344831c8a"
+      "sha256": "d57e9a039813d4fb6562e43d344c4821b316bd4ff3d313ea03343dd0e7eb05d0"
     },
     {
       "path": "packages/provenance-ts/LICENSE",
-      "sha256": "d883d11a9f20fd62e055335689b869aaf411d1d6a4c801ebccde549589431af6"
+      "sha256": "1b29e9b72389df4b99735d249f016a6122dbec414e5bd021ed539994aca9c5b9"
     },
     {
       "path": "packages/provenance-ts/NOTICE.md",
@@ -92,43 +94,47 @@
     },
     {
       "path": "packages/provenance-ts/package.json",
-      "sha256": "9916c8c18b5dbae05e7acf9c756c9c71b99344eba33c732cee7eee1e1390c92a"
+      "sha256": "b957900f16c3d678e79e283311091e6e3bee92ab85b504578d30a29342d8d5f0"
     },
     {
       "path": "packages/provenance-ts/README.md",
-      "sha256": "538d8ffac5c5801a2f42b8d541715905dedf4578b4710b6c7f499f2b1c2d5291"
+      "sha256": "033485cb3d8a3c30ab2c8023a729b91a742aab928c3885f0246737b8d33caf31"
     },
     {
       "path": "packages/provenance-ts/SPEC.md",
-      "sha256": "4354253515cdecd4bc00592b45925e8df8442f1c84b346514a0971288cd5d2cd"
+      "sha256": "eddc51e824d217283541e2a6a6ebce7da34d984175e6d3c858bfac6d2e7050ab"
     },
     {
       "path": "packages/provenance-ts/src/artifact-cli.ts",
-      "sha256": "9487b95a94576b7313ff1c971a080e5017a88d7f6bf83f01e97a467d6f9e37ef"
+      "sha256": "3642aedee637f498fcf3591de1988d646bd3c3f3a2ab76a37712fb6b3b4fa027"
     },
     {
       "path": "packages/provenance-ts/src/artifactEnvelope.test.js",
-      "sha256": "80c6a73574083885899836fee522e98dad6840ee8c9b461222b8b27ba4805abc"
+      "sha256": "139f09e89cd2b3caf03d5cf81115e2680164561c521addfc47a51160dc3d1f5a"
     },
     {
       "path": "packages/provenance-ts/src/artifactEnvelope.ts",
-      "sha256": "9af4589dac6c16031138ebbc19c66f20950cb01041c45ecef1fd1baf6f0d2fd5"
+      "sha256": "fabe0b9009a9e80467dc3c3b281f136516d72249f50eea94f5abb8ab430a2da2"
     },
     {
       "path": "packages/provenance-ts/src/artifactHook.test.js",
-      "sha256": "641eb2c629789d99749c2423f77d0798e67b247587750a90dd9c4a31584addc2"
+      "sha256": "77273f10415bb8fe46f7d483c1d227dbdabb1c2feda66124701bf73f28339a59"
     },
     {
       "path": "packages/provenance-ts/src/artifactHook.ts",
-      "sha256": "7d902ec3b41a67e2da5cb7f1227a1e8cfe23b9ae8502a817de208003651c1e6c"
+      "sha256": "0633963d6102b0bafab49f9f69970edc2d9f35c721a5b9f7b01c6fd366c13264"
     },
     {
       "path": "packages/provenance-ts/src/badge.test.js",
-      "sha256": "dad7ce79b7487fb167a43b2844d767bf48007e6512d1d631fd5723edb0c08ba0"
+      "sha256": "22d8026d2b0fc4eb9257e391a11814100d38d05995ecac03039f333e50614f1f"
     },
     {
       "path": "packages/provenance-ts/src/badge.ts",
-      "sha256": "0e5297c3f99f8d30a32dedd6bede906acf1ba9ba8f667c93043af8809898ca24"
+      "sha256": "496c04a50a7522f9fc9f6dbda5176f5cb3e7f407d759d8298e57a245ce7fa5dc"
+    },
+    {
+      "path": "packages/provenance-ts/src/binary-regression.test.js",
+      "sha256": "11df53dae3f78446ad82e667437200ac516f0071b7007fe83eb93ade8db8c6a1"
     },
     {
       "path": "packages/provenance-ts/src/binding.test.js",
@@ -136,7 +142,7 @@
     },
     {
       "path": "packages/provenance-ts/src/canonical-alignment.test.js",
-      "sha256": "f5cd43e16cb2110ec467cebcbfc2299b8517bfdce8a8f91f0882837c863d5022"
+      "sha256": "72827ff04f4eed35a560b3a43a17b915c900043643a24c23ec5d5676caad7564"
     },
     {
       "path": "packages/provenance-ts/src/canonical.golden.json",
@@ -144,27 +150,31 @@
     },
     {
       "path": "packages/provenance-ts/src/dta-config-guards.test.js",
-      "sha256": "c6c2313c758a0b5852619ab01b2d6abdeff6cab8968a64928540681493e8df70"
+      "sha256": "65e97c2fe4ada7fa2e8dc1aae9f6ea60e0e685d310d4df776214acd35491988c"
     },
     {
       "path": "packages/provenance-ts/src/dta-l3-integration.test.js",
-      "sha256": "6c4ff5394c9c06189bbde8dc5303176238f8e03c816a4b425d08c3107304ad32"
+      "sha256": "007b45aea3de49e88350007989ac1c354998a75ebd7a593f69ecb815b72fba00"
+    },
+    {
+      "path": "packages/provenance-ts/src/hookInstaller.ts",
+      "sha256": "675759af2d7d0e500adca2af5c9b9b6cc6fcebb55674f2d86c53234ff0e9580b"
     },
     {
       "path": "packages/provenance-ts/src/index.test.js",
-      "sha256": "496f6b489f6666cc23b71cbc933951a9bd6e9ac8f1344fb75e35a9f21d28cb36"
+      "sha256": "99b59754409ec854d477226b0e45e7385591ab0d0a189560ac4113a980e2e644"
     },
     {
       "path": "packages/provenance-ts/src/index.ts",
-      "sha256": "62815920ca5696addd7254fd56bbfa25179cc07e90782911ccae289fc7443424"
+      "sha256": "9b7adbf09b9f475bd99a892b977baff19fbaa898ae03d5e36bc72b1c40bcee98"
     },
     {
       "path": "packages/provenance-ts/src/mcp.test.js",
-      "sha256": "d3838c04927e75962bf3b1b2dfd47172b0b27db4d0289781587c4a2648244f49"
+      "sha256": "1ba1e68d8286375e561125ceb1951ecd5049f36d9ee4f3e6eceed41692669f60"
     },
     {
       "path": "packages/provenance-ts/src/mcp.ts",
-      "sha256": "fd8af6a23c2bb7e84fc8c7ebd63729c22d609fb49f0be0cbe985d7f7238ee683"
+      "sha256": "8e843ba0666631308feb863b63214058d94f79b75de6c0febdcc1ce20a2a49f6"
     },
     {
       "path": "packages/provenance-ts/src/merkle.golden.json",
@@ -172,15 +182,19 @@
     },
     {
       "path": "packages/provenance-ts/src/merkle.test.js",
-      "sha256": "aba9c09cde694c96bc4924ed2f7d18a20e0c7d37afc881e998cd72a32f56cc6a"
+      "sha256": "5de44e5ae1ca206d05e65c885c59d5320295a4be5020563da2fcd2d3d157093e"
     },
     {
       "path": "packages/provenance-ts/src/merkle.ts",
-      "sha256": "5f3dc8df775e4db4e7653ff833fe35c7d561c89781d73b22a85bf6f6013f697d"
+      "sha256": "f165675c7e9a05291f13ce981ddc02510b40acce132f9a8b1f1f5b9e2f07ff3c"
     },
     {
       "path": "packages/provenance-ts/src/release-security.test.js",
-      "sha256": "45b51840c660dcb1de5c1169f6f9138e40d210cb78aa76d70413bc8b2d0f5d4a"
+      "sha256": "95091e5ecb9cd39a6329dca407b917960fa7796554740a0d2af23a88a1b605a3"
+    },
+    {
+      "path": "packages/provenance-ts/src/self-test-export.test.js",
+      "sha256": "2350569dd35655e3863dfebcbd17463699a56bd0b20d53a0487d6c30a396c7c5"
     },
     {
       "path": "packages/provenance-ts/src/self-test.test.js",
@@ -188,15 +202,15 @@
     },
     {
       "path": "packages/provenance-ts/src/self-test.ts",
-      "sha256": "09629e50fe9f4e5473774b919bf8000baea9246fea2ce3987e2631123d749258"
+      "sha256": "7ed6199b72f149f889c213ddd967c2c83240d36db8b757d2046c5f16219ace2a"
     },
     {
       "path": "packages/provenance-ts/src/synthetic-timestamp.fixture.cjs",
-      "sha256": "48b8e63e3d89524d90b1921bd83e6c7b6b525a9edfdd79a85897ac6dc47e57e4"
+      "sha256": "ae5b19509df2e9dd9e3677820957cf7d2775f6c0f5ce9495f8a55d67e2831722"
     },
     {
       "path": "packages/provenance-ts/src/timestamp-security.test.js",
-      "sha256": "5d68a88ebd5955a60920395187d5ab338635c3ad8753dffb5f7a989c73f87922"
+      "sha256": "d02ffbac412644c3844535c8208f12f12a30f120578c3e216f80817c9ee03b04"
     },
     {
       "path": "packages/provenance-ts/src/timestamp.test.js",
@@ -204,15 +218,15 @@
     },
     {
       "path": "packages/provenance-ts/src/timestamp.ts",
-      "sha256": "a96cad6755c9fefbcd4acaed01bcde4ca759ea4adb1a6f119a69ac061abe76c5"
+      "sha256": "8d0e4735421b524f12185357a3cf24a75e495be0db3333e2b4f4efb0a459229f"
     },
     {
       "path": "packages/provenance-ts/test-harness.cjs",
-      "sha256": "7db6714f541aadd10c6a3a77665b57f05d7b8d546c328c953ed63b210172e0f5"
+      "sha256": "544bb392f553e80e902af5021a31fa9c9d2fc11f243d74e53168b15a2dba3b26"
     },
     {
       "path": "packages/provenance-ts/TIMESTAMP.md",
-      "sha256": "1ee1d381c3d5a6242ea33c1441f69d83218feaa2c9694362b29dc587f2309e98"
+      "sha256": "d1821bc6c8c51d6e24501babd26d69dd08d5a0e1ee2b674a0df9e0ad067eabdc"
     },
     {
       "path": "packages/provenance-ts/trust/README.md",
@@ -224,23 +238,39 @@
     },
     {
       "path": "packages/provenance-ts/trust/root-public.asc",
-      "sha256": "8332bd65a613ad80eb802a4418e4d52a2fd5f4208bc449fd0ad67031e93bd46e"
+      "sha256": "e7dd380514d03dabdeae6c8b130dc07b0c7308ebd0db8afc4b5944cd1c730622"
     },
     {
       "path": "packages/provenance-ts/tsconfig.json",
-      "sha256": "67e1e1d487c30bbd6edc6941475d267805b00a75c20d43d9ceaf2aa8e77706b1"
+      "sha256": "28e10b63e23ace6d88a0dc627a214b468bba69b4c982d69541cf349fc41f9282"
+    },
+    {
+      "path": "packages/provenance-ts/wasm/mgc_wasm.d.ts",
+      "sha256": "3495bf174b623b4e0257aaf290b0190cac238a9b16951e85a5d42626a76bfdca"
+    },
+    {
+      "path": "packages/provenance-ts/wasm/mgc_wasm.js",
+      "sha256": "3cfc4c527baa77c3964e43a66c9d7eda11a25c7278b57137c9bfdf66b6eec147"
+    },
+    {
+      "path": "packages/provenance-ts/wasm/mgc_wasm_bg.wasm",
+      "sha256": "c7f0f294a3de9913c9e71e2a35926d60eb79fa6c45856aa08cf7f2f552f3d1d0"
+    },
+    {
+      "path": "packages/provenance-ts/wasm/mgc_wasm_bg.wasm.d.ts",
+      "sha256": "eb407ee7fd93dd27f5e543261ca65cdd184357b41f6adf59f5e4fbc8e287e6d8"
     },
     {
       "path": "README.md",
-      "sha256": "482c7f7e8a40f1e2f3d09963647c2c635cc9639c3cfe90037e797d0a8afe85d8"
+      "sha256": "a15f02127e9d28b0abc539e59ec1700bf521651cf6ecea3be87c9bcefc69b629"
     },
     {
       "path": "SECURITY.md",
-      "sha256": "e77779c392564a970097d727e6ec29562dfa1378c606a6ecc53fd479c0e93467"
+      "sha256": "01d64a53ebbd2530e64d3165ec44ab3f592084b2753ae120fef0d00a75473731"
     },
     {
       "path": "TESTING.md",
-      "sha256": "5ab753e19e9ee0ae6532357effc47a4d18b12bb2f48da1651d19d6ed044455d6"
+      "sha256": "13accd742b3abf501bd29a25c30a66abf355591f50d3bb623d576585c4b2877f"
     },
     {
       "path": "vectors/canon-legacy/generate_fixtures.py",
@@ -252,7 +282,7 @@
     },
     {
       "path": "vectors/canon-legacy/legacy-text-profiles.json",
-      "sha256": "74677b67b80829c02b198c68b9aa36109ff99e51141c074fe0d52c96f6e07c77"
+      "sha256": "e3c535e3150c5803010bd023eaf689f497863947643eae8a6072fb38aeaad7aa"
     },
     {
       "path": "vectors/canonical.golden.json",
@@ -268,9 +298,23 @@
     }
   ],
   "original_import_source_commit": "044865e",
-  "source_commit_scope": "Main-branch base before this documentation-only update; runtime code is unchanged.",
+  "source_commit_scope": "source_commit 98e1b39893d5a5607db79c29415441da092d6e67 is unchanged from 2.6.0 and covers the private-derived files only. The 2.6.1 housekeeping files (self-test export, binary-regression.test.js, self-test-export.test.js) come from private branch release/2.6.1-housekeeping at 80965ad040b331a50daba8f0c049d3e952f34ec7, which is not merged to private main at the time of writing. The private monorepo contains no hookInstaller or wasm output, so no private commit contains the public_origin_files; do not read source_commit as covering them.",
   "manifest_exclusions": [
     "PUBLIC_SOURCE_IMPORT.json (self-reference)",
-    "Untracked files and build/dependency outputs"
-  ]
+    "Untracked files and build/dependency outputs",
+    "docs/ubuntu/ (release-process records authored in this repository)"
+  ],
+  "hash_basis": "sha256 of the committed (LF) bytes of each file as checked out with eol=lf. The 2.6.0 manifest mixed LF and CRLF-converted hashes (31 of 53 entries matched only CRLF bytes) and several entries were already stale at 2.6.0; every entry is recomputed here.",
+  "public_origin_files": {
+    "commit": "0778caf",
+    "note": "These files were authored directly in this public repository (Agy) and have no source in the private monorepo main. packages/provenance-ts/package.json and the two READMEs are public-curated variants.",
+    "paths": [
+      "packages/provenance-ts/src/hookInstaller.ts",
+      "packages/provenance-ts/src/artifact-cli.ts",
+      "packages/provenance-ts/wasm/mgc_wasm.d.ts",
+      "packages/provenance-ts/wasm/mgc_wasm.js",
+      "packages/provenance-ts/wasm/mgc_wasm_bg.wasm",
+      "packages/provenance-ts/wasm/mgc_wasm_bg.wasm.d.ts"
+    ]
+  }
 }
