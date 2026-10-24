@@ -292,7 +292,7 @@ export const HOOK_USAGE = 'usage: provenance install-hooks [--pre-commit] [--mcp
   'With no choice flag, the command asks about each option when run in a terminal and does nothing otherwise.';
 
 /** CLI entry. Returns the process exit code. */
-export async function runInstallHooksCli(args: string[], cwd: string = process.cwd()): Promise<number> {
+export async function runInstallHooksCli(args: string[], cwd: string = process.cwd(), io: PromptIo = {}): Promise<number> {
   const unknown = args.filter(a => !(HOOK_FLAGS as readonly string[]).includes(a));
   if (unknown.length) {
     console.error(`unknown argument: ${unknown.join(' ')}\n${HOOK_USAGE}`);
@@ -301,11 +301,20 @@ export async function runInstallHooksCli(args: string[], cwd: string = process.c
   const has = (f: string) => args.includes(f);
   let selection: HookSelection = { preCommit: has('--pre-commit'), mcpVerifyRead: has('--mcp-verify-read'), mcpAutoSeal: has('--mcp-auto-seal') };
   if (!selection.preCommit && !selection.mcpVerifyRead && !selection.mcpAutoSeal) {
-    if (!process.stdin.isTTY || !process.stdout.isTTY) {
+    const interactive = io.interactive ?? (Boolean(process.stdin.isTTY) && Boolean(process.stdout.isTTY));
+    if (!interactive) {
       console.error(`no option selected and no terminal to ask.\n${HOOK_USAGE}`);
       return 2;
     }
-    selection = await askInteractively();
+    try {
+      selection = await askInteractively(io);
+    } catch (e) {
+      if (e instanceof PromptCancelled) {
+        console.error(`install-hooks ${e.message}.`);
+        return 1;
+      }
+      throw e;
+    }
   }
   try {
     const r = await installHooks({ cwd, ...selection, force: has('--force') });
@@ -327,13 +336,39 @@ export async function runInstallHooksCli(args: string[], cwd: string = process.c
   }
 }
 
-async function askInteractively(): Promise<HookSelection> {
-  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-  const ask = (q: string, def: boolean): Promise<boolean> =>
-    new Promise(resolve => rl.question(`${q} (${def ? 'Y/n' : 'y/N'}): `, a => {
-      const t = a.trim().toLowerCase();
-      resolve(t === '' ? def : t === 'y' || t === 'yes');
-    }));
+class PromptCancelled extends Error {
+  constructor() {
+    super('cancelled, nothing changed');
+    this.name = 'PromptCancelled';
+  }
+}
+
+interface PromptIo {
+  input?: NodeJS.ReadableStream;
+  output?: NodeJS.WritableStream;
+  /** Force interactive (true) or non-interactive (false) mode; default is whether stdin and stdout are terminals. */
+  interactive?: boolean;
+}
+
+async function askInteractively(io: PromptIo = {}): Promise<HookSelection> {
+  const rl = readline.createInterface({ input: io.input ?? process.stdin, output: io.output ?? process.stdout });
+  // Queue lines from the start so piped input delivered in one chunk is not lost; end of input cancels.
+  const lines: string[] = [];
+  let waiter: { resolve: (l: string) => void; reject: (e: Error) => void } | null = null;
+  let closed = false;
+  rl.on('line', l => { if (waiter) { const w = waiter; waiter = null; w.resolve(l); } else lines.push(l); });
+  rl.on('close', () => { closed = true; if (waiter) { const w = waiter; waiter = null; w.reject(new PromptCancelled()); } });
+  const nextLine = (): Promise<string> => new Promise((resolve, reject) => {
+    if (lines.length) return resolve(lines.shift() as string);
+    if (closed) return reject(new PromptCancelled());
+    waiter = { resolve, reject };
+  });
+  const ask = async (q: string, def: boolean): Promise<boolean> => {
+    rl.setPrompt(`${q} (${def ? 'Y/n' : 'y/N'}): `);
+    rl.prompt();
+    const t = (await nextLine()).trim().toLowerCase();
+    return t === '' ? def : t === 'y' || t === 'yes';
+  };
   try {
     return {
       preCommit: await ask('Install the git pre-commit verification gate?', true),

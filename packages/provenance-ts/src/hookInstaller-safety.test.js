@@ -236,3 +236,54 @@ describe('F2: the pre-commit gate checks every staged file, whatever its name', 
     } finally { rm(tmp); }
   });
 });
+
+describe('N4: cancelling an interactive prompt', () => {
+  const { PassThrough } = require('node:stream');
+  const { runInstallHooksCli } = require('../dist/hookInstaller.js');
+
+  async function runWith(inputWrites, dir) {
+    const input = new PassThrough();
+    const output = new PassThrough();
+    const errors = [];
+    const orig = console.error;
+    console.error = (...a) => errors.push(a.join(' '));
+    try {
+      const p = runInstallHooksCli([], dir, { input, output, interactive: true });
+      for (const w of inputWrites) input.write(w);
+      input.end();
+      const code = await p;
+      return { code, errors: errors.join('\n') };
+    } finally { console.error = orig; }
+  }
+
+  it('N4: EOF (Ctrl-D) at the first prompt exits non-zero, says nothing changed, and changes nothing', async () => {
+    const dir = tempRepo();
+    try {
+      const { code, errors } = await runWith([], dir);
+      assert.notEqual(code, 0);
+      assert.match(errors, /cancelled, nothing changed/);
+      assert.equal(fs.existsSync(manifestPath(dir)), false);
+      assert.equal(fs.existsSync(hookPath(dir)), false);
+    } finally { rm(dir); }
+  });
+
+  it('N4: EOF after some answers also changes nothing', async () => {
+    const dir = tempRepo();
+    try {
+      const { code, errors } = await runWith(['y\n', 'y\n'], dir);
+      assert.notEqual(code, 0);
+      assert.match(errors, /cancelled, nothing changed/);
+      assert.equal(fs.existsSync(manifestPath(dir)), false);
+      assert.equal(fs.existsSync(hookPath(dir)), false);
+    } finally { rm(dir); }
+  });
+
+  it('N4: answering all three prompts still works through the same path', async () => {
+    const dir = tempRepo();
+    try {
+      const { code } = await runWith(['y\n', 'n\n', 'n\n'], dir);
+      assert.equal(code, 0);
+      assert.ok(fs.readFileSync(hookPath(dir), 'utf8').includes(HOOK_MARKER));
+    } finally { rm(dir); }
+  });
+});
