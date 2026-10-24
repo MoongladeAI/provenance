@@ -82,17 +82,16 @@ describe('hook installer', () => {
     } finally { rm(dir); }
   });
 
-  it('updates our own hook in place without force and without a backup', async () => {
+  it('re-running with our own unmodified hook is a no-op without force and without a backup', async () => {
     const dir = tempRepo();
     try {
       await installHooks({ cwd: dir, ...only({ preCommit: true }) });
-      fs.writeFileSync(hookPath(dir), fs.readFileSync(hookPath(dir), 'utf8').replace('Verifying', 'OLD'));
+      const before = fs.readFileSync(hookPath(dir), 'utf8');
       const r = await installHooks({ cwd: dir, ...only({ preCommit: true }) });
-      assert.equal(r.hook.action, 'updated');
+      assert.equal(r.hook.action, 'unchanged');
       assert.equal(r.hook.backup, undefined);
-      assert.ok(!fs.readFileSync(hookPath(dir), 'utf8').includes('OLD'));
-      const baks = fs.readdirSync(path.dirname(hookPath(dir))).filter(f => f.includes('.bak-'));
-      assert.deepEqual(baks, []);
+      assert.equal(fs.readFileSync(hookPath(dir), 'utf8'), before);
+      assert.deepEqual(fs.readdirSync(path.dirname(hookPath(dir))).filter(f => f.includes('.bak-')), []);
     } finally { rm(dir); }
   });
 
