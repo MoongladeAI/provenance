@@ -1,6 +1,6 @@
 # Security policy
 
-Version 2.6.0 is a release candidate. No production version is declared supported until its release audit passes. After release, the latest 2.6 patch is intended to receive security fixes. Older major and minor versions have no support commitment here.
+The latest 2.6 patch (currently 2.6.1) is intended to receive security fixes. Older major and minor versions have no support commitment here.
 
 ## Reporting a vulnerability
 

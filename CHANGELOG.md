@@ -8,8 +8,12 @@ Housekeeping release. No behaviour changes to verification, canonicalization, si
 - **Self-test CLI**: `provenance test` with no file argument runs the self-test suite and exits non-zero on any failure (`--json` for a machine-readable report). `test <file>` behaviour is unchanged. This path already worked in 2.6.0; it is now covered by tests.
 - **B1 regression test**: sealed binary artifacts (PNG-like, ONNX-like, unknown extension with NUL bytes) fail verification after a one-byte mutation or a CRLF-to-LF rewrite. It passed against unchanged 2.6.0 behaviour.
 - **WASM core export**: `@moonglade/provenance/wasm` (the `wasm/` directory, included in the package `files`). The files shipped in the 2.6.0 npm tarball but were never committed to this repository; they are committed now.
-- **Hook installer**: `provenance install-hooks` (alias `hooks`) interactively installs a git pre-commit verification gate and writes `.provenance-hooks.json` plus an MCP configuration snippet. First published in 2.6.1; it was not in the 2.6.0 tarball.
-- **Docs**: README installation instructions for the published package.
+- **Hook installer**: `provenance install-hooks` (alias `hooks`) installs a git pre-commit verification gate and writes `.provenance-hooks.json` (plus an MCP configuration snippet if an MCP option is chosen). First published in 2.6.1; it was not in the 2.6.0 tarball. Behaviour:
+  - It never overwrites silently. An existing hook not installed by this tool is refused unless `--force`, which first backs it up to `<hook>.bak-<UTC timestamp>`. A hook carrying the `# moonglade-provenance-hook v1` marker is updated in place.
+  - It enables only what is chosen, by flags (`--pre-commit`, `--mcp-verify-read`, `--mcp-auto-seal`, `--force`) or per-option prompts in a terminal. With no flags and no terminal it changes nothing and exits 2. There is no hidden `mcpAutoSeal`.
+  - The empty pre-push option and the unused `tombstoneDelete` setting are removed (the pre-push script audited nothing).
+  - The hooks directory comes from `git rev-parse --git-path hooks`, so linked worktrees and `core.hooksPath` work.
+- **Docs**: README installation instructions for the published package. README and TESTING.md no longer say hooks are excluded; SECURITY.md and the TESTING.md title no longer describe 2.6.0 as a release candidate.
 
 ## 2.6.0 candidate, 2026-10-22
 

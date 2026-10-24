@@ -1,4 +1,4 @@
-# Testing the 2.6.0 candidate
+# Testing 2.6.1
 
 ## Run the suite
 
@@ -44,6 +44,6 @@ The built-in self-test checks any package-root sidecar hashes and states that it
 
 ## Limits
 
-The default tests do not establish live public TSA availability, certificate revocation status, macOS behavior or safety against a concurrent hostile filesystem writer. OpenPGP/SSHSIG verification is unsupported. The legacy library OpenPGP signing helper and real GPG/SSH signing are not covered by this suite. Default hooks, platform keystores and sibling packages are excluded from this release.
+The default tests do not establish live public TSA availability, certificate revocation status, macOS behavior or safety against a concurrent hostile filesystem writer. OpenPGP/SSHSIG verification is unsupported. The legacy library OpenPGP signing helper and real GPG/SSH signing are not covered by this suite. Platform keystores and sibling packages are excluded from this release. The optional git pre-commit hook installer (`provenance install-hooks`) is covered by tests that create temporary git repositories; the hook script itself is not exercised end to end against `npx`, and the MCP options are recorded in `.provenance-hooks.json` but not enforced by the installer.
 
 Production audit checks also covered clean installation, a runtime-only package consumer, CLI binaries, repeatable clean builds, package contents, local documentation links, disclosure and secret scans, runtime licenses and dependency vulnerabilities. These results describe the tested artifact; any later package change needs its own verification.

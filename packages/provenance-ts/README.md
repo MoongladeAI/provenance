@@ -23,7 +23,7 @@ npm ci
 npm test
 ```
 
-Run the built-in self-test with `provenance test` (no file argument; add `--json` for a machine-readable report). It exits non-zero on any failure. Programmatic access: `require("@moonglade/provenance/self-test")` exposes `runSelfTests` and `printSelfTestReport`. The WASM core is available as `require("@moonglade/provenance/wasm")`. `provenance install-hooks` interactively installs a git pre-commit gate and writes an MCP configuration snippet.
+Run the built-in self-test with `provenance test` (no file argument; add `--json` for a machine-readable report). It exits non-zero on any failure. Programmatic access: `require("@moonglade/provenance/self-test")` exposes `runSelfTests` and `printSelfTestReport`. The WASM core is available as `require("@moonglade/provenance/wasm")`. `provenance install-hooks [--pre-commit] [--mcp-verify-read] [--mcp-auto-seal] [--force]` installs only what you select (it asks per option in a terminal, and does nothing without flags otherwise). An existing pre-commit hook that this tool did not install is never overwritten: the command refuses, and with `--force` first copies it to `<hook>.bak-<UTC timestamp>`. A hook this tool installed is updated in place. The hooks directory is resolved by `git rev-parse --git-path hooks`, so linked worktrees and `core.hooksPath` work.
 
 ## Sign and verify
 
@@ -84,6 +84,6 @@ Gate assertions check the supplied signature and policy; they do not establish h
 
 `dist/index.d.ts` declares the public exports: the engine, vault, verification policy, canonicalization and bounded reads; Merkle helpers; timestamp parsing, verification and acquisition; badge helpers; artifact and envelope utilities; read-only MCP tools and self-test.
 
-The built-in verifier returns `INDETERMINATE` for OpenPGP and SSHSIG attestations. The legacy library OpenPGP signing helper is not covered by the default test suite; its keyring selection is caller-controlled. Default hooks, platform keystores, the hook CLI and sibling packages are excluded.
+The built-in verifier returns `INDETERMINATE` for OpenPGP and SSHSIG attestations. The legacy library OpenPGP signing helper is not covered by the default test suite; its keyring selection is caller-controlled. Platform keystores and sibling packages are excluded. The optional hook installer (`provenance install-hooks`) installs only a git pre-commit verification gate and writes a manifest of the options you chose; see below.
 
 See [SPEC.md](SPEC.md), [TIMESTAMP.md](TIMESTAMP.md), [NOTICE.md](NOTICE.md) and [trust/README.md](trust/README.md). GPG checks the OpenPGP release identity separately. Artifact verification uses raw Ed25519 SPKI PEM keys. Candidate documentation is intentionally unsealed. The root release key is not an agent key.
