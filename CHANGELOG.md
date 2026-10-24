@@ -13,6 +13,7 @@ Housekeeping release. No behaviour changes to verification, canonicalization, si
   - It enables only what is chosen, by flags (`--pre-commit`, `--mcp-verify-read`, `--mcp-auto-seal`, `--force`) or per-option prompts in a terminal. With no flags and no terminal it changes nothing and exits 2. There is no hidden `mcpAutoSeal`.
   - The generated hook needs bash and reads `git diff --cached -z`, so staged names with spaces, non-ASCII characters or a leading dash are verified; it blocks the commit if the staged list cannot be read.
   - `--mcp-verify-read` and `--mcp-auto-seal` only record a choice in `.provenance-hooks.json` and print an MCP configuration snippet. Nothing in this package reads that file yet.
+  - Ending input (Ctrl-D) at an interactive prompt exits 1 with "cancelled, nothing changed" and writes nothing. A hook installed from a linked worktree applies to all worktrees of the repository, and a shared `core.hooksPath` affects every repository using it (documented in the README).
   - The empty pre-push option and the unused `tombstoneDelete` setting are removed (the pre-push script audited nothing).
   - The hooks directory comes from `git rev-parse --git-path hooks`, so linked worktrees and `core.hooksPath` work.
 - **Docs**: README installation instructions for the published package. README and TESTING.md no longer say hooks are excluded; SECURITY.md and the TESTING.md title no longer describe 2.6.0 as a release candidate.

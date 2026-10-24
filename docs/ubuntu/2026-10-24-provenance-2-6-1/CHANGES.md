@@ -91,3 +91,10 @@ Commits: `cf44657` (F1, F2 and their tests), and the docs/manifest commit carryi
 ### Tests and pack
 - 396 -> 412 tests, 412 pass, 0 fail (16 new: 11 F1, 5 F2).
 - `npm pack --dry-run`: 33 files, 346.3 kB, `wasm/` included, no test files.
+
+## Round 3b (coordinator follow-ups before re-QA)
+- N4: Ctrl-D (end of input) at an installer prompt now exits 1 with "install-hooks cancelled, nothing changed." and writes nothing. Prompt input is queued from the start, so piped answers delivered in one chunk also work. `runInstallHooksCli` takes an optional `{input, output, interactive}` for testing. Tests (`describe('N4 ...')`): EOF at the first prompt; EOF after two answers; three answers still install.
+- N3/N2: README states that a hook installed from one linked worktree applies to all worktrees of that repository, and that a shared `core.hooksPath` affects every repository using it.
+- Local path removed from `vectors/canon-legacy/generate_fixtures.py`: the sibling-repo directory is now `MOONGLADE_REPOS` or, by default, the directory above this repository. Fixtures were not regenerated in the commit. A trial regeneration (output discarded) against the current private checkouts produced identical case data; only the upstream `commit` and `upstream_sha256` provenance fields differed, because the private repos have moved on since the committed fixture was made.
+- Manifest hashes recomputed (72 entries). QA.md left to oya; N6 left as is.
+- Tests: 412 -> 415, all pass.

@@ -43,7 +43,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "c746d9b9eaa592a8fba7fa0322eaef2914321568750daf32587c95f5c4a15496"
+      "sha256": "451950443db64ec71ba5ee7ce520ccbc9646fa8136d5803e8abdc5ab05fe4cba"
     },
     {
       "path": "CITATION.cff",
@@ -99,7 +99,7 @@
     },
     {
       "path": "packages/provenance-ts/README.md",
-      "sha256": "957b45c00e12fc14e86be0e50bfd9cc490648a661354593237d340799f65c234"
+      "sha256": "d786c1b089921a3e60771bdd44467faccc12efa7fa64c54c75c4524156040a56"
     },
     {
       "path": "packages/provenance-ts/SPEC.md",
@@ -159,7 +159,7 @@
     },
     {
       "path": "packages/provenance-ts/src/hookInstaller-safety.test.js",
-      "sha256": "5405aa6277cf9f466546e93b94cf312fa4169fd5308a83d9925c473546db5c9d"
+      "sha256": "872adc68572ea758e8876077e759bc5f484d75d3c50c3a234960186ec0c45c23"
     },
     {
       "path": "packages/provenance-ts/src/hookInstaller.test.js",
@@ -167,7 +167,7 @@
     },
     {
       "path": "packages/provenance-ts/src/hookInstaller.ts",
-      "sha256": "47c63adf39d550235dad1a76c587c0980fa80ade32894c373415345b2b9212fb"
+      "sha256": "05194b68f4b636214c31071e312506394b1f0a54cf17df287a4255578a54e6fe"
     },
     {
       "path": "packages/provenance-ts/src/index.test.js",
@@ -283,7 +283,7 @@
     },
     {
       "path": "vectors/canon-legacy/generate_fixtures.py",
-      "sha256": "7cfb2915ab0daf280db523b37c41e2e2fb6a7eccc4589f7707442f60c0c1b8f9"
+      "sha256": "e6077491a1ec56fc64106172bed66079e7af33d133eba02b6e24a73615e62882"
     },
     {
       "path": "vectors/canon-legacy/js_profiles.mjs",
