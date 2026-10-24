@@ -380,8 +380,7 @@ if (!('encodeInto' in cachedTextEncoder)) {
 
 let WASM_VECTOR_LEN = 0;
 
-const path = require('path');
-const wasmPath = path.join(__dirname, 'mgc_wasm_bg.wasm');
+const wasmPath = `${__dirname}/mgc_wasm_bg.wasm`;
 const wasmBytes = require('fs').readFileSync(wasmPath);
 const wasmModule = new WebAssembly.Module(wasmBytes);
 let wasmInstance = new WebAssembly.Instance(wasmModule, __wbg_get_imports());

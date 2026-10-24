@@ -1,6 +1,6 @@
 # Security policy
 
-The latest 2.6 patch (currently 2.6.1) is intended to receive security fixes. Older major and minor versions have no support commitment here.
+The 2.6.0 release audit is recorded in TESTING.md; 2.6.1 changes are covered by docs/ubuntu/2026-10-24-provenance-2-6-1/QA.md. No version is declared supported beyond what its audit covers. The latest 2.6 patch (currently 2.6.1) is intended to receive security fixes. Older major and minor versions have no support commitment here.
 
 ## Reporting a vulnerability
 

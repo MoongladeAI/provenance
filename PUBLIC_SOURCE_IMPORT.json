@@ -43,7 +43,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "4ca4de6c1b892c9bc8cd61327dc22a68a34facdc64cf82fc705e7f8d2cebd3da"
+      "sha256": "c746d9b9eaa592a8fba7fa0322eaef2914321568750daf32587c95f5c4a15496"
     },
     {
       "path": "CITATION.cff",
@@ -99,7 +99,7 @@
     },
     {
       "path": "packages/provenance-ts/README.md",
-      "sha256": "7f97c7ee453d0602942b8c0f8a1dbd80155f0d3635a6e7664bf20cbaf0f3e51f"
+      "sha256": "957b45c00e12fc14e86be0e50bfd9cc490648a661354593237d340799f65c234"
     },
     {
       "path": "packages/provenance-ts/SPEC.md",
@@ -158,12 +158,16 @@
       "sha256": "007b45aea3de49e88350007989ac1c354998a75ebd7a593f69ecb815b72fba00"
     },
     {
+      "path": "packages/provenance-ts/src/hookInstaller-safety.test.js",
+      "sha256": "5405aa6277cf9f466546e93b94cf312fa4169fd5308a83d9925c473546db5c9d"
+    },
+    {
       "path": "packages/provenance-ts/src/hookInstaller.test.js",
-      "sha256": "acb862c02a613d0d58c60555e0cd00f2bc24aae6a742a917b12a6199aa6d4695"
+      "sha256": "e170c5bb4b7d4cf23bc498cfbbad1e7bb915faef7fb6247de37153eac7379926"
     },
     {
       "path": "packages/provenance-ts/src/hookInstaller.ts",
-      "sha256": "7fef6495eb3379694b643f6fe11404a9a65765e2d0afe251835877ad95b8d402"
+      "sha256": "47c63adf39d550235dad1a76c587c0980fa80ade32894c373415345b2b9212fb"
     },
     {
       "path": "packages/provenance-ts/src/index.test.js",
@@ -255,7 +259,7 @@
     },
     {
       "path": "packages/provenance-ts/wasm/mgc_wasm.js",
-      "sha256": "3cfc4c527baa77c3964e43a66c9d7eda11a25c7278b57137c9bfdf66b6eec147"
+      "sha256": "63d38046e9e00418043a6291937b03b817df75b333c9b00ee3f2899b5a3c93e2"
     },
     {
       "path": "packages/provenance-ts/wasm/mgc_wasm_bg.wasm",
@@ -271,11 +275,11 @@
     },
     {
       "path": "SECURITY.md",
-      "sha256": "699d56c04b7b01faf610dbce85b3f253ea4ae0172548ef64f64a02fba7a74541"
+      "sha256": "52cc9c6f785a0f7a34bddcec7195bc0e33cc3d7b881c79487868fb6d0e812a16"
     },
     {
       "path": "TESTING.md",
-      "sha256": "bbffebb94d1de2377c32912f0cbac4a532794dd1a0e98343ad24dec55afb01e9"
+      "sha256": "747b9b07c5cc31a85d07a0fb9a6f79be27a0907817e34c910e528f7ddeaf8eb6"
     },
     {
       "path": "vectors/canon-legacy/generate_fixtures.py",
@@ -312,18 +316,20 @@
   "hash_basis": "sha256 of the committed (LF) bytes of each file as checked out with eol=lf. The 2.6.0 manifest mixed LF and CRLF-converted hashes (31 of 53 entries matched only CRLF bytes) and several entries were already stale at 2.6.0; every entry is recomputed here.",
   "public_origin_files": {
     "commit": "0778caf",
-    "note": "These files were authored directly in this public repository (Agy, 0778caf) and have no source in the private monorepo main. hookInstaller.ts and artifact-cli.ts were then modified in 2.6.1 (installer hardening, approved by Marc 2026-10-24); the wasm/ files are byte-identical to 0778caf. packages/provenance-ts/package.json and the two READMEs are public-curated variants.",
+    "note": "These files were authored directly in this public repository (Agy, 0778caf) and have no source in the private monorepo main. hookInstaller.ts and artifact-cli.ts were then modified in 2.6.1 (installer hardening and QA fixes F1/F2, approved by Marc 2026-10-24); the two hookInstaller test files were written in 2.6.1. The wasm/ files are the build output described in wasm_provenance; mgc_wasm.js was replaced in 2.6.1 by the pristine generated file. packages/provenance-ts/package.json and the two READMEs are public-curated variants.",
     "paths": [
       "packages/provenance-ts/src/hookInstaller.ts",
       "packages/provenance-ts/src/artifact-cli.ts",
       "packages/provenance-ts/wasm/mgc_wasm.d.ts",
       "packages/provenance-ts/wasm/mgc_wasm.js",
       "packages/provenance-ts/wasm/mgc_wasm_bg.wasm",
-      "packages/provenance-ts/wasm/mgc_wasm_bg.wasm.d.ts"
+      "packages/provenance-ts/wasm/mgc_wasm_bg.wasm.d.ts",
+      "packages/provenance-ts/src/hookInstaller.test.js",
+      "packages/provenance-ts/src/hookInstaller-safety.test.js"
     ]
   },
   "wasm_provenance": {
-    "summary": "wasm/mgc_wasm_bg.wasm and both .d.ts files were reproduced byte for byte on 2026-10-24 from a clean git archive export of the private monorepo. mgc_wasm.js was reproduced except for a two-line manual patch.",
+    "summary": "All four wasm/ files were reproduced byte for byte on 2026-10-24 from a clean git archive export of the private monorepo. No file is hand-edited.",
     "source_repo": "moonglade-provenance (private monorepo; crates/mgc-wasm and crates/mgc-core)",
     "source_commit": "84ff58c679c64c723f91b101012e7ba884e93020",
     "source_commit_note": "Last commit that touched crates/, Cargo.lock and rust-toolchain.toml. Private main fca58c81e59d6f106da5552aaa7e24dee5d949e1 has identical trees for all three (crates d14e94c9..., Cargo.lock 67adb47b..., rust-toolchain.toml 68c0ea29...). The private working tree had no uncommitted changes under crates/ at verification time; build-time state was inferred from file mtimes (sources 2026-10-22, build output 2026-10-23 20:58) and the byte-identical rebuild.",
@@ -350,10 +356,9 @@
         "reproduced": "byte-identical"
       },
       "mgc_wasm.js": {
-        "sha256": "3cfc4c527baa77c3964e43a66c9d7eda11a25c7278b57137c9bfdf66b6eec147",
-        "reproduced": "identical except a manual two-line patch",
-        "wasm_bindgen_output_sha256": "63d38046e9e00418043a6291937b03b817df75b333c9b00ee3f2899b5a3c93e2",
-        "patch": "const wasmPath = `${__dirname}/mgc_wasm_bg.wasm`;  ->  const path = require('path'); const wasmPath = path.join(__dirname, 'mgc_wasm_bg.wasm');"
+        "sha256": "63d38046e9e00418043a6291937b03b817df75b333c9b00ee3f2899b5a3c93e2",
+        "reproduced": "byte-identical",
+        "note": "The mgc_wasm.js published in 2.6.0 (sha256 3cfc4c527baa77c3964e43a66c9d7eda11a25c7278b57137c9bfdf66b6eec147) differed from the generated output by one hand-patched line (path.join for the .wasm path). 2.6.1 ships the pristine generated file; the unpatched file loads on Windows."
       }
     }
   }

@@ -1,6 +1,6 @@
 # CHANGES - public repo @moonglade/provenance 2.6.1
 
-Branch `release/2.6.1`, worktree `D:\Development 2.0\Repos\Public\moonglade-provenance-wt-2.6.1`, based on Agy's `0778caf` (public main, unpushed). Signed with the Claude agent key `148A31AA...D7A5` (worktree-local config). No push, tag, merge or publish. Main checkout untouched. Private-side record: `release/2.6.1-housekeeping` (`80965ad`) in `moonglade-provenance`.
+Branch `release/2.6.1`, worktree `moonglade-provenance-wt-2.6.1` (next to the main checkout), based on Agy's `0778caf` (public main, unpushed). Signed with the Claude agent key `148A31AA...D7A5` (worktree-local config). No push, tag, merge or publish. Main checkout untouched. Private-side record: `release/2.6.1-housekeeping` (`80965ad`) in `moonglade-provenance`.
 
 ## Commits on top of 0778caf
 1. `532ae57` feat: `./self-test` export in `packages/provenance-ts/package.json` (`./wasm` kept), new `binary-regression.test.js` and `self-test-export.test.js` (byte-identical to the private branch: sha256 11df53da..., 2350569d...), version 2.6.1 in root `package.json`, `package-lock.json` (root, root workspace entry, and the `packages/provenance-ts` entry which was stale at 2.5.0) and `CITATION.cff`.
@@ -62,3 +62,32 @@ Verdict: reproduced. Details in `PUBLIC_SOURCE_IMPORT.json` `wasm_provenance` an
 - 375 (at 0778caf) -> 383 (self-test and B1 tests) -> 396 (hook installer tests), 396 pass, 0 fail.
 - `npm pack --dry-run`: 33 files, 343.4 kB, `wasm/` (4 files) and `dist/hookInstaller.*` included, no test files.
 - Scratch install of the packed tarball: `@moonglade/provenance/self-test` 6/6 at 2.6.1, `@moonglade/provenance/wasm` resolves, `provenance test` exits 0, `provenance install-hooks --pre-commit` creates then updates the hook in a fresh repo.
+
+## Round 3 (QA fix cycle 1, oya FAIL on 224b9d0)
+
+Commits: `cf44657` (F1, F2 and their tests), and the docs/manifest commit carrying this section. `QA.md` is oya's file and is left untracked here (see below).
+
+### F1 (data loss) - fixed
+- A pre-commit hook is ours only if its whole content equals a known generated version (`KNOWN_GENERATED_HOOKS`). Identical: `unchanged` (no write). A known older version: `updated` in place. Anything else, including our hook with an appended line and a foreign hook that merely mentions the marker: refused (exit 1, untouched), or backed up to `<hook>.bak-<UTC timestamp>` under `--force`.
+- `.provenance-hooks.json`: backed up (`.provenance-hooks.json.bak-<UTC timestamp>`) unless it is exactly in the shape this tool writes. The manifest now merges: MCP choices recorded earlier are kept (never switched off by a later run), and `preCommit` is true whenever an unmodified generated pre-commit hook is installed; it stays false when the hook on disk is foreign.
+- Tests (`hookInstaller-safety.test.js`, `describe('F1 ...')`): "our hook with a user-appended line is refused and left untouched"; "... is backed up by --force"; "a foreign hook that only mentions the marker in a comment is refused and untouched"; "a foreign hook that mentions the marker is backed up by --force"; "a hook that is a known earlier generated version is updated in place, without a backup"; "an existing manifest with user content is backed up before it is rewritten"; "an unparseable manifest is backed up too"; "re-running with the same choices rewrites our manifest without a backup"; "the manifest does not say preCommit:false while our pre-commit hook is installed"; "previously recorded MCP choices are kept, never silently switched off"; "preCommit stays false in the manifest when the pre-commit hook on disk is a foreign one". The old "updates our own hook in place" test was changed to "re-running with our own unmodified hook is a no-op" (the old test edited the hook and expected a silent overwrite, which is the defect).
+
+### F2 (gate bypass) - fixed
+- The generated hook is now bash (`#!/usr/bin/env bash`), declared in the script, README and CHANGELOG; it is not POSIX sh because `read -d ''` is a bashism, chosen over a newline loop so names containing newlines are also handled. It writes `git diff --cached --name-only -z --diff-filter=ACMR` to a temp file (fails closed, exit 1, if git fails), loops with `IFS= read -r -d ''`, filters by extension in `case`, skips files without a sidecar, prefixes `./` to names starting with `-`, and runs the verifier with stdin from `/dev/null` so it cannot eat the list. `R` (renames) added to the diff filter.
+- Tests (`describe('F2 ...')`, real `git commit` in temp repos with a stub `npx` first on PATH): "with a stub verifier that fails, a commit containing any of these names is blocked and each is verified" (plain.md, `b c.md`, `café.md`, `-dash.md`; on Linux also a tab and a double quote), "one bad file among several is enough to block, and every file is still checked" (3 verifier calls), "with a stub verifier that passes, the same commit succeeds", "files without a sidecar and sidecar-only changes are not sent to the verifier", "the hook declares bash and is valid bash syntax". Run on Windows (Git for Windows bash); the Linux-only name cases did not run here.
+
+### Other QA items
+- `wasm/mgc_wasm.js` replaced by the pristine wasm-bindgen output (sha256 63d38046...93e2). All four wasm files are now byte-identical to the rebuild; `wasm_provenance`, the package README WASM section and the CHANGELOG say so and record the 2.6.0 patched file's hash. Loaded from a packed tarball installed in a directory with a space: `require('@moonglade/provenance/wasm')` works.
+- README and CHANGELOG now say `--mcp-verify-read` and `--mcp-auto-seal` only record a manifest and print a config snippet, and that nothing in the package reads it. The dangling "see below" is fixed.
+- `public_origin_files.paths` now lists `hookInstaller.test.js` and `hookInstaller-safety.test.js`; `copied_files` recomputed (72 entries).
+- Local path removed from line 3 of this file.
+- SECURITY.md: the sentence is restored, reworded as asked. TESTING.md: the "Production audit checks also covered ..." line now says 2.6.0 and that 2.6.1 is covered only by the narrower QA.md check. TESTING.md line 15 still says "230 tests"; left as an audit record of the 2.6.0 snapshot.
+
+### For the coordinator
+- `QA.md` is untracked and contains local paths (lines 77 and 91: `D:\Development 2.0\...`, `C:\qaw\src`). SECURITY.md and TESTING.md now point at it, so it must be committed before publication, but I did not edit or commit oya's report. Scrub those two lines, then add it.
+- `vectors/canon-legacy/generate_fixtures.py:19` has a `D:/Development 2.0/Repos` path (pre-existing, from the manifest's copied files); not changed.
+- Not done (non-blocking QA notes): N2 (warn when `core.hooksPath` is shared), N3 (document worktree hook sharing), N4 (Ctrl-D exits 0 at a prompt), N6 (example addresses in SPEC.md).
+
+### Tests and pack
+- 396 -> 412 tests, 412 pass, 0 fail (16 new: 11 F1, 5 F2).
+- `npm pack --dry-run`: 33 files, 346.3 kB, `wasm/` included, no test files.
