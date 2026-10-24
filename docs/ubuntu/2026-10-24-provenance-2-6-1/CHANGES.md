@@ -84,9 +84,9 @@ Commits: `cf44657` (F1, F2 and their tests), and the docs/manifest commit carryi
 - SECURITY.md: the sentence is restored, reworded as asked. TESTING.md: the "Production audit checks also covered ..." line now says 2.6.0 and that 2.6.1 is covered only by the narrower QA.md check. TESTING.md line 15 still says "230 tests"; left as an audit record of the 2.6.0 snapshot.
 
 ### For the coordinator
-- `QA.md` is untracked and contains local paths (lines 77 and 91: `D:\Development 2.0\...`, `C:\qaw\src`). SECURITY.md and TESTING.md now point at it, so it must be committed before publication, but I did not edit or commit oya's report. Scrub those two lines, then add it.
-- `vectors/canon-legacy/generate_fixtures.py:19` has a `D:/Development 2.0/Repos` path (pre-existing, from the manifest's copied files); not changed.
-- Not done (non-blocking QA notes): N2 (warn when `core.hooksPath` is shared), N3 (document worktree hook sharing), N4 (Ctrl-D exits 0 at a prompt), N6 (example addresses in SPEC.md).
+- `QA.md` is committed with this record (round 1 and round 2, final verdict), with no local paths.
+- The fixture generator's local path is removed (Round 3b).
+- N2, N3 and N4 are done (Round 3b). N6, the example addresses in SPEC.md on Moonglade's own public domain, is left as is.
 
 ### Tests and pack
 - 396 -> 412 tests, 412 pass, 0 fail (16 new: 11 F1, 5 F2).
