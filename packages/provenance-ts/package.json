@@ -37,6 +37,7 @@
   "files": [
     "dist/*.js",
     "dist/*.d.ts",
+    "wasm",
     "README.md",
     "SPEC.md",
     "TIMESTAMP.md",
@@ -65,6 +66,11 @@
       "types": "./dist/index.d.ts",
       "require": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./wasm": {
+      "types": "./wasm/mgc_wasm.d.ts",
+      "require": "./wasm/mgc_wasm.js",
+      "default": "./wasm/mgc_wasm.js"
     },
     "./package.json": "./package.json"
   }

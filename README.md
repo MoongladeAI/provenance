@@ -1,10 +1,32 @@
-# Moonglade provenance 2.6.0 release candidate
+# Moonglade Provenance 2.6.0
 
-Moonglade provenance signs files and checks their integrity. It combines Ed25519 signatures, RFC 3161 timestamp verification and Merkle inclusion proofs in a local Node.js library, CLI and read-only MCP server.
+[![npm version](https://img.shields.io/npm/v/@moonglade/provenance.svg)](https://www.npmjs.com/package/@moonglade/provenance)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This repository contains [@moonglade/provenance](packages/provenance-ts/README.md). It is the staging repository for the 2.6.0 candidate. Production publication still requires the release audit and human signing gates to close.
+Moonglade provenance signs files and checks their integrity. It combines Ed25519 signatures, RFC 3161 timestamp verification, and Merkle inclusion proofs in an isomorphic Node.js library, CLI, and read-only MCP server.
 
-## Build and test
+Available now on npm:
+```sh
+npm install @moonglade/provenance
+```
+
+This repository is the official open-source distribution of `@moonglade/provenance` v2.6.0.
+
+## Installation & Quick Start
+
+Install directly via npm:
+```sh
+npm install @moonglade/provenance
+```
+
+Or install globally to use the CLI tools:
+```sh
+npm install -g @moonglade/provenance
+provenance --help
+provenance-gate --help # MCP server for agentic AI gates
+```
+
+## Build and test from source
 
 Use Node 22 or 24 on Windows or Linux. From the repository root:
 

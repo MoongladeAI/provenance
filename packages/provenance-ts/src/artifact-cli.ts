@@ -3,11 +3,16 @@ import { ProvenanceEngine } from './index';
 import { processArtifact, moveArtifactWithAttestation } from './artifactHook';
 import { runSelfTests, printSelfTestReport } from './self-test';
 import { getArtifactBadge } from './badge';
+import { runInteractiveHookInstaller } from './hookInstaller';
 
 async function main() {
   const [, , action, file, dest] = process.argv;
-  if (action === '--help' || action === '-h') { console.log('provenance <verify|badge|observe|seal-provisional|move|test> <file> [dest]. Keys: MOONGLADE_PUBLIC_KEY_PEM / MOONGLADE_PRIVATE_KEY_PEM. Verification root: MOONGLADE_ROOT or current directory.'); return; }
+  if (action === '--help' || action === '-h') { console.log('provenance <verify|badge|observe|seal-provisional|move|test|install-hooks> <file> [dest]. Keys: MOONGLADE_PUBLIC_KEY_PEM / MOONGLADE_PRIVATE_KEY_PEM. Verification root: MOONGLADE_ROOT or current directory.'); return; }
   if (action === '--version') { console.log(require('../package.json').version); return; }
+  if (action === 'install-hooks' || action === 'hooks') {
+    await runInteractiveHookInstaller();
+    return;
+  }
   if (action === 'verify') {
     if (!file || !process.env.MOONGLADE_PUBLIC_KEY_PEM) throw new Error('verify requires a file and MOONGLADE_PUBLIC_KEY_PEM');
     const expectedScope = ProvenanceEngine.scopeFor(file, process.env.MOONGLADE_ROOT || process.cwd());
@@ -67,7 +72,7 @@ async function main() {
   }
 
   if (!action || !file || !['observe', 'seal-provisional', 'move'].includes(action)) {
-    console.error('usage: provenance <observe|seal-provisional|move|test|badge> <file> [dest]');
+    console.error('usage: provenance <observe|seal-provisional|move|test|badge|install-hooks> <file> [dest]');
     process.exitCode = 2;
     return;
   }

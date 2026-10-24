@@ -2,16 +2,21 @@
 
 Ed25519 signatures, canonical file hashes, RFC 3161 timestamp checks and Merkle inclusion proofs for Node 22 and 24.
 
+## Installation
+
+Install directly from npm:
+```sh
+npm install @moonglade/provenance
+```
+
+Or install globally for the CLI and MCP tools:
+```sh
+npm install -g @moonglade/provenance
+```
+
 ## Build from source
 
 Run these commands from the repository root:
-
-```sh
-npm ci
-npm test
-```
-
-The npm package can be installed after a release is authorized. This candidate has not been published.
 
 ## Sign and verify
 
