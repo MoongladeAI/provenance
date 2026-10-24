@@ -1,6 +1,6 @@
 {
   "name": "@moonglade/provenance",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "description": "Local-first cryptographic proof for markdown files and agentic AI memory substrates.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -66,6 +66,11 @@
       "types": "./dist/index.d.ts",
       "require": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./self-test": {
+      "types": "./dist/self-test.d.ts",
+      "require": "./dist/self-test.js",
+      "default": "./dist/self-test.js"
     },
     "./wasm": {
       "types": "./wasm/mgc_wasm.d.ts",

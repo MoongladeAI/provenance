@@ -11,19 +11,20 @@ Sources are read at run time from the sibling repos (not copied):
   obsidian     : obsidian-provenance-gate src/engine.ts (ProvenanceEngine.canonicalize)
 No expected value is written by hand. The only composed value is `py_v2_bytes`, see note in the output.
 """
-import hashlib, json, subprocess, sys, unicodedata, importlib.util, platform
+import hashlib, json, os, subprocess, sys, unicodedata, importlib.util, platform
 from pathlib import Path
 
 sys.dont_write_bytecode = True  # never write __pycache__ into the source repos
 
-REPOS = Path(r"D:/Development 2.0/Repos")
+HERE = Path(__file__).resolve().parent
+# Directory holding the sibling source repos. Set MOONGLADE_REPOS, or place them next to this repository.
+REPOS = Path(os.environ.get("MOONGLADE_REPOS", HERE.parents[2]))
 MP = REPOS / "moonglade-provenance"
 OB = REPOS / "obsidian-provenance-gate"
 CANON_PY = MP / "packages/provnat-core/src/provnat/canonical.py"
 BUNDLE_PY = MP / "packages/provnat-core/src/provnat/bundle_v2.py"
 CANON_TS = MP / "packages/browser-extension/src/core/canonicalize.ts"
 ENGINE_TS = OB / "src/engine.ts"
-HERE = Path(__file__).resolve().parent
 
 
 def sha(p):
