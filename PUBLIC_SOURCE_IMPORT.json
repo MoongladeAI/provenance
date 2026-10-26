@@ -159,11 +159,11 @@
     },
     {
       "path": "packages/provenance-ts/src/hookInstaller-safety.test.js",
-      "sha256": "872adc68572ea758e8876077e759bc5f484d75d3c50c3a234960186ec0c45c23"
+      "sha256": "124aa0ab0748172e0727989e376f1273786dac98049114259155476dd66090da"
     },
     {
       "path": "packages/provenance-ts/src/hookInstaller.test.js",
-      "sha256": "e170c5bb4b7d4cf23bc498cfbbad1e7bb915faef7fb6247de37153eac7379926"
+      "sha256": "e0f5d6e2f52ec0a38b95967686f701e987cab31b13d61c10710ab4c5070a8ca2"
     },
     {
       "path": "packages/provenance-ts/src/hookInstaller.ts",

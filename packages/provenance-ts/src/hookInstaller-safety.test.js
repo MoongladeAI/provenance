@@ -22,6 +22,18 @@ const hookPath = dir => path.join(dir, '.git', 'hooks', 'pre-commit');
 const manifestPath = dir => path.join(dir, '.provenance-hooks.json');
 const baks = (dir, prefix) => fs.readdirSync(dir).filter(f => f.startsWith(prefix + '.bak-'));
 
+// The bash that Git for Windows uses for hooks; plain "bash" elsewhere. null if none is found.
+function gitBash() {
+  if (process.platform !== 'win32') return 'bash';
+  const execPath = (spawnSync('git', ['--exec-path'], { encoding: 'utf8' }).stdout || '').trim();
+  if (!execPath) return null;
+  const root = path.resolve(execPath, '..', '..', '..'); // <git>/mingw64/libexec/git-core -> <git>
+  for (const c of [path.join(root, 'usr', 'bin', 'bash.exe'), path.join(root, 'bin', 'bash.exe')]) {
+    if (fs.existsSync(c)) return c;
+  }
+  return null;
+}
+
 describe('F1: never overwrite a hook or manifest that is not byte-for-byte ours', () => {
   it('F1: our hook with a user-appended line is refused and left untouched', async () => {
     const dir = tempRepo();
@@ -225,13 +237,17 @@ describe('F2: the pre-commit gate checks every staged file, whatever its name', 
     } finally { rm(ctx.dir); rm(ctx.stub); }
   });
 
-  it('F2: the hook declares bash and is valid bash syntax', () => {
+  it('F2: the hook declares bash and is valid bash syntax', (t) => {
     assert.match(PRE_COMMIT_SCRIPT, /^#!\/usr\/bin\/env bash\n/);
+    // On Windows a bare "bash" can resolve to the WSL stub in System32 (which fails when no distro is
+    // installed). Git for Windows runs hooks with its own bash, so check the syntax with that one.
+    const bash = gitBash();
+    if (!bash) { t.skip('no bash available to check syntax'); return; }
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'prov-syn-'));
     try {
       const f = path.join(tmp, 'hook.sh');
       fs.writeFileSync(f, PRE_COMMIT_SCRIPT);
-      const r = spawnSync('bash', ['-n', f], { encoding: 'utf8' });
+      const r = spawnSync(bash, ['-n', f], { encoding: 'utf8' });
       assert.equal(r.status, 0, r.stderr);
     } finally { rm(tmp); }
   });
