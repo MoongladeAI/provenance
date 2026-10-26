@@ -102,8 +102,10 @@ describe('hook installer', () => {
       git(dir, 'commit', '-q', '--allow-empty', '-m', 'init');
       git(dir, 'worktree', 'add', '-q', wt, '-b', 'wt-branch');
       assert.ok(fs.statSync(path.join(wt, '.git')).isFile(), 'worktree .git is a file');
-      const expected = path.join(fs.realpathSync(dir), '.git', 'hooks');
-      assert.equal(path.normalize(fs.realpathSync(await resolveHooksDir(wt))), path.normalize(expected));
+      // realpathSync.native expands Windows 8.3 short names (e.g. RUNNER~1 on GitHub's Windows
+      // runners); the JS realpathSync does not, so the same folder could compare unequal.
+      const expected = path.join(fs.realpathSync.native(dir), '.git', 'hooks');
+      assert.equal(path.normalize(fs.realpathSync.native(await resolveHooksDir(wt))), path.normalize(expected));
       const r = await installHooks({ cwd: wt, ...only({ preCommit: true }) });
       assert.equal(r.hook.action, 'created');
       assert.ok(fs.readFileSync(hookPath(dir), 'utf8').includes(HOOK_MARKER));
