@@ -1,4 +1,4 @@
-# Timestamp verification in 2.6.0
+# Timestamp verification in 2.7.0
 
 ## Token verification
 
@@ -15,6 +15,12 @@ Without caller-supplied `trustAnchors`, a token can earn INTEGRITY_ONLY, includi
 ## Public functions
 
 Public functions: encodeDerLength, encodeDerSequence, decodeDerLength, parsePkiStatus, validateTimeStampResp, verifyTimeStampToken, buildTimeStampReq, extractGenTime, queryTsa, probeTsa, probeNetworkTime and concurrentDegradingTimestamp. EndpointCircuitBreaker and exported endpoint/policy constants provide acquisition scheduling. extractGenTime is a legacy unauthenticated diagnostic parser, never used for a verified timestamp verdict.
+
+## WebAssembly DER imprint helper (`mgc-wasm`)
+
+`@moongladeai/provenance/wasm` also defines `verify_rfc3161_timestamp(tsr_bytes, expected_digest)` (backed by `mgc-core::verify_rfc3161_imprint` in frozen commit `1188ed8`; note `packages/provenance-ts/wasm/` awaits local `wasm-bindgen --target nodejs` regeneration in this staging snapshot before execution). It performs structural DER inspection of a `TimeStampResp`, maps `PKIStatus` (`0`/`1` -> `"granted"` / `"granted_with_mods"`), formats `tst_info.gen_time`, and checks the `hashedMessage` octet string in constant time against `{28, 32, 48, 64}`-byte digests.
+
+It does **not** verify CMS signatures, signing certificates, `ESSCertID`/`ESSCertIDv2`, EKU, or trust anchors, does not bind `MessageImprint.hashAlgorithm` OID to digest length, ignores trailing bytes inside non-`TSTInfo` inner DER containers, and in frozen `1188ed8` rejects tokens containing an optional `TSTInfo.accuracy` sequence with `ERR_TSR_DER_UNEXPECTED_TAG`. Do not treat `verify_rfc3161_timestamp` as a substitute for `verifyTimeStampToken`.
 
 ## Test coverage
 

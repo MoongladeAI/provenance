@@ -77,10 +77,10 @@ describe('Provenance Badge Module', () => {
         badgeText: '🛡️ [SEALED · Synthetic · 9df0af4d]',
         markdown: '',
         shieldsUrl: '',
-        filePath: 'd:/Repos/README.md',
+        filePath: '/workspace/docs/README.md',
         artifactName: 'README.md'
       };
-      const link = formatMarkdownLink('d:/Repos/README.md', badgeInfo);
+      const link = formatMarkdownLink('/workspace/docs/README.md', badgeInfo);
       expect(link).toContain('[README.md](file:///');
       expect(link).toContain('🛡️ [SEALED · Synthetic · 9df0af4d]');
     });

@@ -1,6 +1,6 @@
 # Security policy
 
-The 2.6.0 release audit is recorded in TESTING.md; 2.6.1 changes are covered by docs/ubuntu/2026-10-24-provenance-2-6-1/QA.md. No version is declared supported beyond what its audit covers. The latest 2.6 patch (currently 2.6.1) is intended to receive security fixes. Older major and minor versions have no support commitment here.
+Historical 2.6.0/2.6.1 audits are recorded in `CHANGELOG.md` and `docs/ubuntu/2026-10-24-provenance-2-6-1/QA.md`; the 2.7.0 staging candidate audit and verification requirements are recorded in `docs/ubuntu/2026-11-14-provenance-2-7-0/QA.md`. No version is declared supported beyond what its audit covers. The latest 2.7 release (`2.7.0`) is intended to receive security fixes. Older major and minor versions have no support commitment here.
 
 ## Reporting a vulnerability
 
@@ -12,4 +12,9 @@ Maintainers aim to acknowledge reports within seven days. That is a target, not 
 
 The CLI and MCP server run with the operator's filesystem permissions. A supplied MCP path authorizes a local read. The server is not an operating-system sandbox and does not infer human approval or signer authority. Its public tools do not sign.
 
-Protect private keys and workspace write permissions. The implementation does not cover concurrent hostile filesystem writers or certificate revocation checks. Report integrity failures, scope or signer policy bypasses, malformed-input acceptance, symlink escapes and misleading assurance labels privately.
+Protect private keys and workspace write permissions. The implementation does not cover concurrent hostile filesystem writers or certificate revocation checks. In addition:
+
+- **Auxiliary WASM helpers are not full trust validators**: `parse_openpgp_armored_signature_hex` performs structural OpenPGP V4 packet extraction without Ed25519 signature verification, and `verify_rfc3161_timestamp` performs DER `messageImprint` structural inspection without CMS/X.509 signature or trust-anchor validation. Use `ProvenanceEngine.verifyDocument` (with `timestampTrustAnchors`) and top-level `verifyTimeStampToken` (with explicit `trustAnchors`) for cryptographic verification.
+- **Display badges are not authorization gates**: `getArtifactBadge` without `publicKeyPem` returns `HASH_ONLY` (`[HASH-ONLY · UNVERIFIED]`) on a matching digest, and `formatHtmlBadge` renders informational status markup only; neither verifies signatures nor grants authorization.
+
+Report integrity failures, scope or signer policy bypasses, malformed-input acceptance, symlink escapes and misleading assurance labels privately.

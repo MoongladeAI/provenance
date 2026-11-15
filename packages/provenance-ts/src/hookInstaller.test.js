@@ -30,6 +30,8 @@ describe('hook installer', () => {
       assert.equal(r.hook.action, 'created');
       const body = fs.readFileSync(hookPath(dir), 'utf8');
       assert.ok(body.includes(HOOK_MARKER));
+      assert.ok(body.includes('@moongladeai/provenance'));
+      assert.equal(body.includes('@moonglade/provenance'), false);
       if (process.platform !== 'win32') assert.ok(fs.statSync(hookPath(dir)).mode & 0o111);
       const manifest = JSON.parse(fs.readFileSync(path.join(dir, '.provenance-hooks.json'), 'utf8'));
       assert.deepEqual(manifest.hooks, { preCommit: true, mcpVerifyRead: false, mcpAutoSeal: false });
@@ -54,6 +56,7 @@ describe('hook installer', () => {
       let m = JSON.parse(fs.readFileSync(path.join(dir, '.provenance-hooks.json'), 'utf8'));
       assert.equal(m.hooks.mcpVerifyRead, true);
       assert.equal(m.hooks.mcpAutoSeal, false);
+      assert.deepEqual(m.mcpServer, { command: 'npx', args: ['-y', '--package=@moongladeai/provenance', 'provenance-gate'] });
       await installHooks({ cwd: dir, ...only({ mcpAutoSeal: true }) });
       m = JSON.parse(fs.readFileSync(path.join(dir, '.provenance-hooks.json'), 'utf8'));
       assert.equal(m.hooks.mcpAutoSeal, true);

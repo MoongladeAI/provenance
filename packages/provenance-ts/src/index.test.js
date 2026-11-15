@@ -1,5 +1,5 @@
 /**
- * Tests for @moonglade/provenance.
+ * Tests for @moongladeai/provenance.
  *
  * These run against the COMPILED output in dist/, not src/. That is deliberate:
  * package.json declares `main: dist/index.js`, so dist is what a consumer
@@ -381,7 +381,7 @@ describe('v3 generic claims and countersigning', () => {
       focal_length_mm: 85,
       verified: true,
       tags: ['raw', 'caribbean', 'portrait'],
-      // draft -03 section 3.3: claims numbers are safe integers, so a decimal travels as a string
+      // draft -01-mg2.7.0 section 3.3: claims numbers are safe integers, so a decimal travels as a string
       exif: { iso: 100, aperture: '1.8' }
     };
 

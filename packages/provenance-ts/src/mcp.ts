@@ -13,7 +13,7 @@ export const PACKAGE_VERSION: string = require('../package.json').version;
 export const MCP_TOOLS = [
   {
     name: 'verify_artifact_provenance',
-    description: "Verifies a document's Ed25519 signature against a caller-supplied public key. WITHOUT public_key_pem this performs a hash-only comparison against an editable sidecar and is NOT cryptographic verification. Unsupported attestation methods are indeterminate. Timestamp token signatures and imprints are checked; without caller anchors they are integrity-only.",
+    description: "Verifies a document's Ed25519 signature against a caller-supplied public key. WITHOUT public_key_pem this performs a hash-only comparison against an editable sidecar and is NOT cryptographic verification. Bundles containing unsupported attestation methods alongside Ed25519 yield INDETERMINATE and fail closed; bundles with only external methods fail closed as unverified. Timestamp token signatures and imprints are checked; without caller anchors they are integrity-only.",
     inputSchema: {
       type: 'object',
       properties: {

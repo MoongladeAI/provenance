@@ -21,7 +21,7 @@ describe('canonical bytes and strict JSON', () => {
     if (vector.error) expect(() => E.canonicalizeBytes(raw, vector.filename)).toThrow();
     else expect(E.canonicalizeBytes(raw, vector.filename).toString('hex')).toBe(vector.output_hex);
   });
-  // .onnx is a known binary extension (draft -03 section 2.1): it is byte exact, see canonical-alignment.test.js
+  // .onnx is a known binary extension (draft -01-mg2.7.0 section 2.1): it is byte exact, see canonical-alignment.test.js
   test.each(['file.md', 'file.unknown'])('invalid UTF8 is rejected for %s', name => {
     for (const byte of [0xff, 0xfe]) expect(() => E.canonicalizeBytes(Buffer.from([97, byte, 98]), name)).toThrow();
   });
@@ -107,7 +107,7 @@ test('stdio MCP retains request IDs and advertises only the read-only surface', 
 });
 
 
-describe('shared Draft -03 claims corpus',()=>{
+describe('shared Draft -01-mg2.7.0 claims corpus',()=>{
  test.each(require('../../../vectors/canonical.golden.json').json)('$name',c=>{
   expect(canonicalizeJson(JSON.parse(c.input_json))).toBe(c.output);
  });

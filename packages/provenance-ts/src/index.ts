@@ -102,7 +102,7 @@ export function isTextContent(filename: string, bytes: Buffer | Uint8Array): boo
 }
 
 /**
- * Deterministic JSON Canonicalization Scheme (RFC 8785 subset for generic claims, draft -03 section 3.3).
+ * Deterministic JSON Canonicalization Scheme (RFC 8785 subset for generic claims, draft -01-mg2.7.0 section 3.3).
  * Sorts object keys lexicographically by UTF-16 code units with no whitespace. Numbers must be safe
  * integers; floats, NaN, Infinity and lone surrogates are rejected, exactly as in the Python and Rust engines.
  */
@@ -124,7 +124,7 @@ export function canonicalizeJson(value: any): string {
     if (typeof v === 'string') return string(v);
     if (typeof v === 'boolean') return JSON.stringify(v);
     if (typeof v === 'number') {
-      // Draft -03 section 3.3: IEEE 754 integers within +-(2^53-1), judged by value, so 1.0 and 1e2 are
+      // Draft -01-mg2.7.0 section 3.3: IEEE 754 integers within +-(2^53-1), judged by value, so 1.0 and 1e2 are
       // accepted (as 1 and 100) and 1.5, 2^53, NaN and Infinity are not. -0 is emitted as 0.
       if (!Number.isSafeInteger(v)) throw new Error('Claims numbers must be safe integers');
       return JSON.stringify(v);

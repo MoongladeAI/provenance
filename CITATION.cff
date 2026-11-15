@@ -1,9 +1,10 @@
 cff-version: 1.2.0
 message: "Please cite the project and exact version or candidate hash used."
-title: "Moonglade provenance"
+title: "@moongladeai/provenance"
 type: software
-version: 2.6.1
+version: 2.7.0
+date-released: "2026-11-14"
 license: MIT
 authors:
   - name: "Moonglade AI"
-repository-code: "https://github.com/MoongladeAI/moonglade-provenance-public"
+repository-code: "https://github.com/MoongladeAI/provenance"

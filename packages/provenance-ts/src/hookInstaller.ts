@@ -114,6 +114,51 @@ while IFS= read -r -d '' FILE; do
   [ -f "$FILE.provenance.json" ] || continue
   TARGET="$FILE"
   case "$TARGET" in -*) TARGET="./$TARGET" ;; esac
+  if ! npx --no-install @moongladeai/provenance badge "$TARGET" --short < /dev/null > /dev/null 2>&1; then
+    echo "[PROVENANCE DRIFT] $FILE has mutated or failed verification!"
+    FAILED=1
+  fi
+done < "$TMP_LIST"
+
+if [ "$FAILED" -ne 0 ]; then
+  echo ""
+  echo "Commit aborted by Moonglade Provenance Gate."
+  echo "Please re-seal mutated artifacts before committing:"
+  echo "  npx @moongladeai/provenance seal-provisional <file>"
+  echo ""
+  exit 1
+fi
+
+echo "All staged artifacts verified."
+exit 0
+`;
+
+/** Legacy 2.6.1 hook script retained as an immutable literal in KNOWN_GENERATED_HOOKS for seamless upgrades. */
+export const LEGACY_261_PRE_COMMIT_SCRIPT = `#!/usr/bin/env bash
+${HOOK_MARKER}
+# Moonglade Provenance - Git Pre-Commit Verification Gate (requires bash)
+# Blocks the commit when a staged artifact that has a provenance sidecar no longer matches it.
+
+echo "Moonglade Provenance: Verifying staged artifacts..."
+
+TMP_LIST=$(mktemp) || exit 1
+trap 'rm -f "$TMP_LIST"' EXIT
+if ! git diff --cached --name-only -z --diff-filter=ACMR > "$TMP_LIST"; then
+  echo "Moonglade Provenance: could not list staged files; commit aborted."
+  exit 1
+fi
+
+FAILED=0
+while IFS= read -r -d '' FILE; do
+  case "$FILE" in
+    *.provenance.json|*.provenance-registry.json) continue ;;
+    *.md|*.csv|*.json|*.sql|*.yml|*.yaml) ;;
+    *) continue ;;
+  esac
+  [ -f "$FILE" ] || continue
+  [ -f "$FILE.provenance.json" ] || continue
+  TARGET="$FILE"
+  case "$TARGET" in -*) TARGET="./$TARGET" ;; esac
   if ! npx --no-install @moonglade/provenance badge "$TARGET" --short < /dev/null > /dev/null 2>&1; then
     echo "[PROVENANCE DRIFT] $FILE has mutated or failed verification!"
     FAILED=1
@@ -134,7 +179,7 @@ exit 0
 `;
 
 /** Generated hook contents this tool has shipped. A hook is ours only if its content equals one of these exactly. */
-const KNOWN_GENERATED_HOOKS: string[] = [PRE_COMMIT_SCRIPT];
+const KNOWN_GENERATED_HOOKS: string[] = [PRE_COMMIT_SCRIPT, LEGACY_261_PRE_COMMIT_SCRIPT];
 
 function backupStamp(): string {
   return new Date().toISOString().replace(/\.\d+Z$/, 'Z').replace(/[-:]/g, '');
@@ -195,7 +240,7 @@ function manifestPayload(selection: HookSelection): Record<string, unknown> {
     hooks: selection
   };
   if (selection.mcpVerifyRead || selection.mcpAutoSeal) {
-    payload.mcpServer = { command: 'npx', args: ['-y', '@moonglade/provenance', 'provenance-gate'] };
+    payload.mcpServer = { command: 'npx', args: ['-y', '--package=@moongladeai/provenance', 'provenance-gate'] };
   }
   return payload;
 }
@@ -327,7 +372,7 @@ export async function runInstallHooksCli(args: string[], cwd: string = process.c
     console.log(`enabled: ${JSON.stringify(r.selection)}`);
     if (selection.mcpVerifyRead || selection.mcpAutoSeal) {
       console.log('MCP configuration snippet:');
-      console.log(JSON.stringify({ mcpServers: { 'provenance-gate': { command: 'npx', args: ['-y', '@moonglade/provenance', 'provenance-gate'] } } }, null, 2));
+      console.log(JSON.stringify({ mcpServers: { 'provenance-gate': { command: 'npx', args: ['-y', '--package=@moongladeai/provenance', 'provenance-gate'] } } }, null, 2));
     }
     return 0;
   } catch (e) {

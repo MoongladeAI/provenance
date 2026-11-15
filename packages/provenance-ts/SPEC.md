@@ -1,6 +1,6 @@
 # Attestation Bundle v3 (Extended): Generic Claims, Dual-Hash Binding & Multi-Party Countersigning
 
-**Status:** Implemented in `@moonglade/provenance` v2.6.0+ / v3-Extended Engine  
+**Status:** Implemented in `@moongladeai/provenance` 2.7.0 / v3-Extended Engine  
 **Author:** Marc Ottley (Moonglade AI)  
 **Supersedes:** Bundle v2 Specification (`SPEC.md`)  
 
@@ -37,12 +37,12 @@ Claims are not restricted to predefined strings. Any valid JSON data structure c
 To ensure that claims serialize identically across different programming languages and runtimes (Node.js, Python, Rust, Go, browser extensions):
 1. **Object Key Sorting:** All object keys are sorted lexicographically by UTF-16 code units.
 2. **Whitespace Stripping:** No whitespace is permitted between keys, colons, commas, or values.
-3. **Number Formatting:** Numbers MUST be IEEE 754 integers within -(2^53-1) to 2^53-1, judged by value (draft -03 section 3.3): `1.0` and `1e2` are accepted and written `1` and `100`, `-0` is written `0`. Non-integral numbers (such as `1.5`), values beyond the safe range, `NaN` and `Infinity` are rejected by the TypeScript, Python and Rust engines alike.
-4. **String Escaping:** Characters below `0x20` are escaped using standard escape sequences (`\\n`, `\\r`, `\\t`) or `\\u00xx`.
-5. **Undefined Exclusion:** Undefined object properties are omitted from serialization.
+3. **Number Formatting:** Numbers MUST be IEEE 754 integers within -(2^53-1) to 2^53-1, judged by value (draft `-01-mg2.7.0` section 3.3): `1.0` and `1e2` are accepted and written `1` and `100`, `-0` is written `0`. Non-integral numbers (such as `1.5`), values beyond the safe range, `NaN` and `Infinity` are rejected by the TypeScript, Python and Rust engines alike.
+4. **String Escaping:** Characters below `0x20` are escaped using standard escape sequences (`\n`, `\r`, `\t`) or `\u00xx`.
+5. **Undefined Rejection:** `undefined` object properties and array elements are rejected with `Unsupported JSON value`, not omitted.
 
 Formally:
-$$\\text{ClaimsHash} = \\text{SHA-256}(\\text{JCS}(\\text{claims}))$$
+$$\text{ClaimsHash} = \text{SHA-256}(\text{JCS}(\text{claims}))$$
 
 ---
 
@@ -126,7 +126,7 @@ LF              = %x0A
     },
     {
       "method": "rfc3161",
-      "tier": "L1_CRYPTO_PRIMARY",
+      "tier": "INTEGRITY_ONLY",
       "tsa": "https://freetsa.org/tsr",
       "tsa_time": "2026-09-14T14:35:03Z",
       "token_b64": "MIIB..."
@@ -148,7 +148,7 @@ In distributed workflows (e.g. Creator to Publisher, Laboratory Analyst to Quali
    - The countersigner reads `<artifact>.provenance.json`.
    - The engine validates that `target_sha256` matches the artifact bytes and `claims_sha256` matches the JCS-canonicalized claims.
    - The countersigner executes `countersignDocument()`:
-     $$\\text{Sig}_{\\text{counter}} = \\text{Sign}_{K_{\\text{counter}}}(\\text{V3-Payload})$$
+     $$\text{Sig}_{\text{counter}} = \text{Sign}_{K_{\text{counter}}}(\text{V3-Payload})$$
    - Appends the countersignature to `attestations`.
 3. **Independent Keyring Verification:**
    - Recipients pass a keyring mapping signer identities to public keys:
@@ -168,9 +168,17 @@ In distributed workflows (e.g. Creator to Publisher, Laboratory Analyst to Quali
 | Attack Vector | Detection Mechanism | Result |
 | :--- | :--- | :--- |
 | **Artifact Byte Mutation** | Target hash mismatch | `Hash mismatch: Document has been mutated` |
-| **Claims Value Tampering** | Recomputed JCS hash mismatch | `Claims hash mismatch: claims payload has been mutated` |
+| **Claims Value Tampering** | Recomputed JCS hash mismatch | `Verification error: Claims hash mismatch` |
 | **Claims Substitution** | Preimage `claims-sha256` mismatch | `Signature validation failed` |
-| **Scope Smuggling** | Strict POSIX relative URI binding | `Attestation records a different hash / scope mismatch` |
+| **Scope Smuggling** | Strict POSIX relative URI binding | `Scope mismatch` / `Attestation for scope "<scope>" records a different hash.` |
 | **Signature Downgrade** | Version header framing (`moonglade-provenance/v3`) | Legacy v1/v2 parsers fail closed on version string |
 | **Forged Countersignature** | Keyring verification fails on invalid signature | `Signature validation failed for signer` |
-| **Timestamp Forgery** | RFC 3161 X.509 cert chain and ASN.1 message imprint | `Timestamp token verification failed` |\n
+| **Timestamp Forgery** | RFC 3161 X.509 cert chain and ASN.1 message imprint | `Timestamp token verification failed` |
+
+---
+
+## 7. Trust Boundaries & 2.7.0 Interfaces
+
+- **Timestamp Verification Profiles**: Full cryptographic TSA validation (`verifyTimeStampToken` / `ProvenanceEngine.verifyDocument`) validates CMS `SignedData`, critical single-purpose EKU (`1.3.6.1.5.5.7.3.8`), `ESSCertIDv2` (when `trustAnchors` is supplied for `ANCHORED` mode; `ESSCertID` only for `INTEGRITY_ONLY`), and PKI.js certificate chain validity at `genTime` (no OCSP/CRL checks). The `mgc-wasm` export `verify_rfc3161_timestamp` performs structural DER `messageImprint` inspection only and in frozen `1188ed8` rejects optional `TSTInfo.accuracy` sequences with `ERR_TSR_DER_UNEXPECTED_TAG`. (In this staging snapshot, `packages/provenance-ts/wasm/` awaits local `wasm-bindgen --target nodejs` regeneration from frozen `1188ed8` before calling the 2.7.0 `mgc-wasm` helpers.)
+- **Auxiliary OpenPGP / SSHSIG Handling**: `parse_openpgp_armored_signature_hex` (`mgc-wasm`) extracts `R`/`S` scalars from RFC 4880 armored V4 Algorithm `22` (`EdDSALegacy`, RFC 9580) packets without cryptographic verification. In `ProvenanceEngine.verifyDocument`, unrecognized attestation methods (`openpgp` / `ssh-ed25519`) paired with a declared Moonglade Ed25519 entry yield `verified: false, status: 'INDETERMINATE'` (and `verified: false` without `status` when alone).
+- **UI Badges**: `getArtifactBadge` (returning `HASH_ONLY`, formatted as `[HASH-ONLY · UNVERIFIED]`, on a matching digest when `publicKeyPem` is omitted) and `formatHtmlBadge` (`<span>` markup helper) render informational status strings only and MUST NOT be used for access control or authorization decisions.

@@ -1,29 +1,30 @@
-# Moonglade Provenance 2.6.1
+# Moonglade Provenance 2.7.0
 
-[![npm version](https://img.shields.io/npm/v/@moonglade/provenance.svg)](https://www.npmjs.com/package/@moonglade/provenance)
+[![npm version](https://img.shields.io/npm/v/@moongladeai/provenance.svg)](https://www.npmjs.com/package/@moongladeai/provenance)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Moonglade provenance signs files and checks their integrity. It combines Ed25519 signatures, RFC 3161 timestamp verification, and Merkle inclusion proofs in an isomorphic Node.js library, CLI, and read-only MCP server.
 
-Available now on npm:
+Available on npm as `@moongladeai/provenance`:
 ```sh
-npm install @moonglade/provenance
+npm install @moongladeai/provenance
 ```
 
-This repository is the official open-source distribution of `@moonglade/provenance` v2.6.1.
+This repository is the open-source staging distribution of `@moongladeai/provenance` v2.7.0.
 
 ## Installation & Quick Start
 
 Install directly via npm:
 ```sh
-npm install @moonglade/provenance
+npm install @moongladeai/provenance
 ```
 
-Or install globally to use the CLI tools:
+Or install globally to use the CLI and stdio MCP server:
 ```sh
-npm install -g @moonglade/provenance
+npm install -g @moongladeai/provenance
 provenance --help
-provenance-gate --help # MCP server for agentic AI gates
+# Start the stdio JSON-RPC 2.0 MCP server (reads from stdin):
+provenance-gate # or via npx: npx -y --package=@moongladeai/provenance provenance-gate
 ```
 
 ## Build and test from source
@@ -42,7 +43,7 @@ npm run self-test
 
 A valid signature binds the signed payload to a supplied key. It establishes integrity under that key; it cannot establish whether the content is true, who actually wrote it, or whether an AI performs better because it uses provenance.
 
-Text checks normalize the encodings listed in the [specification](packages/provenance-ts/SPEC.md). Binary files retain their exact bytes. Timestamp trust requires caller-supplied certificate anchors. Certificate revocation is not checked.
+Text checks normalize the encodings listed in the [specification](packages/provenance-ts/SPEC.md). Binary files retain their exact bytes. Keyless sidecar checks (`HASH_ONLY` badges) confirm unmutated file hashes against an editable sidecar but provide zero cryptographic signature assurance and MUST NOT be used for authorization decisions. Timestamp trust requires caller-supplied certificate anchors. Certificate revocation is not checked.
 
 No controlled evaluation in this release demonstrates improved agent behavior or performance. Standing instructions and operator choices would need to be controlled in such a study.
 
@@ -50,7 +51,7 @@ No controlled evaluation in this release demonstrates improved agent behavior or
 
 See [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md), [CHANGELOG.md](CHANGELOG.md) and [AI-DISCLOSURE.md](AI-DISCLOSURE.md).
 
-The staging repository is [MoongladeAI/moonglade-provenance-public](https://github.com/MoongladeAI/moonglade-provenance-public). Private security reporting must be checked before publication. The candidate documentation has no provenance sidecars, and the root release signature remains a separate human act. The private development monorepo remains the development home; its earlier history and integration code are excluded here.
+The staging repository is [MoongladeAI/provenance](https://github.com/MoongladeAI/provenance). Private security reporting must be checked before publication. The candidate documentation has no provenance sidecars, and the root release signature remains a separate human act. The private development monorepo remains the development home; its earlier history and integration code are excluded here.
 
 ## Dedication
 

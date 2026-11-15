@@ -1,5 +1,5 @@
 /**
- * Cross-engine policy (draft -03 sections 2.1 and 3.3), pinned on the TypeScript side.
+ * Cross-engine policy (draft -01-mg2.7.0 sections 2.1 and 3.3), pinned on the TypeScript side.
  * The Python and Rust engines carry the mirror of these tests; the three must agree.
  */
 
@@ -7,7 +7,7 @@ const { ProvenanceEngine, canonicalizeJson, BINARY_EXTENSIONS, isTextContent } =
 
 const SAFE = Number.MAX_SAFE_INTEGER;
 
-describe('claims numbers: safe integers only (draft -03 section 3.3)', () => {
+describe('claims numbers: safe integers only (draft -01-mg2.7.0 section 3.3)', () => {
   test.each([
     [0, '0'], [1, '1'], [-7, '-7'], [SAFE, '9007199254740991'], [-SAFE, '-9007199254740991'],
     [-0, '0'], [1e2, '100'], [4.0, '4'],
@@ -45,7 +45,7 @@ describe('claims numbers: safe integers only (draft -03 section 3.3)', () => {
   });
 });
 
-describe('.onnx is a known binary extension (draft -03 section 2.1)', () => {
+describe('.onnx is a known binary extension (draft -01-mg2.7.0 section 2.1)', () => {
   test('the extension set names it', () => {
     expect(BINARY_EXTENSIONS.has('onnx')).toBe(true);
   });

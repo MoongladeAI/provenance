@@ -1,365 +1,365 @@
 {
-  "format": "moonglade-source-import-v1",
-  "status": "remediated-release-candidate",
-  "version": "2.6.1",
-  "canonical_rule": "LF_NORMALIZED_UTF8_NFC_TEXT_EXACT_BINARY_SAFE_INT_CLAIMS",
-  "source_commit": "98e1b39893d5a5607db79c29415441da092d6e67",
-  "repository": "https://github.com/MoongladeAI/moonglade-provenance-public",
-  "publication_adjustments": [
-    "Curated single-package distribution containing @moonglade/provenance 2.6.1.",
-    "Aligned with draft-ottley-agentic-epistemic-provenance-03 standard.",
-    "Hardened L3 DTA Byzantine median quorum with minimum 3-probe fanout and 3000 ms drift window.",
-    "Strict IEEE 754 safe integer enforcement on claims JSON with value-based normalization.",
-    "Explicit binary extension mapping including ONNX raw byte fidelity.",
-    "Migrated test suite to native Node.js 22/24 test runner (node:test + node:assert/strict), eliminating Jest, Babel, Istanbul, and 314 transitive dev dependencies.",
-    "2.6.1 adds the ./self-test export, the B1 binary-mutation regression test and the self-test CLI test; verification behaviour is unchanged from 2.6.0.",
-    "2.6.1 includes the WASM core export (wasm/, ./wasm) and the hook installer (provenance install-hooks). The wasm/ files and the ./wasm export shipped in the 2.6.0 npm tarball but were not committed to this repository until public commit 0778caf; the hook installer was not in the 2.6.0 tarball and is first published in 2.6.1.",
-    "2.6.1 hardens the hook installer first committed in 0778caf: it refuses to overwrite a foreign hook (--force backs it up), enables only the options the user chooses (flags or per-option prompts), removes the empty pre-push option, and resolves the hooks directory with git rev-parse --git-path hooks. hookInstaller.ts and artifact-cli.ts therefore differ from 0778caf; see hookInstaller.test.js."
-  ],
-  "copied_files": [
-    {
-      "path": ".gitattributes",
-      "sha256": "157114b1e34e3c163828d7685675fed443330b50183e964ac28f254086649dd8"
-    },
-    {
-      "path": ".github/workflows/ci.yml",
-      "sha256": "9bfbb486e84d0e7d09045e372b4cc5e4dd56cd77525c8f4e50a47d47168a104e"
-    },
-    {
-      "path": ".gitignore",
-      "sha256": "9ba267d9e6c5cd1c3654d1e8fa11e2f26426172661ff41a909a5b0dd8aa9b592"
-    },
-    {
-      "path": ".nvmrc",
-      "sha256": "2722b61f414f07f08be7f1f1316012813818f26f1c40d6a24a748686cec7d2ff"
-    },
-    {
-      "path": "ACKNOWLEDGMENTS.md",
-      "sha256": "61524b4e4477ef6ac4d26d55e81eb3482b2c510e41296868cc079630b97e0fe0"
-    },
-    {
-      "path": "AI-DISCLOSURE.md",
-      "sha256": "71f28ce5786e09af263d50071bff5bc8256b3bc580f81efcef25a6d6e4edb95b"
-    },
-    {
-      "path": "CHANGELOG.md",
-      "sha256": "451950443db64ec71ba5ee7ce520ccbc9646fa8136d5803e8abdc5ab05fe4cba"
-    },
-    {
-      "path": "CITATION.cff",
-      "sha256": "67b1666a26c84c682f2b598bea941594a011ea46a4b28a278e54f05edbe08c4b"
-    },
-    {
-      "path": "CONTRIBUTING.md",
-      "sha256": "bb8ac48cd74acd660b9c413c7b875a2d01857e2edc4905ffd2ada81df37e169e"
-    },
-    {
-      "path": "dependency-audit.json",
-      "sha256": "60360b07594b1de7f4cb24998d395f59869d3e265829dd89820f3f0727aee9ec"
-    },
-    {
-      "path": "docs/draft-ottley-agentic-epistemic-provenance-03.md",
-      "sha256": "42662b859d33b0a3632ba25f4308a37f2f23876f410a40ddf35eb00beb3212ae"
-    },
-    {
-      "path": "docs/STEWARDSHIP_EVALUATION.md",
-      "sha256": "1742f402507434f92ee955c1f780b88b443a581fffe78c9c3a33c0d9b9dd0d49"
-    },
-    {
-      "path": "LICENSE",
-      "sha256": "1b29e9b72389df4b99735d249f016a6122dbec414e5bd021ed539994aca9c5b9"
-    },
-    {
-      "path": "package-lock.json",
-      "sha256": "4f4f55b9128ea4b02b3cd480f441a0848a920a9b9695f56230432f1fd993109e"
-    },
-    {
-      "path": "package.json",
-      "sha256": "91aabadd9cde2691de537d431585a52e433cf4da08b5d8a37b2548b0fc5e2236"
-    },
-    {
-      "path": "packages/provenance-ts/clean-build.cjs",
-      "sha256": "16edd7fa311ee05f38bb5d606cb192b50bce33b7ce8fc410b3826f657ba525bc"
-    },
-    {
-      "path": "packages/provenance-ts/jest.config.js",
-      "sha256": "d57e9a039813d4fb6562e43d344c4821b316bd4ff3d313ea03343dd0e7eb05d0"
-    },
-    {
-      "path": "packages/provenance-ts/LICENSE",
-      "sha256": "1b29e9b72389df4b99735d249f016a6122dbec414e5bd021ed539994aca9c5b9"
-    },
-    {
-      "path": "packages/provenance-ts/NOTICE.md",
-      "sha256": "0c96c893ee7fde080b4a783b6040976995d7521f539727090551f888bc30c627"
-    },
-    {
-      "path": "packages/provenance-ts/package.json",
-      "sha256": "b957900f16c3d678e79e283311091e6e3bee92ab85b504578d30a29342d8d5f0"
-    },
-    {
-      "path": "packages/provenance-ts/README.md",
-      "sha256": "d786c1b089921a3e60771bdd44467faccc12efa7fa64c54c75c4524156040a56"
-    },
-    {
-      "path": "packages/provenance-ts/SPEC.md",
-      "sha256": "eddc51e824d217283541e2a6a6ebce7da34d984175e6d3c858bfac6d2e7050ab"
-    },
-    {
-      "path": "packages/provenance-ts/src/artifact-cli.ts",
-      "sha256": "fdc6b821ec756a093fdb2ee82641a62414f714807d63d441735f6d40db5699c9"
-    },
-    {
-      "path": "packages/provenance-ts/src/artifactEnvelope.test.js",
-      "sha256": "139f09e89cd2b3caf03d5cf81115e2680164561c521addfc47a51160dc3d1f5a"
-    },
-    {
-      "path": "packages/provenance-ts/src/artifactEnvelope.ts",
-      "sha256": "fabe0b9009a9e80467dc3c3b281f136516d72249f50eea94f5abb8ab430a2da2"
-    },
-    {
-      "path": "packages/provenance-ts/src/artifactHook.test.js",
-      "sha256": "77273f10415bb8fe46f7d483c1d227dbdabb1c2feda66124701bf73f28339a59"
-    },
-    {
-      "path": "packages/provenance-ts/src/artifactHook.ts",
-      "sha256": "0633963d6102b0bafab49f9f69970edc2d9f35c721a5b9f7b01c6fd366c13264"
-    },
-    {
-      "path": "packages/provenance-ts/src/badge.test.js",
-      "sha256": "22d8026d2b0fc4eb9257e391a11814100d38d05995ecac03039f333e50614f1f"
-    },
-    {
-      "path": "packages/provenance-ts/src/badge.ts",
-      "sha256": "496c04a50a7522f9fc9f6dbda5176f5cb3e7f407d759d8298e57a245ce7fa5dc"
-    },
-    {
-      "path": "packages/provenance-ts/src/binary-regression.test.js",
-      "sha256": "11df53dae3f78446ad82e667437200ac516f0071b7007fe83eb93ade8db8c6a1"
-    },
-    {
-      "path": "packages/provenance-ts/src/binding.test.js",
-      "sha256": "481dc50f2dbd6980ba8027fbd260ba090ae4af47c22951d401ad0df4dab0b145"
-    },
-    {
-      "path": "packages/provenance-ts/src/canonical-alignment.test.js",
-      "sha256": "72827ff04f4eed35a560b3a43a17b915c900043643a24c23ec5d5676caad7564"
-    },
-    {
-      "path": "packages/provenance-ts/src/canonical.golden.json",
-      "sha256": "f6f1562d389ad7b6569aeee627fab1a17ea601b3c74a6d08f22b6c8d82150964"
-    },
-    {
-      "path": "packages/provenance-ts/src/dta-config-guards.test.js",
-      "sha256": "65e97c2fe4ada7fa2e8dc1aae9f6ea60e0e685d310d4df776214acd35491988c"
-    },
-    {
-      "path": "packages/provenance-ts/src/dta-l3-integration.test.js",
-      "sha256": "007b45aea3de49e88350007989ac1c354998a75ebd7a593f69ecb815b72fba00"
-    },
-    {
-      "path": "packages/provenance-ts/src/hookInstaller-safety.test.js",
-      "sha256": "124aa0ab0748172e0727989e376f1273786dac98049114259155476dd66090da"
-    },
-    {
-      "path": "packages/provenance-ts/src/hookInstaller.test.js",
-      "sha256": "e0f5d6e2f52ec0a38b95967686f701e987cab31b13d61c10710ab4c5070a8ca2"
-    },
-    {
-      "path": "packages/provenance-ts/src/hookInstaller.ts",
-      "sha256": "05194b68f4b636214c31071e312506394b1f0a54cf17df287a4255578a54e6fe"
-    },
-    {
-      "path": "packages/provenance-ts/src/index.test.js",
-      "sha256": "99b59754409ec854d477226b0e45e7385591ab0d0a189560ac4113a980e2e644"
-    },
-    {
-      "path": "packages/provenance-ts/src/index.ts",
-      "sha256": "9b7adbf09b9f475bd99a892b977baff19fbaa898ae03d5e36bc72b1c40bcee98"
-    },
-    {
-      "path": "packages/provenance-ts/src/mcp.test.js",
-      "sha256": "1ba1e68d8286375e561125ceb1951ecd5049f36d9ee4f3e6eceed41692669f60"
-    },
-    {
-      "path": "packages/provenance-ts/src/mcp.ts",
-      "sha256": "8e843ba0666631308feb863b63214058d94f79b75de6c0febdcc1ce20a2a49f6"
-    },
-    {
-      "path": "packages/provenance-ts/src/merkle.golden.json",
-      "sha256": "d55ab6c16e9765305e2a26ac1d5c78e722aea19fd0f586c0b10553f6643466e3"
-    },
-    {
-      "path": "packages/provenance-ts/src/merkle.test.js",
-      "sha256": "5de44e5ae1ca206d05e65c885c59d5320295a4be5020563da2fcd2d3d157093e"
-    },
-    {
-      "path": "packages/provenance-ts/src/merkle.ts",
-      "sha256": "f165675c7e9a05291f13ce981ddc02510b40acce132f9a8b1f1f5b9e2f07ff3c"
-    },
-    {
-      "path": "packages/provenance-ts/src/release-security.test.js",
-      "sha256": "95091e5ecb9cd39a6329dca407b917960fa7796554740a0d2af23a88a1b605a3"
-    },
-    {
-      "path": "packages/provenance-ts/src/self-test-export.test.js",
-      "sha256": "2350569dd35655e3863dfebcbd17463699a56bd0b20d53a0487d6c30a396c7c5"
-    },
-    {
-      "path": "packages/provenance-ts/src/self-test.test.js",
-      "sha256": "7a682069e1dfa23e747b966121034d22e313ce6b86cb5a97816caf5da39795ca"
-    },
-    {
-      "path": "packages/provenance-ts/src/self-test.ts",
-      "sha256": "7ed6199b72f149f889c213ddd967c2c83240d36db8b757d2046c5f16219ace2a"
-    },
-    {
-      "path": "packages/provenance-ts/src/synthetic-timestamp.fixture.cjs",
-      "sha256": "ae5b19509df2e9dd9e3677820957cf7d2775f6c0f5ce9495f8a55d67e2831722"
-    },
-    {
-      "path": "packages/provenance-ts/src/timestamp-security.test.js",
-      "sha256": "d02ffbac412644c3844535c8208f12f12a30f120578c3e216f80817c9ee03b04"
-    },
-    {
-      "path": "packages/provenance-ts/src/timestamp.test.js",
-      "sha256": "4f193bba915191dfe07379b8635e741a6f54e3a01b3ff8622505802c15565f6e"
-    },
-    {
-      "path": "packages/provenance-ts/src/timestamp.ts",
-      "sha256": "8d0e4735421b524f12185357a3cf24a75e495be0db3333e2b4f4efb0a459229f"
-    },
-    {
-      "path": "packages/provenance-ts/test-harness.cjs",
-      "sha256": "544bb392f553e80e902af5021a31fa9c9d2fc11f243d74e53168b15a2dba3b26"
-    },
-    {
-      "path": "packages/provenance-ts/TIMESTAMP.md",
-      "sha256": "d1821bc6c8c51d6e24501babd26d69dd08d5a0e1ee2b674a0df9e0ad067eabdc"
-    },
-    {
-      "path": "packages/provenance-ts/trust/README.md",
-      "sha256": "338eec30b091e0c843a95c82ad37c0fc85509fad61ad0326d0632e4ad87fec24"
-    },
-    {
-      "path": "packages/provenance-ts/trust/registry.json",
-      "sha256": "03bd8a966855dcfb2313f98acccb8d8894b00daa3f6b11bf3db7bbd894f871b7"
-    },
-    {
-      "path": "packages/provenance-ts/trust/root-public.asc",
-      "sha256": "e7dd380514d03dabdeae6c8b130dc07b0c7308ebd0db8afc4b5944cd1c730622"
-    },
-    {
-      "path": "packages/provenance-ts/tsconfig.json",
-      "sha256": "28e10b63e23ace6d88a0dc627a214b468bba69b4c982d69541cf349fc41f9282"
-    },
-    {
-      "path": "packages/provenance-ts/wasm/mgc_wasm.d.ts",
-      "sha256": "3495bf174b623b4e0257aaf290b0190cac238a9b16951e85a5d42626a76bfdca"
-    },
-    {
-      "path": "packages/provenance-ts/wasm/mgc_wasm.js",
-      "sha256": "63d38046e9e00418043a6291937b03b817df75b333c9b00ee3f2899b5a3c93e2"
-    },
-    {
-      "path": "packages/provenance-ts/wasm/mgc_wasm_bg.wasm",
-      "sha256": "c7f0f294a3de9913c9e71e2a35926d60eb79fa6c45856aa08cf7f2f552f3d1d0"
-    },
-    {
-      "path": "packages/provenance-ts/wasm/mgc_wasm_bg.wasm.d.ts",
-      "sha256": "eb407ee7fd93dd27f5e543261ca65cdd184357b41f6adf59f5e4fbc8e287e6d8"
-    },
-    {
-      "path": "README.md",
-      "sha256": "a15f02127e9d28b0abc539e59ec1700bf521651cf6ecea3be87c9bcefc69b629"
-    },
-    {
-      "path": "SECURITY.md",
-      "sha256": "52cc9c6f785a0f7a34bddcec7195bc0e33cc3d7b881c79487868fb6d0e812a16"
-    },
-    {
-      "path": "TESTING.md",
-      "sha256": "747b9b07c5cc31a85d07a0fb9a6f79be27a0907817e34c910e528f7ddeaf8eb6"
-    },
-    {
-      "path": "vectors/canon-legacy/generate_fixtures.py",
-      "sha256": "e6077491a1ec56fc64106172bed66079e7af33d133eba02b6e24a73615e62882"
-    },
-    {
-      "path": "vectors/canon-legacy/js_profiles.mjs",
-      "sha256": "287aa853bba5b64dee241f2774f34a19bb30a67614cd760a2dc8353598aff42d"
-    },
-    {
-      "path": "vectors/canon-legacy/legacy-text-profiles.json",
-      "sha256": "e3c535e3150c5803010bd023eaf689f497863947643eae8a6072fb38aeaad7aa"
-    },
-    {
-      "path": "vectors/canonical.golden.json",
-      "sha256": "f6f1562d389ad7b6569aeee627fab1a17ea601b3c74a6d08f22b6c8d82150964"
-    },
-    {
-      "path": "vectors/lightcraft/install-unavailable.json",
-      "sha256": "671fd010fa639c16d30b882ffa45c1bdd6bef4cef64b755973540eb68475b81f"
-    },
-    {
-      "path": "vectors/merkle.golden.json",
-      "sha256": "d55ab6c16e9765305e2a26ac1d5c78e722aea19fd0f586c0b10553f6643466e3"
-    }
-  ],
-  "original_import_source_commit": "044865e",
-  "source_commit_scope": "source_commit 98e1b39893d5a5607db79c29415441da092d6e67 is unchanged from 2.6.0 and covers the private-derived files only. The 2.6.1 housekeeping files (self-test export, binary-regression.test.js, self-test-export.test.js) come from private branch release/2.6.1-housekeeping at 80965ad040b331a50daba8f0c049d3e952f34ec7, which is not merged to private main at the time of writing. The private monorepo contains no hookInstaller or wasm output, so no private commit contains the public_origin_files; do not read source_commit as covering them.",
-  "manifest_exclusions": [
-    "PUBLIC_SOURCE_IMPORT.json (self-reference)",
-    "Untracked files and build/dependency outputs",
-    "docs/ubuntu/ (release-process records authored in this repository)"
-  ],
-  "hash_basis": "sha256 of the committed (LF) bytes of each file as checked out with eol=lf. The 2.6.0 manifest mixed LF and CRLF-converted hashes (31 of 53 entries matched only CRLF bytes) and several entries were already stale at 2.6.0; every entry is recomputed here.",
-  "public_origin_files": {
-    "commit": "0778caf",
-    "note": "These files were authored directly in this public repository (Agy, 0778caf) and have no source in the private monorepo main. hookInstaller.ts and artifact-cli.ts were then modified in 2.6.1 (installer hardening and QA fixes F1/F2, approved by Marc 2026-10-24); the two hookInstaller test files were written in 2.6.1. The wasm/ files are the build output described in wasm_provenance; mgc_wasm.js was replaced in 2.6.1 by the pristine generated file. packages/provenance-ts/package.json and the two READMEs are public-curated variants.",
-    "paths": [
-      "packages/provenance-ts/src/hookInstaller.ts",
-      "packages/provenance-ts/src/artifact-cli.ts",
-      "packages/provenance-ts/wasm/mgc_wasm.d.ts",
-      "packages/provenance-ts/wasm/mgc_wasm.js",
-      "packages/provenance-ts/wasm/mgc_wasm_bg.wasm",
-      "packages/provenance-ts/wasm/mgc_wasm_bg.wasm.d.ts",
-      "packages/provenance-ts/src/hookInstaller.test.js",
-      "packages/provenance-ts/src/hookInstaller-safety.test.js"
-    ]
-  },
-  "wasm_provenance": {
-    "summary": "All four wasm/ files were reproduced byte for byte on 2026-10-24 from a clean git archive export of the private monorepo. No file is hand-edited.",
-    "source_repo": "moonglade-provenance (private monorepo; crates/mgc-wasm and crates/mgc-core)",
-    "source_commit": "84ff58c679c64c723f91b101012e7ba884e93020",
-    "source_commit_note": "Last commit that touched crates/, Cargo.lock and rust-toolchain.toml. Private main fca58c81e59d6f106da5552aaa7e24dee5d949e1 has identical trees for all three (crates d14e94c9..., Cargo.lock 67adb47b..., rust-toolchain.toml 68c0ea29...). The private working tree had no uncommitted changes under crates/ at verification time; build-time state was inferred from file mtimes (sources 2026-10-22, build output 2026-10-23 20:58) and the byte-identical rebuild.",
-    "toolchain": "rustc 1.98.1 (48a229cea 2026-09-01), pinned by rust-toolchain.toml; target wasm32-unknown-unknown",
-    "wasm_bindgen_version": "0.2.129 (wasm-bindgen CLI 0.2.129, equal to the Cargo.lock crate version)",
-    "wasm_opt": "not applied: the bytes reproduce without it",
-    "wasm_pack": "Agy reports building with wasm-pack build --target nodejs --release. wasm-pack was not installed or run here; the equivalent cargo + wasm-bindgen steps below reproduce the shipped bytes.",
-    "build_commands": [
-      "git archive 84ff58c | tar -x   (into an empty temp directory)",
-      "cargo build --locked --release --target wasm32-unknown-unknown -p mgc-wasm",
-      "wasm-bindgen --target nodejs --out-dir <out> target/wasm32-unknown-unknown/release/mgc_wasm.wasm"
-    ],
-    "files": {
-      "mgc_wasm_bg.wasm": {
-        "sha256": "c7f0f294a3de9913c9e71e2a35926d60eb79fa6c45856aa08cf7f2f552f3d1d0",
-        "reproduced": "byte-identical"
-      },
-      "mgc_wasm.d.ts": {
-        "sha256": "3495bf174b623b4e0257aaf290b0190cac238a9b16951e85a5d42626a76bfdca",
-        "reproduced": "byte-identical"
-      },
-      "mgc_wasm_bg.wasm.d.ts": {
-        "sha256": "eb407ee7fd93dd27f5e543261ca65cdd184357b41f6adf59f5e4fbc8e287e6d8",
-        "reproduced": "byte-identical"
-      },
-      "mgc_wasm.js": {
-        "sha256": "63d38046e9e00418043a6291937b03b817df75b333c9b00ee3f2899b5a3c93e2",
-        "reproduced": "byte-identical",
-        "note": "The mgc_wasm.js published in 2.6.0 (sha256 3cfc4c527baa77c3964e43a66c9d7eda11a25c7278b57137c9bfdf66b6eec147) differed from the generated output by one hand-patched line (path.join for the .wasm path). 2.6.1 ships the pristine generated file; the unpatched file loads on Windows."
-      }
-    }
-  }
+    "format":  "moonglade-source-import-v1",
+    "status":  "thawed-canonical-public-monorepo",
+    "version":  "2.7.0",
+    "canonical_rule":  "LF_NORMALIZED_UTF8_NFC_TEXT_EXACT_BINARY_SAFE_INT_CLAIMS",
+    "source_commit":  "1188ed841b5831bc743e4f23ccd505a08b108ee7",
+    "repository":  "https://github.com/MoongladeAI/provenance",
+    "publication_adjustments":  [
+                                    "Curated single-package distribution containing @moonglade/provenance 2.6.1.",
+                                    "Aligned with draft-ottley-agentic-epistemic-provenance-03 standard.",
+                                    "Hardened L3 DTA Byzantine median quorum with minimum 3-probe fanout and 3000 ms drift window.",
+                                    "Strict IEEE 754 safe integer enforcement on claims JSON with value-based normalization.",
+                                    "Explicit binary extension mapping including ONNX raw byte fidelity.",
+                                    "Migrated test suite to native Node.js 22/24 test runner (node:test + node:assert/strict), eliminating Jest, Babel, Istanbul, and 314 transitive dev dependencies.",
+                                    "2.6.1 adds the ./self-test export, the B1 binary-mutation regression test and the self-test CLI test; verification behaviour is unchanged from 2.6.0.",
+                                    "2.6.1 includes the WASM core export (wasm/, ./wasm) and the hook installer (provenance install-hooks). The wasm/ files and the ./wasm export shipped in the 2.6.0 npm tarball but were not committed to this repository until public commit 0778caf; the hook installer was not in the 2.6.0 tarball and is first published in 2.6.1.",
+                                    "2.6.1 hardens the hook installer first committed in 0778caf: it refuses to overwrite a foreign hook (--force backs it up), enables only the options the user chooses (flags or per-option prompts), removes the empty pre-push option, and resolves the hooks directory with git rev-parse --git-path hooks. hookInstaller.ts and artifact-cli.ts therefore differ from 0778caf; see hookInstaller.test.js."
+                                ],
+    "copied_files":  [
+                         {
+                             "path":  ".gitattributes",
+                             "sha256":  "157114b1e34e3c163828d7685675fed443330b50183e964ac28f254086649dd8"
+                         },
+                         {
+                             "path":  ".github/workflows/ci.yml",
+                             "sha256":  "9bfbb486e84d0e7d09045e372b4cc5e4dd56cd77525c8f4e50a47d47168a104e"
+                         },
+                         {
+                             "path":  ".gitignore",
+                             "sha256":  "9ba267d9e6c5cd1c3654d1e8fa11e2f26426172661ff41a909a5b0dd8aa9b592"
+                         },
+                         {
+                             "path":  ".nvmrc",
+                             "sha256":  "2722b61f414f07f08be7f1f1316012813818f26f1c40d6a24a748686cec7d2ff"
+                         },
+                         {
+                             "path":  "ACKNOWLEDGMENTS.md",
+                             "sha256":  "61524b4e4477ef6ac4d26d55e81eb3482b2c510e41296868cc079630b97e0fe0"
+                         },
+                         {
+                             "path":  "AI-DISCLOSURE.md",
+                             "sha256":  "71f28ce5786e09af263d50071bff5bc8256b3bc580f81efcef25a6d6e4edb95b"
+                         },
+                         {
+                             "path":  "CHANGELOG.md",
+                             "sha256":  "451950443db64ec71ba5ee7ce520ccbc9646fa8136d5803e8abdc5ab05fe4cba"
+                         },
+                         {
+                             "path":  "CITATION.cff",
+                             "sha256":  "cfa02fed3fe1120079bd4d188e05d7e208e0d7f47f24ce5a5ae7cda9aa230718"
+                         },
+                         {
+                             "path":  "CONTRIBUTING.md",
+                             "sha256":  "bb8ac48cd74acd660b9c413c7b875a2d01857e2edc4905ffd2ada81df37e169e"
+                         },
+                         {
+                             "path":  "dependency-audit.json",
+                             "sha256":  "60360b07594b1de7f4cb24998d395f59869d3e265829dd89820f3f0727aee9ec"
+                         },
+                         {
+                             "path":  "docs/draft-ottley-agentic-epistemic-provenance-03.md",
+                             "sha256":  "42662b859d33b0a3632ba25f4308a37f2f23876f410a40ddf35eb00beb3212ae"
+                         },
+                         {
+                             "path":  "docs/STEWARDSHIP_EVALUATION.md",
+                             "sha256":  "1742f402507434f92ee955c1f780b88b443a581fffe78c9c3a33c0d9b9dd0d49"
+                         },
+                         {
+                             "path":  "LICENSE",
+                             "sha256":  "1b29e9b72389df4b99735d249f016a6122dbec414e5bd021ed539994aca9c5b9"
+                         },
+                         {
+                             "path":  "package-lock.json",
+                             "sha256":  "d623500fe654dfaea5a41fce2a597c243fe4087cc541ca2a1172b8a76de2930c"
+                         },
+                         {
+                             "path":  "package.json",
+                             "sha256":  "9e683a2f3b7c6a0293a7d074b61c60f871c0c2ca4a4744ffd60a01423fdf9946"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/clean-build.cjs",
+                             "sha256":  "16edd7fa311ee05f38bb5d606cb192b50bce33b7ce8fc410b3826f657ba525bc"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/jest.config.js",
+                             "sha256":  "d57e9a039813d4fb6562e43d344c4821b316bd4ff3d313ea03343dd0e7eb05d0"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/LICENSE",
+                             "sha256":  "1b29e9b72389df4b99735d249f016a6122dbec414e5bd021ed539994aca9c5b9"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/NOTICE.md",
+                             "sha256":  "0c96c893ee7fde080b4a783b6040976995d7521f539727090551f888bc30c627"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/package.json",
+                             "sha256":  "5280a372692963a7a58bcc50f0fadc5827aaf0a49889faf246a6d9df8613502a"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/README.md",
+                             "sha256":  "d786c1b089921a3e60771bdd44467faccc12efa7fa64c54c75c4524156040a56"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/SPEC.md",
+                             "sha256":  "eddc51e824d217283541e2a6a6ebce7da34d984175e6d3c858bfac6d2e7050ab"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/artifact-cli.ts",
+                             "sha256":  "fdc6b821ec756a093fdb2ee82641a62414f714807d63d441735f6d40db5699c9"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/artifactEnvelope.test.js",
+                             "sha256":  "139f09e89cd2b3caf03d5cf81115e2680164561c521addfc47a51160dc3d1f5a"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/artifactEnvelope.ts",
+                             "sha256":  "fabe0b9009a9e80467dc3c3b281f136516d72249f50eea94f5abb8ab430a2da2"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/artifactHook.test.js",
+                             "sha256":  "77273f10415bb8fe46f7d483c1d227dbdabb1c2feda66124701bf73f28339a59"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/artifactHook.ts",
+                             "sha256":  "0633963d6102b0bafab49f9f69970edc2d9f35c721a5b9f7b01c6fd366c13264"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/badge.test.js",
+                             "sha256":  "22d8026d2b0fc4eb9257e391a11814100d38d05995ecac03039f333e50614f1f"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/badge.ts",
+                             "sha256":  "496c04a50a7522f9fc9f6dbda5176f5cb3e7f407d759d8298e57a245ce7fa5dc"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/binary-regression.test.js",
+                             "sha256":  "11df53dae3f78446ad82e667437200ac516f0071b7007fe83eb93ade8db8c6a1"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/binding.test.js",
+                             "sha256":  "481dc50f2dbd6980ba8027fbd260ba090ae4af47c22951d401ad0df4dab0b145"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/canonical-alignment.test.js",
+                             "sha256":  "72827ff04f4eed35a560b3a43a17b915c900043643a24c23ec5d5676caad7564"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/canonical.golden.json",
+                             "sha256":  "f6f1562d389ad7b6569aeee627fab1a17ea601b3c74a6d08f22b6c8d82150964"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/dta-config-guards.test.js",
+                             "sha256":  "65e97c2fe4ada7fa2e8dc1aae9f6ea60e0e685d310d4df776214acd35491988c"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/dta-l3-integration.test.js",
+                             "sha256":  "007b45aea3de49e88350007989ac1c354998a75ebd7a593f69ecb815b72fba00"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/hookInstaller-safety.test.js",
+                             "sha256":  "124aa0ab0748172e0727989e376f1273786dac98049114259155476dd66090da"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/hookInstaller.test.js",
+                             "sha256":  "e0f5d6e2f52ec0a38b95967686f701e987cab31b13d61c10710ab4c5070a8ca2"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/hookInstaller.ts",
+                             "sha256":  "05194b68f4b636214c31071e312506394b1f0a54cf17df287a4255578a54e6fe"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/index.test.js",
+                             "sha256":  "99b59754409ec854d477226b0e45e7385591ab0d0a189560ac4113a980e2e644"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/index.ts",
+                             "sha256":  "9b7adbf09b9f475bd99a892b977baff19fbaa898ae03d5e36bc72b1c40bcee98"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/mcp.test.js",
+                             "sha256":  "1ba1e68d8286375e561125ceb1951ecd5049f36d9ee4f3e6eceed41692669f60"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/mcp.ts",
+                             "sha256":  "8e843ba0666631308feb863b63214058d94f79b75de6c0febdcc1ce20a2a49f6"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/merkle.golden.json",
+                             "sha256":  "d55ab6c16e9765305e2a26ac1d5c78e722aea19fd0f586c0b10553f6643466e3"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/merkle.test.js",
+                             "sha256":  "5de44e5ae1ca206d05e65c885c59d5320295a4be5020563da2fcd2d3d157093e"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/merkle.ts",
+                             "sha256":  "f165675c7e9a05291f13ce981ddc02510b40acce132f9a8b1f1f5b9e2f07ff3c"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/release-security.test.js",
+                             "sha256":  "95091e5ecb9cd39a6329dca407b917960fa7796554740a0d2af23a88a1b605a3"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/self-test-export.test.js",
+                             "sha256":  "2350569dd35655e3863dfebcbd17463699a56bd0b20d53a0487d6c30a396c7c5"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/self-test.test.js",
+                             "sha256":  "7a682069e1dfa23e747b966121034d22e313ce6b86cb5a97816caf5da39795ca"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/self-test.ts",
+                             "sha256":  "7ed6199b72f149f889c213ddd967c2c83240d36db8b757d2046c5f16219ace2a"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/synthetic-timestamp.fixture.cjs",
+                             "sha256":  "ae5b19509df2e9dd9e3677820957cf7d2775f6c0f5ce9495f8a55d67e2831722"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/timestamp-security.test.js",
+                             "sha256":  "d02ffbac412644c3844535c8208f12f12a30f120578c3e216f80817c9ee03b04"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/timestamp.test.js",
+                             "sha256":  "4f193bba915191dfe07379b8635e741a6f54e3a01b3ff8622505802c15565f6e"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/src/timestamp.ts",
+                             "sha256":  "8d0e4735421b524f12185357a3cf24a75e495be0db3333e2b4f4efb0a459229f"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/test-harness.cjs",
+                             "sha256":  "544bb392f553e80e902af5021a31fa9c9d2fc11f243d74e53168b15a2dba3b26"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/TIMESTAMP.md",
+                             "sha256":  "d1821bc6c8c51d6e24501babd26d69dd08d5a0e1ee2b674a0df9e0ad067eabdc"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/trust/README.md",
+                             "sha256":  "338eec30b091e0c843a95c82ad37c0fc85509fad61ad0326d0632e4ad87fec24"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/trust/registry.json",
+                             "sha256":  "03bd8a966855dcfb2313f98acccb8d8894b00daa3f6b11bf3db7bbd894f871b7"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/trust/root-public.asc",
+                             "sha256":  "e7dd380514d03dabdeae6c8b130dc07b0c7308ebd0db8afc4b5944cd1c730622"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/tsconfig.json",
+                             "sha256":  "28e10b63e23ace6d88a0dc627a214b468bba69b4c982d69541cf349fc41f9282"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/wasm/mgc_wasm.d.ts",
+                             "sha256":  "3495bf174b623b4e0257aaf290b0190cac238a9b16951e85a5d42626a76bfdca"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/wasm/mgc_wasm.js",
+                             "sha256":  "63d38046e9e00418043a6291937b03b817df75b333c9b00ee3f2899b5a3c93e2"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/wasm/mgc_wasm_bg.wasm",
+                             "sha256":  "c7f0f294a3de9913c9e71e2a35926d60eb79fa6c45856aa08cf7f2f552f3d1d0"
+                         },
+                         {
+                             "path":  "packages/provenance-ts/wasm/mgc_wasm_bg.wasm.d.ts",
+                             "sha256":  "eb407ee7fd93dd27f5e543261ca65cdd184357b41f6adf59f5e4fbc8e287e6d8"
+                         },
+                         {
+                             "path":  "README.md",
+                             "sha256":  "44e30775e483be3e248f28ca321f246825d829f8de5a3521dbdc242bdf1c014e"
+                         },
+                         {
+                             "path":  "SECURITY.md",
+                             "sha256":  "52cc9c6f785a0f7a34bddcec7195bc0e33cc3d7b881c79487868fb6d0e812a16"
+                         },
+                         {
+                             "path":  "TESTING.md",
+                             "sha256":  "747b9b07c5cc31a85d07a0fb9a6f79be27a0907817e34c910e528f7ddeaf8eb6"
+                         },
+                         {
+                             "path":  "vectors/canon-legacy/generate_fixtures.py",
+                             "sha256":  "e6077491a1ec56fc64106172bed66079e7af33d133eba02b6e24a73615e62882"
+                         },
+                         {
+                             "path":  "vectors/canon-legacy/js_profiles.mjs",
+                             "sha256":  "287aa853bba5b64dee241f2774f34a19bb30a67614cd760a2dc8353598aff42d"
+                         },
+                         {
+                             "path":  "vectors/canon-legacy/legacy-text-profiles.json",
+                             "sha256":  "e3c535e3150c5803010bd023eaf689f497863947643eae8a6072fb38aeaad7aa"
+                         },
+                         {
+                             "path":  "vectors/canonical.golden.json",
+                             "sha256":  "f6f1562d389ad7b6569aeee627fab1a17ea601b3c74a6d08f22b6c8d82150964"
+                         },
+                         {
+                             "path":  "vectors/lightcraft/install-unavailable.json",
+                             "sha256":  "671fd010fa639c16d30b882ffa45c1bdd6bef4cef64b755973540eb68475b81f"
+                         },
+                         {
+                             "path":  "vectors/merkle.golden.json",
+                             "sha256":  "d55ab6c16e9765305e2a26ac1d5c78e722aea19fd0f586c0b10553f6643466e3"
+                         }
+                     ],
+    "original_import_source_commit":  "044865e",
+    "source_commit_scope":  "source_commit 98e1b39893d5a5607db79c29415441da092d6e67 is unchanged from 2.6.0 and covers the private-derived files only. The 2.6.1 housekeeping files (self-test export, binary-regression.test.js, self-test-export.test.js) come from private branch release/2.6.1-housekeeping at 80965ad040b331a50daba8f0c049d3e952f34ec7, which is not merged to private main at the time of writing. The private monorepo contains no hookInstaller or wasm output, so no private commit contains the public_origin_files; do not read source_commit as covering them.",
+    "manifest_exclusions":  [
+                                "PUBLIC_SOURCE_IMPORT.json (self-reference)",
+                                "Untracked files and build/dependency outputs",
+                                "docs/ubuntu/ (release-process records authored in this repository)"
+                            ],
+    "hash_basis":  "sha256 of the committed (LF) bytes of each file as checked out with eol=lf. The 2.6.0 manifest mixed LF and CRLF-converted hashes (31 of 53 entries matched only CRLF bytes) and several entries were already stale at 2.6.0; every entry is recomputed here.",
+    "public_origin_files":  {
+                                "commit":  "0778caf",
+                                "note":  "These files were authored directly in this public repository (Agy, 0778caf) and have no source in the private monorepo main. hookInstaller.ts and artifact-cli.ts were then modified in 2.6.1 (installer hardening and QA fixes F1/F2, approved by Marc 2026-10-24); the two hookInstaller test files were written in 2.6.1. The wasm/ files are the build output described in wasm_provenance; mgc_wasm.js was replaced in 2.6.1 by the pristine generated file. packages/provenance-ts/package.json and the two READMEs are public-curated variants.",
+                                "paths":  [
+                                              "packages/provenance-ts/src/hookInstaller.ts",
+                                              "packages/provenance-ts/src/artifact-cli.ts",
+                                              "packages/provenance-ts/wasm/mgc_wasm.d.ts",
+                                              "packages/provenance-ts/wasm/mgc_wasm.js",
+                                              "packages/provenance-ts/wasm/mgc_wasm_bg.wasm",
+                                              "packages/provenance-ts/wasm/mgc_wasm_bg.wasm.d.ts",
+                                              "packages/provenance-ts/src/hookInstaller.test.js",
+                                              "packages/provenance-ts/src/hookInstaller-safety.test.js"
+                                          ]
+                            },
+    "wasm_provenance":  {
+                            "summary":  "All four wasm/ files were reproduced byte for byte on 2026-10-24 from a clean git archive export of the private monorepo. No file is hand-edited.",
+                            "source_repo":  "moonglade-provenance (private monorepo; crates/mgc-wasm and crates/mgc-core)",
+                            "source_commit":  "84ff58c679c64c723f91b101012e7ba884e93020",
+                            "source_commit_note":  "Last commit that touched crates/, Cargo.lock and rust-toolchain.toml. Private main fca58c81e59d6f106da5552aaa7e24dee5d949e1 has identical trees for all three (crates d14e94c9..., Cargo.lock 67adb47b..., rust-toolchain.toml 68c0ea29...). The private working tree had no uncommitted changes under crates/ at verification time; build-time state was inferred from file mtimes (sources 2026-10-22, build output 2026-10-23 20:58) and the byte-identical rebuild.",
+                            "toolchain":  "rustc 1.98.1 (48a229cea 2026-09-01), pinned by rust-toolchain.toml; target wasm32-unknown-unknown",
+                            "wasm_bindgen_version":  "0.2.129 (wasm-bindgen CLI 0.2.129, equal to the Cargo.lock crate version)",
+                            "wasm_opt":  "not applied: the bytes reproduce without it",
+                            "wasm_pack":  "Agy reports building with wasm-pack build --target nodejs --release. wasm-pack was not installed or run here; the equivalent cargo + wasm-bindgen steps below reproduce the shipped bytes.",
+                            "build_commands":  [
+                                                   "git archive 84ff58c | tar -x   (into an empty temp directory)",
+                                                   "cargo build --locked --release --target wasm32-unknown-unknown -p mgc-wasm",
+                                                   "wasm-bindgen --target nodejs --out-dir \u003cout\u003e target/wasm32-unknown-unknown/release/mgc_wasm.wasm"
+                                               ],
+                            "files":  {
+                                          "mgc_wasm_bg.wasm":  {
+                                                                   "sha256":  "c7f0f294a3de9913c9e71e2a35926d60eb79fa6c45856aa08cf7f2f552f3d1d0",
+                                                                   "reproduced":  "byte-identical"
+                                                               },
+                                          "mgc_wasm.d.ts":  {
+                                                                "sha256":  "3495bf174b623b4e0257aaf290b0190cac238a9b16951e85a5d42626a76bfdca",
+                                                                "reproduced":  "byte-identical"
+                                                            },
+                                          "mgc_wasm_bg.wasm.d.ts":  {
+                                                                        "sha256":  "eb407ee7fd93dd27f5e543261ca65cdd184357b41f6adf59f5e4fbc8e287e6d8",
+                                                                        "reproduced":  "byte-identical"
+                                                                    },
+                                          "mgc_wasm.js":  {
+                                                              "sha256":  "63d38046e9e00418043a6291937b03b817df75b333c9b00ee3f2899b5a3c93e2",
+                                                              "reproduced":  "byte-identical",
+                                                              "note":  "The mgc_wasm.js published in 2.6.0 (sha256 3cfc4c527baa77c3964e43a66c9d7eda11a25c7278b57137c9bfdf66b6eec147) differed from the generated output by one hand-patched line (path.join for the .wasm path). 2.6.1 ships the pristine generated file; the unpatched file loads on Windows."
+                                                          }
+                                      }
+                        }
 }

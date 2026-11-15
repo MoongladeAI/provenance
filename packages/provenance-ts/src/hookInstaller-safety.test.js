@@ -5,7 +5,7 @@ const { spawnSync } = require('node:child_process');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const { installHooks, installGitHook, HOOK_MARKER, HookConflictError, PRE_COMMIT_SCRIPT } = require('../dist/hookInstaller.js');
+const { installHooks, installGitHook, HOOK_MARKER, HookConflictError, PRE_COMMIT_SCRIPT, LEGACY_261_PRE_COMMIT_SCRIPT } = require('../dist/hookInstaller.js');
 
 const GIT = ['-c', 'user.name=t', '-c', 'user.email=t@example.invalid', '-c', 'commit.gpgsign=false'];
 function git(cwd, args, env) {
@@ -94,6 +94,37 @@ describe('F1: never overwrite a hook or manifest that is not byte-for-byte ours'
       assert.deepEqual(baks(hooks, 'pre-commit'), []);
       // Without v1 declared as known, the same replacement is a conflict.
       await assert.rejects(installGitHook(hooks, 'pre-commit', v1, { known: [] }), HookConflictError);
+    } finally { rm(dir); }
+  });
+
+  it('F1: an unmodified 2.6.1 (@moonglade/provenance) hook is recognized and upgraded in place to 2.7.0 (@moongladeai/provenance) without a backup', async () => {
+    const dir = tempRepo();
+    try {
+      const hooks = path.join(dir, '.git', 'hooks');
+      fs.mkdirSync(hooks, { recursive: true });
+      assert.ok(LEGACY_261_PRE_COMMIT_SCRIPT.includes('@moonglade/provenance'));
+      assert.ok(!LEGACY_261_PRE_COMMIT_SCRIPT.includes('@moongladeai/provenance'));
+      fs.writeFileSync(hookPath(dir), LEGACY_261_PRE_COMMIT_SCRIPT, { mode: 0o755 });
+      const r = await installHooks({ cwd: dir, ...only({ preCommit: true }) });
+      assert.equal(r.hook.action, 'updated');
+      assert.equal(r.hook.backup, undefined);
+      const upgraded = fs.readFileSync(hookPath(dir), 'utf8');
+      assert.equal(upgraded, PRE_COMMIT_SCRIPT);
+      assert.ok(upgraded.includes('@moongladeai/provenance'));
+      assert.deepEqual(baks(hooks, 'pre-commit'), []);
+    } finally { rm(dir); }
+  });
+
+  it('F1: a modified 2.6.1 hook is refused and left untouched without --force', async () => {
+    const dir = tempRepo();
+    try {
+      const hooks = path.join(dir, '.git', 'hooks');
+      fs.mkdirSync(hooks, { recursive: true });
+      const modifiedLegacy = LEGACY_261_PRE_COMMIT_SCRIPT + 'echo CUSTOM\n';
+      fs.writeFileSync(hookPath(dir), modifiedLegacy, { mode: 0o755 });
+      await assert.rejects(installHooks({ cwd: dir, ...only({ preCommit: true }) }), HookConflictError);
+      assert.equal(fs.readFileSync(hookPath(dir), 'utf8'), modifiedLegacy);
+      assert.deepEqual(baks(hooks, 'pre-commit'), []);
     } finally { rm(dir); }
   });
 
