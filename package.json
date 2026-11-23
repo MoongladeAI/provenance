@@ -7,9 +7,9 @@
     "packages/provenance-ts"
   ],
   "scripts": {
-    "test": "npm test --workspace=@moongladeai/provenance",
-    "build": "npm run build --workspace=@moongladeai/provenance",
-    "self-test": "npm run self-test --workspace=@moongladeai/provenance"
+    "test": "npm test --workspace=@moonglade/provenance",
+    "build": "npm run build --workspace=@moonglade/provenance",
+    "self-test": "npm run self-test --workspace=@moonglade/provenance"
   },
   "engines": {
     "node": "^22.0.0 || ^24.0.0"

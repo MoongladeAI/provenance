@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 /**
- * Claims JSON per draft -03 section 3.3: safe-integer numbers (judged by value) and UTF-16 key order.
+ * Claims JSON per draft-ottley-agentic-epistemic-provenance-01-mg2.7.0 section 3.3: safe-integer numbers (judged by value) and UTF-16 key order.
  */
 export function canonicalize_claims_json(json: string): string;
 
@@ -20,6 +20,13 @@ export function canonicalize_provenance(filename: string, bytes: Uint8Array): Ui
  * Returns the engine version and cryptographic capabilities.
  */
 export function engine_info(): string;
+
+/**
+ * Parses an ASCII-armored OpenPGP V4 EdDSALegacy (Algorithm 22) detached signature,
+ * verifies its RFC 4880 Section 6.1 CRC-24 checksum, and extracts the 64-byte `(R || S)`
+ * signature scalar pair in lowercase hex. Does not verify OpenPGP keyrings or V4 hash trailers.
+ */
+export function parse_openpgp_armored_signature_hex(armored_asc: string): string;
 
 export function provenance_inclusion_proof(artifacts_json: string, target: string): string;
 
@@ -51,3 +58,15 @@ export function verify_ed25519_hex(message: Uint8Array, signature_hex: string, p
 export function verify_merkle_proof(leaf_hash_hex: string, root_hash_hex: string, proof_siblings_json: string): boolean;
 
 export function verify_provenance_merkle_proof(proof_json: string, expected_root: string): boolean;
+
+/**
+ * Verify an RFC 3161 Time-Stamp Response (TSR) against an expected message digest.
+ *
+ * Accepts raw TSR DER bytes and the expected artifact digest bytes (e.g. 32-byte SHA-256).
+ * Verifies strict ASN.1 DER framing, PKIStatus, OIDs, and constant-time messageImprint
+ * digest equality, and extracts embedded certificates without verifying the CMS signature
+ * or X.509 certificate chain (use `verifyTimeStampToken` in `@moongladeai/provenance` for full
+ * CMS signature and trust-anchor verification).
+ * Returns a serialized JSON string containing the `Rfc3161Verdict`.
+ */
+export function verify_rfc3161_timestamp(tsr_bytes: Uint8Array, expected_digest: Uint8Array): string;

@@ -1,5 +1,5 @@
 {
-  "name": "@moongladeai/provenance",
+  "name": "@moonglade/provenance",
   "version": "2.7.0",
   "description": "Local-first cryptographic proof for markdown files and agentic AI memory substrates.",
   "main": "dist/index.js",

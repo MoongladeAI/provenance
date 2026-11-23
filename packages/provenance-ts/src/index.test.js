@@ -1,5 +1,5 @@
 /**
- * Tests for @moongladeai/provenance.
+ * Tests for @moonglade/provenance.
  *
  * These run against the COMPILED output in dist/, not src/. That is deliberate:
  * package.json declares `main: dist/index.js`, so dist is what a consumer

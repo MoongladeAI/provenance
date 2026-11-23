@@ -43,11 +43,11 @@
                          },
                          {
                              "path":  "CHANGELOG.md",
-                             "sha256":  "451950443db64ec71ba5ee7ce520ccbc9646fa8136d5803e8abdc5ab05fe4cba"
+                             "sha256":  "fd0f4ae5309a47f9e41b685994d71fda61de81d2cbfebd12df86671daf3d345e"
                          },
                          {
                              "path":  "CITATION.cff",
-                             "sha256":  "cfa02fed3fe1120079bd4d188e05d7e208e0d7f47f24ce5a5ae7cda9aa230718"
+                             "sha256":  "f5388ea6b20d121dbbd295ec6f0e9b3aa1915e979304934ca05a6fc62876acdf"
                          },
                          {
                              "path":  "CONTRIBUTING.md",
@@ -55,11 +55,7 @@
                          },
                          {
                              "path":  "dependency-audit.json",
-                             "sha256":  "60360b07594b1de7f4cb24998d395f59869d3e265829dd89820f3f0727aee9ec"
-                         },
-                         {
-                             "path":  "docs/draft-ottley-agentic-epistemic-provenance-03.md",
-                             "sha256":  "42662b859d33b0a3632ba25f4308a37f2f23876f410a40ddf35eb00beb3212ae"
+                             "sha256":  "303969e72ce3810db5fabaae76e247ae3bf1216494e36647aa58e01debda36ef"
                          },
                          {
                              "path":  "docs/STEWARDSHIP_EVALUATION.md",
@@ -71,19 +67,15 @@
                          },
                          {
                              "path":  "package-lock.json",
-                             "sha256":  "d623500fe654dfaea5a41fce2a597c243fe4087cc541ca2a1172b8a76de2930c"
+                             "sha256":  "b1c32acb8e97e8727532499ecbdedaa7922d7874b0007ccfe4491599200e643f"
                          },
                          {
                              "path":  "package.json",
-                             "sha256":  "9e683a2f3b7c6a0293a7d074b61c60f871c0c2ca4a4744ffd60a01423fdf9946"
+                             "sha256":  "e773717018d4c94b28789aa2923fe992a63dfa16a2a94157ac35a07270e77dfd"
                          },
                          {
                              "path":  "packages/provenance-ts/clean-build.cjs",
                              "sha256":  "16edd7fa311ee05f38bb5d606cb192b50bce33b7ce8fc410b3826f657ba525bc"
-                         },
-                         {
-                             "path":  "packages/provenance-ts/jest.config.js",
-                             "sha256":  "d57e9a039813d4fb6562e43d344c4821b316bd4ff3d313ea03343dd0e7eb05d0"
                          },
                          {
                              "path":  "packages/provenance-ts/LICENSE",
@@ -95,15 +87,15 @@
                          },
                          {
                              "path":  "packages/provenance-ts/package.json",
-                             "sha256":  "5280a372692963a7a58bcc50f0fadc5827aaf0a49889faf246a6d9df8613502a"
+                             "sha256":  "97b50b2b935341df630b9ab8dd354ffc39804d2f20cd1ee7a7ebf53e84b28184"
                          },
                          {
                              "path":  "packages/provenance-ts/README.md",
-                             "sha256":  "d786c1b089921a3e60771bdd44467faccc12efa7fa64c54c75c4524156040a56"
+                             "sha256":  "ba8a373dc00294c94e7c44c39efe0bbd029459255132ec15021fdd1810d6055a"
                          },
                          {
                              "path":  "packages/provenance-ts/SPEC.md",
-                             "sha256":  "eddc51e824d217283541e2a6a6ebce7da34d984175e6d3c858bfac6d2e7050ab"
+                             "sha256":  "fd88d00bb59e137f8b07fc4f1f2b16b55dd5ee0c2d7de0c19331e5ec3bb6fd06"
                          },
                          {
                              "path":  "packages/provenance-ts/src/artifact-cli.ts",
@@ -127,7 +119,7 @@
                          },
                          {
                              "path":  "packages/provenance-ts/src/badge.test.js",
-                             "sha256":  "22d8026d2b0fc4eb9257e391a11814100d38d05995ecac03039f333e50614f1f"
+                             "sha256":  "3d1d20426dc69be9b6ee5117b91749fa0d4bc8c97e303e84141b4909b0291c45"
                          },
                          {
                              "path":  "packages/provenance-ts/src/badge.ts",
@@ -143,7 +135,7 @@
                          },
                          {
                              "path":  "packages/provenance-ts/src/canonical-alignment.test.js",
-                             "sha256":  "72827ff04f4eed35a560b3a43a17b915c900043643a24c23ec5d5676caad7564"
+                             "sha256":  "173e10b80369a6eab1acd44495cfbfbfa69887ec400e6c3667b65b13d5b282d8"
                          },
                          {
                              "path":  "packages/provenance-ts/src/canonical.golden.json",
@@ -159,23 +151,23 @@
                          },
                          {
                              "path":  "packages/provenance-ts/src/hookInstaller-safety.test.js",
-                             "sha256":  "124aa0ab0748172e0727989e376f1273786dac98049114259155476dd66090da"
+                             "sha256":  "9c1970ccac81ba1f2fb7a2e6c592da1e5b2d9847ab8c0b81febad2a317569fed"
                          },
                          {
                              "path":  "packages/provenance-ts/src/hookInstaller.test.js",
-                             "sha256":  "e0f5d6e2f52ec0a38b95967686f701e987cab31b13d61c10710ab4c5070a8ca2"
+                             "sha256":  "0a4e474842d4b2298def5a97210f76156e921d47a8aba033851c006473fd4db8"
                          },
                          {
                              "path":  "packages/provenance-ts/src/hookInstaller.ts",
-                             "sha256":  "05194b68f4b636214c31071e312506394b1f0a54cf17df287a4255578a54e6fe"
+                             "sha256":  "116c1222f63f3110b4f2cbfaa1af82ab7a12badf1047ab44809a05947a3f4155"
                          },
                          {
                              "path":  "packages/provenance-ts/src/index.test.js",
-                             "sha256":  "99b59754409ec854d477226b0e45e7385591ab0d0a189560ac4113a980e2e644"
+                             "sha256":  "99ad42c75e2a4fa553ea62d34c8d54ad26030d876c529347a829c68a7e45ca9a"
                          },
                          {
                              "path":  "packages/provenance-ts/src/index.ts",
-                             "sha256":  "9b7adbf09b9f475bd99a892b977baff19fbaa898ae03d5e36bc72b1c40bcee98"
+                             "sha256":  "342bdb752251b78ba595beb0a45d5be14bd0000d7d2fd719ce6c7a031a4f7bf5"
                          },
                          {
                              "path":  "packages/provenance-ts/src/mcp.test.js",
@@ -183,7 +175,7 @@
                          },
                          {
                              "path":  "packages/provenance-ts/src/mcp.ts",
-                             "sha256":  "8e843ba0666631308feb863b63214058d94f79b75de6c0febdcc1ce20a2a49f6"
+                             "sha256":  "0ef85ef8e0585f6aaf7fbb753711a31f371c3ff33e26eec224d7974c3c08807f"
                          },
                          {
                              "path":  "packages/provenance-ts/src/merkle.golden.json",
@@ -199,7 +191,7 @@
                          },
                          {
                              "path":  "packages/provenance-ts/src/release-security.test.js",
-                             "sha256":  "95091e5ecb9cd39a6329dca407b917960fa7796554740a0d2af23a88a1b605a3"
+                             "sha256":  "aed4e3ea3fe1bc843de6b44c8fbd2b004266bcb4870bf358625b19a9e627c377"
                          },
                          {
                              "path":  "packages/provenance-ts/src/self-test-export.test.js",
@@ -235,7 +227,7 @@
                          },
                          {
                              "path":  "packages/provenance-ts/TIMESTAMP.md",
-                             "sha256":  "d1821bc6c8c51d6e24501babd26d69dd08d5a0e1ee2b674a0df9e0ad067eabdc"
+                             "sha256":  "ac9c9ebd4683bad02545246a0b73f7270b93b82e1eb4022fda45d834d57816a3"
                          },
                          {
                              "path":  "packages/provenance-ts/trust/README.md",
@@ -255,31 +247,31 @@
                          },
                          {
                              "path":  "packages/provenance-ts/wasm/mgc_wasm.d.ts",
-                             "sha256":  "3495bf174b623b4e0257aaf290b0190cac238a9b16951e85a5d42626a76bfdca"
+                             "sha256":  "6cd2ea51bd20ec673001f5480aa7f3293fa691429eb93309197e58018d8f09a5"
                          },
                          {
                              "path":  "packages/provenance-ts/wasm/mgc_wasm.js",
-                             "sha256":  "63d38046e9e00418043a6291937b03b817df75b333c9b00ee3f2899b5a3c93e2"
+                             "sha256":  "ea726b073255c33e0fcfa01df90f2b912e64713aa0ba285b85d77f9dc233037f"
                          },
                          {
                              "path":  "packages/provenance-ts/wasm/mgc_wasm_bg.wasm",
-                             "sha256":  "c7f0f294a3de9913c9e71e2a35926d60eb79fa6c45856aa08cf7f2f552f3d1d0"
+                             "sha256":  "13bf45f531bc0dfd2bdb391b4590be50a07f11ad890c53b374b9c4668029eafb"
                          },
                          {
                              "path":  "packages/provenance-ts/wasm/mgc_wasm_bg.wasm.d.ts",
-                             "sha256":  "eb407ee7fd93dd27f5e543261ca65cdd184357b41f6adf59f5e4fbc8e287e6d8"
+                             "sha256":  "5022390a0f9b1d0957fd2ee14df2f7c3718e46e446afd50458d04c856d9670ca"
                          },
                          {
                              "path":  "README.md",
-                             "sha256":  "44e30775e483be3e248f28ca321f246825d829f8de5a3521dbdc242bdf1c014e"
+                             "sha256":  "bba00ee14b2959d914ae7f12b8baa2dbd2b58e06a2dc810be0933b5b63db269c"
                          },
                          {
                              "path":  "SECURITY.md",
-                             "sha256":  "52cc9c6f785a0f7a34bddcec7195bc0e33cc3d7b881c79487868fb6d0e812a16"
+                             "sha256":  "3ce3bdb5bab9b962efeaf74ef6d16c6eb0559f47d269eeb75f4527951e16bae7"
                          },
                          {
                              "path":  "TESTING.md",
-                             "sha256":  "747b9b07c5cc31a85d07a0fb9a6f79be27a0907817e34c910e528f7ddeaf8eb6"
+                             "sha256":  "170a74b5f0693a89720ec78d1395d50a95939f493dcf33fba63554bf4b664e93"
                          },
                          {
                              "path":  "vectors/canon-legacy/generate_fixtures.py",

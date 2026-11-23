@@ -1,6 +1,6 @@
 # Attestation Bundle v3 (Extended): Generic Claims, Dual-Hash Binding & Multi-Party Countersigning
 
-**Status:** Implemented in `@moongladeai/provenance` 2.7.0 / v3-Extended Engine  
+**Status:** Implemented in `@moonglade/provenance` 2.7.0 / v3-Extended Engine  
 **Author:** Marc Ottley (Moonglade AI)  
 **Supersedes:** Bundle v2 Specification (`SPEC.md`)  
 

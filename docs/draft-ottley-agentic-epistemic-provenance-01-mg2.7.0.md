@@ -32,7 +32,7 @@ Expires: May 18, 2027                                  November 14, 2026
 
 This document specifies the format, canonicalization algorithms, degrading timestamp procedures, and distributed ledger epoch anchoring for binding digital artifacts (source code, Markdown documents, neural weights, and multi-modal assets) to a verifiable cryptographic key possession, an atomic time attestation, and a public immutability commitment.
 
-Revision -01-mg2.7.0 preserves the -03 strict UTF-8 canonicalization, Tier 3 Byzantine median quorum algorithm, and XRPL epoch anchoring specifications; formalizes the `-01-mg<version>` internal draft naming scheme synchronized with `@moongladeai/provenance` 2.7.0; adds an informative profile for auxiliary detached OpenPGP V4 EdDSALegacy packet inspection in WebAssembly; and distinguishes full cryptographic RFC 3161 Time-Stamp Authority verification from lightweight WebAssembly DER `messageImprint` structural inspection.
+Revision -01-mg2.7.0 preserves the -03 strict UTF-8 canonicalization, Tier 3 Byzantine median quorum algorithm, and XRPL epoch anchoring specifications; formalizes the `-01-mg<version>` internal draft naming scheme synchronized with `@moonglade/provenance` 2.7.0; adds an informative profile for auxiliary detached OpenPGP V4 EdDSALegacy packet inspection in WebAssembly; and distinguishes full cryptographic RFC 3161 Time-Stamp Authority verification from lightweight WebAssembly DER `messageImprint` structural inspection.
 
 ## Status of This Memo
 
@@ -73,7 +73,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ### 1.3. Document Versioning & Pre-Submission Naming Convention
 
-Prior to IETF Datatracker submission or upon Datatracker sequence resets back to `-01`, repository working drafts use the composite identifier `-01-mg<semver>` (for example, `draft-ottley-agentic-epistemic-provenance-01-mg2.7.0`), matching the corresponding `@moongladeai/provenance` implementation version (here `2.7.0`, superseding the historical `-03` snapshot). When submitted to an external IETF registry that resets draft sequence numbers, the `-mg<semver>` qualifier is stripped to form the registry filename while preserving explicit version traceability in source control.
+Prior to IETF Datatracker submission or upon Datatracker sequence resets back to `-01`, repository working drafts use the composite identifier `-01-mg<semver>` (for example, `draft-ottley-agentic-epistemic-provenance-01-mg2.7.0`), matching the corresponding `@moonglade/provenance` implementation version (here `2.7.0`, superseding the historical `-03` snapshot). When submitted to an external IETF registry that resets draft sequence numbers, the `-mg<semver>` qualifier is stripped to form the registry filename while preserving explicit version traceability in source control.
 
 ---
 
@@ -239,7 +239,7 @@ Odd leaves or nodes in an unbalanced tree are **promoted** to the next level wit
 
 ## 6. Distributed Ledger Epoch Anchoring (XRPL Profile)
 
-To provide tamper-evident, third-party verifiable public finality, Merkle epoch roots MAY be anchored to the XRP Ledger (XRPL). *(Implementation Status: This XRPL ledger-anchoring profile is a planned optional extension and is not implemented in `@moongladeai/provenance` 2.7.0.)*
+To provide tamper-evident, third-party verifiable public finality, Merkle epoch roots MAY be anchored to the XRP Ledger (XRPL). *(Implementation Status: This XRPL ledger-anchoring profile is a planned optional extension and is not implemented in `@moonglade/provenance` 2.7.0.)*
 
 ### 6.1. Transaction Profile
 
@@ -289,7 +289,7 @@ Verifiers MUST evaluate attestations into a four-valued outcome vocabulary:
 3. **`INVALID`**: The signature is cryptographically invalid, corrupted, or explicitly revoked.
 4. **`INDETERMINATE`**: The signature algorithm is unrecognized, the public key is not registered in the trusted keystore, or required online anchoring receipts cannot be verified.
 
-*(Implementation Mapping Note for 2.7.0: In the Rust `mgc-core` verdict evaluator, outcomes map directly to `VALID`, `TAMPERED`, `INVALID`, and `INDETERMINATE`. In the TypeScript `@moongladeai/provenance` 2.7.0 `ProvenanceEngine.verifyDocument` API, outcomes are returned as `{ verified: boolean, status?: 'VERIFIED' | 'INDETERMINATE', error?: string }`: valid verifications set `verified: true, status: 'VERIFIED'`; unrecognized methods alongside a declared Ed25519 attestation, or a supplied key whose `asymmetricKeyType !== 'ed25519'`, set `verified: false, status: 'INDETERMINATE'`; and hash mismatches, cryptographic failures, revoked bundles, missing signer key lookups, or unsupported-only bundles return `verified: false` with diagnostic `error` text and omitted `status`.)*
+*(Implementation Mapping Note for 2.7.0: In the Rust `mgc-core` verdict evaluator, outcomes map directly to `VALID`, `TAMPERED`, `INVALID`, and `INDETERMINATE`. In the TypeScript `@moonglade/provenance` 2.7.0 `ProvenanceEngine.verifyDocument` API, outcomes are returned as `{ verified: boolean, status?: 'VERIFIED' | 'INDETERMINATE', error?: string }`: valid verifications set `verified: true, status: 'VERIFIED'`; unrecognized methods alongside a declared Ed25519 attestation, or a supplied key whose `asymmetricKeyType !== 'ed25519'`, set `verified: false, status: 'INDETERMINATE'`; and hash mismatches, cryptographic failures, revoked bundles, missing signer key lookups, or unsupported-only bundles return `verified: false` with diagnostic `error` text and omitted `status`.)*
 
 ---
 
@@ -331,7 +331,7 @@ Verifiers MUST evaluate attestations into a four-valued outcome vocabulary:
 
 ## Appendix A. Changes in -01-mg2.7.0 (Since -03)
 
-* **Synchronized Draft Versioning (Section 1.3)**: Adopted the `-01-mg2.7.0` pre-submission draft identifier paired 1:1 with `@moongladeai/provenance` `2.7.0` and updated repository conformance vector references to `vectors/canonical.golden.json`.
+* **Synchronized Draft Versioning (Section 1.3)**: Adopted the `-01-mg2.7.0` pre-submission draft identifier paired 1:1 with `@moonglade/provenance` `2.7.0` and updated repository conformance vector references to `vectors/canonical.golden.json`.
 * **Auxiliary OpenPGP Packet Extraction Profile (Section 3.4)**: Documented `parse_openpgp_armored_signature_hex` V4 EdDSALegacy (`22`) packet framing rules, 2.7.0 parser boundaries, and unchanged `INDETERMINATE` verifier disposition for `openpgp` / `ssh-ed25519` methods.
 * **Dual RFC 3161 Verification Profiles (Section 4.3)**: Separated TypeScript full PKI/CMS `verifyTimeStampToken` from WebAssembly `verify_rfc3161_timestamp` DER imprint inspection and documented the exact 2.7.0 WASM trust boundaries and `TSTInfo.accuracy` limitation.
 

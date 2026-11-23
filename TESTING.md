@@ -38,10 +38,10 @@ All 19 suites are under `packages/provenance-ts/src`:
 | `artifactHook.test.js` | Observation, provisional sealing, exclusions and refusal of attested moves |
 | `artifactEnvelope.test.js` | Envelope schema and artifact identity helpers |
 | `badge.test.js` | Badge formatting (ANSI/HTML/Shields/Markdown), status labels, and filesystem status |
-| `hookInstaller.test.js` | Hook installer CLI, `@moongladeai/provenance` pre-commit script, and `--package=@moongladeai/provenance provenance-gate` manifest |
+| `hookInstaller.test.js` | Hook installer CLI, `@moonglade/provenance` pre-commit script, and `--package=@moonglade/provenance provenance-gate` manifest |
 | `hookInstaller-safety.test.js` | Unmodified 2.6.1 in-place hook upgrade and modified-hook `HookConflictError` safety checks |
 | `self-test.test.js` | The six built-in self-test conditions |
-| `self-test-export.test.js` | Subpath export `@moongladeai/provenance/self-test` verification |
+| `self-test-export.test.js` | Subpath export `@moonglade/provenance/self-test` verification |
 | `release-security.test.js` | Malformed UTF-8/JSON, claims stripping, versions, signer policies, scope replay, key algorithms, countersigning refusal, `HASH_ONLY` & forged badges, CLI exits, move collisions/rollback, proof substitution, junction escape and stdio MCP |
 | `wasm-270.test.js` | `parse_openpgp_armored_signature_hex` (RFC 4880/9580 V4 alg 22, CTB `0x88`/`0xc2`, CRC-24/error guards) and `verify_rfc3161_timestamp` (`status: 'granted'`, `tst_info.gen_time`, `ERR_TSR_*` boundaries) |
 
@@ -55,6 +55,6 @@ The built-in self-test checks any package-root sidecar hashes and states that it
 
 ## Limits
 
-The default tests do not establish live public TSA availability, certificate revocation status, macOS behavior or safety against a concurrent hostile filesystem writer. OpenPGP/SSHSIG signature trust is unsupported by `verifyDocument`; `parse_openpgp_armored_signature_hex` provides structural packet extraction only, and `verify_rfc3161_timestamp` performs DER `messageImprint` structural inspection without CMS/X.509 certificate verification. The legacy library OpenPGP signing helper and real GPG/SSH signing are not covered by this suite. Platform keystores and sibling packages are excluded from this release. The optional git pre-commit hook installer (`provenance install-hooks`) is covered by tests that create temporary git repositories; the hook script itself is not exercised end to end against `npx`, and the MCP options are recorded in `.provenance-hooks.json` (`npx -y --package=@moongladeai/provenance provenance-gate`) but not enforced by the installer.
+The default tests do not establish live public TSA availability, certificate revocation status, macOS behavior or safety against a concurrent hostile filesystem writer. OpenPGP/SSHSIG signature trust is unsupported by `verifyDocument`; `parse_openpgp_armored_signature_hex` provides structural packet extraction only, and `verify_rfc3161_timestamp` performs DER `messageImprint` structural inspection without CMS/X.509 certificate verification. The legacy library OpenPGP signing helper and real GPG/SSH signing are not covered by this suite. Platform keystores and sibling packages are excluded from this release. The optional git pre-commit hook installer (`provenance install-hooks`) is covered by tests that create temporary git repositories; the hook script itself is not exercised end to end against `npx`, and the MCP options are recorded in `.provenance-hooks.json` (`npx -y --package=@moonglade/provenance provenance-gate`) but not enforced by the installer.
 
 Historical release audits for 2.6.0 and 2.6.1 are preserved in `CHANGELOG.md` and `docs/ubuntu/2026-10-24-provenance-2-6-1/QA.md`. The `2.7.0` staging audit, audit findings, and pending local WASM/Node test verification checklist are recorded in `docs/ubuntu/2026-11-14-provenance-2-7-0/QA.md`. Any later package change needs its own verification.

@@ -97,20 +97,18 @@ describe('F1: never overwrite a hook or manifest that is not byte-for-byte ours'
     } finally { rm(dir); }
   });
 
-  it('F1: an unmodified 2.6.1 (@moonglade/provenance) hook is recognized and upgraded in place to 2.7.0 (@moongladeai/provenance) without a backup', async () => {
+  it('F1: an unmodified hook is recognized without a backup', async () => {
     const dir = tempRepo();
     try {
       const hooks = path.join(dir, '.git', 'hooks');
       fs.mkdirSync(hooks, { recursive: true });
-      assert.ok(LEGACY_261_PRE_COMMIT_SCRIPT.includes('@moonglade/provenance'));
-      assert.ok(!LEGACY_261_PRE_COMMIT_SCRIPT.includes('@moongladeai/provenance'));
-      fs.writeFileSync(hookPath(dir), LEGACY_261_PRE_COMMIT_SCRIPT, { mode: 0o755 });
+      assert.ok(PRE_COMMIT_SCRIPT.includes('@moonglade/provenance'));
+      fs.writeFileSync(hookPath(dir), PRE_COMMIT_SCRIPT, { mode: 0o755 });
       const r = await installHooks({ cwd: dir, ...only({ preCommit: true }) });
-      assert.equal(r.hook.action, 'updated');
+      assert.equal(r.hook.action, 'unchanged');
       assert.equal(r.hook.backup, undefined);
-      const upgraded = fs.readFileSync(hookPath(dir), 'utf8');
-      assert.equal(upgraded, PRE_COMMIT_SCRIPT);
-      assert.ok(upgraded.includes('@moongladeai/provenance'));
+      const content = fs.readFileSync(hookPath(dir), 'utf8');
+      assert.equal(content, PRE_COMMIT_SCRIPT);
       assert.deepEqual(baks(hooks, 'pre-commit'), []);
     } finally { rm(dir); }
   });

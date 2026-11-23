@@ -1,30 +1,30 @@
 # Moonglade Provenance 2.7.0
 
-[![npm version](https://img.shields.io/npm/v/@moongladeai/provenance.svg)](https://www.npmjs.com/package/@moongladeai/provenance)
+[![npm version](https://img.shields.io/npm/v/@moonglade/provenance.svg)](https://www.npmjs.com/package/@moonglade/provenance)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Moonglade provenance signs files and checks their integrity. It combines Ed25519 signatures, RFC 3161 timestamp verification, and Merkle inclusion proofs in an isomorphic Node.js library, CLI, and read-only MCP server.
 
-Available on npm as `@moongladeai/provenance`:
+Available on npm as `@moonglade/provenance`:
 ```sh
-npm install @moongladeai/provenance
+npm install @moonglade/provenance
 ```
 
-This repository is the open-source staging distribution of `@moongladeai/provenance` v2.7.0.
+This repository is the open-source staging distribution of `@moonglade/provenance` v2.7.0.
 
 ## Installation & Quick Start
 
 Install directly via npm:
 ```sh
-npm install @moongladeai/provenance
+npm install @moonglade/provenance
 ```
 
 Or install globally to use the CLI and stdio MCP server:
 ```sh
-npm install -g @moongladeai/provenance
+npm install -g @moonglade/provenance
 provenance --help
 # Start the stdio JSON-RPC 2.0 MCP server (reads from stdin):
-provenance-gate # or via npx: npx -y --package=@moongladeai/provenance provenance-gate
+provenance-gate # or via npx: npx -y --package=@moonglade/provenance provenance-gate
 ```
 
 ## Build and test from source

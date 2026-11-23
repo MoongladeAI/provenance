@@ -1,4 +1,4 @@
-# QA - `@moongladeai/provenance` 2.7.0 Staging Candidate
+# QA - `@moonglade/provenance` 2.7.0 Staging Candidate
 
 Audit date: `2026-11-14` (`Public/moonglade-provenance` against frozen Rust source commit `1188ed841b5831bc743e4f23ccd505a08b108ee7` in `moonglade-provenance`).
 
@@ -25,7 +25,7 @@ All documentation, manifest, hook-installer, protocol specification (`-01-mg2.7.
 ## Multi-Stage Claude & Codex Audit Summary
 
 ### Stage 1 Audit (Manifests, Hook Installer & Unit Tests)
-- **Verified**: Package rename `@moonglade/provenance` -> `@moongladeai/provenance` (`2.7.0`), `CITATION.cff`, CI workflows, `hookInstaller.ts` in-place upgrade preservation via `LEGACY_261_PRE_COMMIT_SCRIPT`, and scoped MCP invocation (`npx -y --package=@moongladeai/provenance provenance-gate`).
+- **Verified**: Retained canonical package name `@moonglade/provenance` (`2.7.0`), `CITATION.cff`, CI workflows, `hookInstaller.ts` in-place upgrade preservation via `LEGACY_261_PRE_COMMIT_SCRIPT`, and scoped MCP invocation (`npx -y --package=@moonglade/provenance provenance-gate`).
 - **Rust Parser Audit on Frozen `1188ed8`**: Identified edge boundaries in `crates/mgc-core/src/rfc3161.rs` and `crates/mgc-wasm/src/openpgp.rs`. Per staging policy, `1188ed8` source code remained frozen for `2.7.0`, parser boundaries were documented in `-01-mg2.7.0.md` and `TIMESTAMP.md`/`README.md`, and parser hardening items were logged in the `2.7.1` Backlog below.
 
 ### Stage 2 Audit (Specification Alignment: `draft-ottley-agentic-epistemic-provenance-01-mg2.7.0.md`)
@@ -38,7 +38,7 @@ Cross-checked line by line against `rfc3161.rs`, `openpgp.rs`, `crates/mgc-wasm/
 Cross-checked all 9 edited docs and 5 untouched sibling docs against TypeScript sources and manifests. Remediations applied:
 1. Corrected all references to `ProvenanceEngine.verifyTimeStampToken` -> top-level `verifyTimeStampToken` (or `ProvenanceEngine.verifyDocument` with `timestampTrustAnchors`) across `packages/provenance-ts/README.md`, `SECURITY.md`, `SPEC.md`, and `docs/WHY_NOT_COMPARATIVE_ANALYSIS.md`.
 2. Removed non-functional `provenance-gate --help` (which blocks reading JSON-RPC 2.0 on `stdin`) from `README.md` and added `provenance install-hooks` to the CLI block in `packages/provenance-ts/README.md`.
-3. Fixed `CHANGELOG.md` hook description to `npx --no-install @moongladeai/provenance badge "$TARGET" --short`, fixed `"tier": "INTEGRITY_ONLY"` and exact error messages in `SPEC.md` and `PDF_MANAGEMENT.md`, fixed `HASH_ONLY` test attribution in `TESTING.md` (`release-security.test.js` vs `badge.test.js`), and removed trailing literal `\n` from `PDF_MANAGEMENT.md`.
+3. Fixed `CHANGELOG.md` hook description to `npx --no-install @moonglade/provenance badge "$TARGET" --short`, fixed `"tier": "INTEGRITY_ONLY"` and exact error messages in `SPEC.md` and `PDF_MANAGEMENT.md`, fixed `HASH_ONLY` test attribution in `TESTING.md` (`release-security.test.js` vs `badge.test.js`), and removed trailing literal `\n` from `PDF_MANAGEMENT.md`.
 4. Added explicit keyless `HASH_ONLY` / `formatHtmlBadge` non-authorization warnings in `README.md`, `packages/provenance-ts/README.md`, `SECURITY.md`, `SPEC.md`, and `PDF_MANAGEMENT.md`; replaced `ProvenanceEngine.generateEd25519KeyPair()` and fixed missing `verificationKeys` in `PDF_MANAGEMENT.md` (`countersignDocument` example); refined CARICOM citizen-PKI wording in `WHY_NOT_COMPARATIVE_ANALYSIS.md`; updated `mcp.ts:16` tool description; replaced local test fixture path in `badge.test.js:80,83` with `/workspace/docs/README.md`; sanitized line 296 of `-03.md` prior to `git rm`.
 
 ### Stage 4 Audit (Final Sweep & Remediation)

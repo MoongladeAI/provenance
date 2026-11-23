@@ -1,7 +1,7 @@
 /* @ts-self-types="./mgc_wasm.d.ts" */
 
 /**
- * Claims JSON per draft -03 section 3.3: safe-integer numbers (judged by value) and UTF-16 key order.
+ * Claims JSON per draft-ottley-agentic-epistemic-provenance-01-mg2.7.0 section 3.3: safe-integer numbers (judged by value) and UTF-16 key order.
  * @param {string} json
  * @returns {string}
  */
@@ -92,6 +92,35 @@ function engine_info() {
     }
 }
 exports.engine_info = engine_info;
+
+/**
+ * Parses an ASCII-armored OpenPGP V4 EdDSALegacy (Algorithm 22) detached signature,
+ * verifies its RFC 4880 Section 6.1 CRC-24 checksum, and extracts the 64-byte `(R || S)`
+ * signature scalar pair in lowercase hex. Does not verify OpenPGP keyrings or V4 hash trailers.
+ * @param {string} armored_asc
+ * @returns {string}
+ */
+function parse_openpgp_armored_signature_hex(armored_asc) {
+    let deferred3_0;
+    let deferred3_1;
+    try {
+        const ptr0 = passStringToWasm0(armored_asc, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.parse_openpgp_armored_signature_hex(ptr0, len0);
+        var ptr2 = ret[0];
+        var len2 = ret[1];
+        if (ret[3]) {
+            ptr2 = 0; len2 = 0;
+            throw takeFromExternrefTable0(ret[2]);
+        }
+        deferred3_0 = ptr2;
+        deferred3_1 = len2;
+        return getStringFromWasm0(ptr2, len2);
+    } finally {
+        wasm.__wbindgen_free(deferred3_0, deferred3_1, 1);
+    }
+}
+exports.parse_openpgp_armored_signature_hex = parse_openpgp_armored_signature_hex;
 
 /**
  * @param {string} artifacts_json
@@ -268,6 +297,43 @@ function verify_provenance_merkle_proof(proof_json, expected_root) {
     return ret[0] !== 0;
 }
 exports.verify_provenance_merkle_proof = verify_provenance_merkle_proof;
+
+/**
+ * Verify an RFC 3161 Time-Stamp Response (TSR) against an expected message digest.
+ *
+ * Accepts raw TSR DER bytes and the expected artifact digest bytes (e.g. 32-byte SHA-256).
+ * Verifies strict ASN.1 DER framing, PKIStatus, OIDs, and constant-time messageImprint
+ * digest equality, and extracts embedded certificates without verifying the CMS signature
+ * or X.509 certificate chain (use `verifyTimeStampToken` in `@moongladeai/provenance` for full
+ * CMS signature and trust-anchor verification).
+ * Returns a serialized JSON string containing the `Rfc3161Verdict`.
+ * @param {Uint8Array} tsr_bytes
+ * @param {Uint8Array} expected_digest
+ * @returns {string}
+ */
+function verify_rfc3161_timestamp(tsr_bytes, expected_digest) {
+    let deferred4_0;
+    let deferred4_1;
+    try {
+        const ptr0 = passArray8ToWasm0(tsr_bytes, wasm.__wbindgen_malloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ptr1 = passArray8ToWasm0(expected_digest, wasm.__wbindgen_malloc);
+        const len1 = WASM_VECTOR_LEN;
+        const ret = wasm.verify_rfc3161_timestamp(ptr0, len0, ptr1, len1);
+        var ptr3 = ret[0];
+        var len3 = ret[1];
+        if (ret[3]) {
+            ptr3 = 0; len3 = 0;
+            throw takeFromExternrefTable0(ret[2]);
+        }
+        deferred4_0 = ptr3;
+        deferred4_1 = len3;
+        return getStringFromWasm0(ptr3, len3);
+    } finally {
+        wasm.__wbindgen_free(deferred4_0, deferred4_1, 1);
+    }
+}
+exports.verify_rfc3161_timestamp = verify_rfc3161_timestamp;
 function __wbg_get_imports() {
     const import0 = {
         __proto__: null,

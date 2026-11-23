@@ -114,7 +114,7 @@ while IFS= read -r -d '' FILE; do
   [ -f "$FILE.provenance.json" ] || continue
   TARGET="$FILE"
   case "$TARGET" in -*) TARGET="./$TARGET" ;; esac
-  if ! npx --no-install @moongladeai/provenance badge "$TARGET" --short < /dev/null > /dev/null 2>&1; then
+  if ! npx --no-install @moonglade/provenance badge "$TARGET" --short < /dev/null > /dev/null 2>&1; then
     echo "[PROVENANCE DRIFT] $FILE has mutated or failed verification!"
     FAILED=1
   fi
@@ -124,7 +124,7 @@ if [ "$FAILED" -ne 0 ]; then
   echo ""
   echo "Commit aborted by Moonglade Provenance Gate."
   echo "Please re-seal mutated artifacts before committing:"
-  echo "  npx @moongladeai/provenance seal-provisional <file>"
+  echo "  npx @moonglade/provenance seal-provisional <file>"
   echo ""
   exit 1
 fi
@@ -240,7 +240,7 @@ function manifestPayload(selection: HookSelection): Record<string, unknown> {
     hooks: selection
   };
   if (selection.mcpVerifyRead || selection.mcpAutoSeal) {
-    payload.mcpServer = { command: 'npx', args: ['-y', '--package=@moongladeai/provenance', 'provenance-gate'] };
+    payload.mcpServer = { command: 'npx', args: ['-y', '--package=@moonglade/provenance', 'provenance-gate'] };
   }
   return payload;
 }
@@ -372,7 +372,7 @@ export async function runInstallHooksCli(args: string[], cwd: string = process.c
     console.log(`enabled: ${JSON.stringify(r.selection)}`);
     if (selection.mcpVerifyRead || selection.mcpAutoSeal) {
       console.log('MCP configuration snippet:');
-      console.log(JSON.stringify({ mcpServers: { 'provenance-gate': { command: 'npx', args: ['-y', '--package=@moongladeai/provenance', 'provenance-gate'] } } }, null, 2));
+      console.log(JSON.stringify({ mcpServers: { 'provenance-gate': { command: 'npx', args: ['-y', '--package=@moonglade/provenance', 'provenance-gate'] } } }, null, 2));
     }
     return 0;
   } catch (e) {
